@@ -1,0 +1,39 @@
+{% load static %}
+<nav class="navbar navbar-expand-md navbar-light fixed-top">
+  <div class="container">
+    <a class="navbar-brand text-hide" href="{% url 'home' %}">
+      <img src="{% static 'images/sendhut-yellow.png' %}" alt="">Sendhut Lunch delivery
+    </a>
+    <div class="float-right">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        {% if user.is_authenticated %}
+          <div class="dropdown">
+            <button class="btn btn-outline-primary dropdown-toggle"
+                    type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+              My Account
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="{% url 'stores:order_history' %}">Order History</a>
+              <a class="dropdown-item" href="{% url 'accounts:profile' %}">Settings</a>
+            </div>
+          </div>
+        {% else %}
+          <a class="btn btn-outline-primary" href="{% url 'signin' %}"
+             role="button">
+             Login
+          </a>
+        {% endif %}
+        <a href="#" data-href="{% url 'stores:cart' %}?cart_ref={{group_order.token}}" data-slidepanel="panel">
+          <img class="icon" src="{% static 'images/icons/shopping-cart.svg' %}" alt="Your order">
+          <span id="cart-item-count">{{ cart|length }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,30 @@
+#! /bin/bash
+
+echo "----------------------------------------------------------"
+echo "Resetting the database..."
+echo "----------------------------------------------------------"
+
+python manage.py reset_db --noinput
+
+echo "----------------------------------------------------------"
+echo "Running migrations..."
+echo "----------------------------------------------------------"
+
+python manage.py migrate
+
+echo "----------------------------------------------------------"
+echo "Deleting images..."
+echo "----------------------------------------------------------"
+
+python manage.py thumbnail clear_delete_all
+
+echo "----------------------------------------------------------"
+echo "Creating fixtures..."
+echo "----------------------------------------------------------"
+
+if [[ $1 == "--dry" ]]; then
+  echo "Skipped fixtures"
+else
+  echo "Creating dummy data"
+  python manage.py populatedb
+fi

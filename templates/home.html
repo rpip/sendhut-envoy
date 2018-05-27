@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body_class %}body-home{% endblock %}
+
+{% block masthead %}
+  <div class="row" id="how-it-works">
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">
+            <img class="icon" src="{% static 'images/icons/clock.svg' %}" alt="Twitter">
+            From Monday to Saturday.
+            <br>Delivery from 11:30am to 2:30pm
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">
+            <img class="icon" src="{% static 'images/icons/bowl.svg' %}" alt="Twitter">
+            Get amazing food from our carefully
+            curated selection of restaurants whose food we genuinely love - and we're sure you will, too
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">
+            <img class="icon" src="{% static 'images/icons/credit-card.svg' %}" alt="Twitter">
+            Secure online payment. <br> Cash on delivery accepted
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!--// how it works -->
+
+{% endblock %}
+{% block page_header %}
+  <h2 class="welcome-callout">What's on the menu?</h2>
+{% endblock %}
+
+{% block content %}
+  <br>
+
+  {% include "partials/store_list.html" %}
+
+  {% include "partials/popular_tags.html" %}
+
+{% endblock %}
+
+{% block main_bottom %}
+  {% include "partials/group_order_banner.html" %}
+{% endblock %}

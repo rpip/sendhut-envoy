@@ -1,0 +1,171 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'vendor/slidepanel/slidepanel.css' %}">
+
+<script src="{% static 'vendor/jquery.js' %}"></script>
+<script src="{% static 'vendor/clipboard.min.js' %}"></script>
+<script src="{% static 'vendor/popper.js' %}"></script>
+<script src="{% static 'vendor/bootstrap.js' %}"></script>
+<script src="{% static 'vendor/scrollPosStyler.js' %}"></script>
+<script src="{% static 'vendor/holder.js' %}"></script>
+<script src="{% static 'vendor/js.cookie.js' %}"></script>
+<script src="{% static 'vendor/jquery.serialize-object.min.js' %}"></script>
+<script src="{% static 'vendor/slidepanel/slidepanel.js' %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=places">
+
+<script src="{% static 'js/app.js' %}"></script>
+
+<script type="text/javascript">
+$(function () {
+
+
+    new Clipboard('.copy');
+
+    $('body').tooltip({
+        selector: '[data-toggle="tooltip"]'
+    });
+
+    // item detail modal
+    $('body').on('click', '.item-popup', function() {
+        var dataURL = $(this).attr('data-href');
+        $('.food-modal').load(dataURL, function(){
+            $('#item-modal').modal({show: true});
+        });
+    });
+
+    // side rail cart
+    $('[data-slidepanel]').slidepanel({
+        orientation: 'right',
+        mode: 'overlay'
+   });
+   // hide siderail
+   $('body').on('click', '.cart .close', function(e) { Document.slidepanel.collapse(); });
+
+    // item quantity spinner
+    $('#item-modal').on('click', '.number-spinner button', function(e){
+        e.preventDefault();
+        var btn = $(this),
+            oldValue = btn.closest('.number-spinner').find('input').val().trim(),
+            newVal = 0;
+
+        if (btn.attr('data-dir') == 'up') {
+            newVal = parseInt(oldValue) + 1;
+        } else {
+            if (oldValue > 1) {
+                newVal = parseInt(oldValue) - 1;
+            } else {
+                newVal = 1;
+            }
+        }
+
+        btn.closest('.number-spinner').find('input').val(newVal);
+    });
+  })
+
+</script>
+<script type="text/javascript">
+var csrftoken = Cookies.get('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({beforeSend: function(xhr, settings) {
+    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    }
+  }});
+
+
+
+// add to cart
+$('body').on('click', '#item-modal #add-to-cart', function(e) {
+    e.preventDefault();
+    var item = ($('#item-form').serializeObject())
+    $.ajax({
+      type: "POST",
+      url: '/stores/cart/?cart_ref='+ "{{ group_order.token }}",
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(item),
+      success: function(data, status) {
+        var href = $('[data-slidepanel]').data('href');
+        $('#slidepanel').html('').load(href, function() {});
+        console.log(status);
+        var x = $('#cart-item-count').html();
+        $('#cart-item-count').html(parseInt(x) + 1);
+      }
+    });
+});
+
+// delete from cart
+
+$('body').on('click', '.cart-line .delete', function(e) {
+      e.preventDefault();
+      var url = $(this).data('href');
+      $.ajax({
+      type: "POST",
+      url: url,
+      dataType: 'json',
+      contentType: 'application/json',
+      success: function(data, status) {
+        var href = $('[data-slidepanel]').data('href');
+        $('#slidepanel').html('').load(href, function() {});
+        var x = $('#cart-item-count').html();
+        $('#cart-item-count').html(parseInt(x) - 1);
+      }
+     });
+  });
+
+
+$('body').on('click', '.cart-line .x-delete', function(e) {
+      e.preventDefault();
+      var url = $(this).data('href');
+      var cart = $(this).data('cart');
+      $.ajax({
+      type: "POST",
+      url: url,
+      dataType: 'json',
+      contentType: 'application/json',
+      success: function(data, status) {
+      $('#cart-confirm').html('').load('/stores/cart/reload?cart_ref='+cart, function() {});
+      var href = $('[data-slidepanel]').data('href');
+      $('#slidepanel').html('').load(href, function() {});
+      var x = $('#cart-item-count').html();
+      $('#cart-item-count').html(parseInt(x) - 1);
+      }
+      });
+  });
+
+
+$('body').on('click', 'li.page-item', function() {
+  $('li.page-item').removeClass('active');
+  $(this).toggleClass("active");
+  var limit = $(this).attr('data-limit');
+  console.log(limit);
+  if(limit == "alt") {
+    $("#other_limit").show();
+  } else {
+    $("input#limit").val(limit);
+  }
+});
+
+
+
+$('body').on('change', '#other_limit', function() {
+  var limit = $(this).val();
+  console.log(limit);
+  $("input#limit").val(limit);
+});
+
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-116676555-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-116676555-1');
+</script>

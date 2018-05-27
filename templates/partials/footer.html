@@ -1,0 +1,50 @@
+{% load static %}
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-2">
+        <span class="text-muted ">&copy; Sendhut, 2018</span>
+      </div>
+      <div class="col-sm-6 offset-sm-2">
+        <ul class="list-inline" id="footer-nav">
+          <li class="list-inline-item">
+            <a href="{% url 'about-us' %}">About Us</a> -
+          </li>
+          <li class="list-inline-item">
+            <a href="{% url 'faqs' %}">FAQs</a> -
+          </li>
+          <li class="list-inline-item">
+            <a href="{% url 'terms' %}">Terms</a> -
+          </li>
+          <li class="list-inline-item">
+            <a href="{% url 'privacy' %}">Privacy</a>
+          </li>
+        </ul>
+      </div>
+      <div class="icons">
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <a href="https://twitter.com/sendhuthq">
+              <img class="icon" src="{% static 'images/icons/twitter.svg' %}" alt="Twitter">
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="https://facebook.com/sendhuthq">
+              <img class="icon" src="{% static 'images/icons/facebook.svg' %}" alt="Facebook">
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="https://instagram.com/sendhuthq">
+              <img class="icon" src="{% static 'images/icons/instagram.svg' %}" alt="">
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="https://www.linkedin.com/company/sendhut">
+              <img class="icon" src="{% static 'images/icons/linkedin.svg' %}" alt="">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div><!-- //row -->
+  </div><!-- //container -->
+</footer><!-- //footer -->

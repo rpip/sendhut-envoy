@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-4 offset-md-4">
+      <br>
+      <h3>Have an account?</h3>
+      {% if login_form.errors %}
+        <p>Please enter a correct username and password. Note that both fields may be case-sensitive</p>
+      {% endif %}
+
+        <form method="post">
+          {% csrf_token %}
+          {% include 'partials/form.html' with form=login_form %}
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" name="remember_me" checked>
+              Remember me
+            </label>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-success">
+              <span class="glyphicon glyphicon-ok"></span> Log In
+            </button>
+          </div>
+        </form>
+        <p><a href="{% url 'accounts:password_reset' %}">Lost password?</a></p>
+    </div>
+  </div>
+<hr>
+{% if cart %}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+      <h4>Create an account</h4>
+
+        <form method="post" action="{% url 'signup' %}">
+          {% csrf_token %}
+          {% include 'partials/form.html' with form=signup_form %}
+          <div class="form-group">
+            <button type="submit" class="btn btn-success">
+              <span class="glyphicon glyphicon-ok"></span> Continue
+            </button>
+          </div>
+        </form>
+    </div>
+</div>
+{% else %}
+  <div class="col-md-4 offset-md-4">
+    <p>Don't have an account yet?</p>
+    <p>No worries. Just place an order to create one.</p>
+  </div>
+{% endif %}
+{% endblock %}

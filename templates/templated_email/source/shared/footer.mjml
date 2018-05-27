@@ -1,0 +1,11 @@
+<mj-section background-color="#fafafa" css-class="footer">
+  <mj-column>
+
+    <mj-text align="center" font-size="13">
+      <p>&copy; 2018 Sendhut</p>
+      <p>
+        House A, Jerry Iriabe, Off Admiralty Way, Lekki Phase 1, Lagos
+      </p>
+    </mj-text>
+  </mj-column>
+</mj-section>

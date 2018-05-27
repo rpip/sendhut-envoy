@@ -1,0 +1,210 @@
+$rem-fallback: true;
+$black: #231f1a;
+$grey: #f5f5f5;
+$orange-happy: #ffeae4; // orange happy
+$orange-light-happy: #faf8f8; // light orange
+$grey-happy: #f5f5f5;;
+
+$flinto-blue: #365a87;
+$info: $flinto-blue;
+$primary: $flinto-blue;
+$success: $flinto-blue;
+$happy: $grey-happy;
+
+$light-grey: #f8f8f9;
+$body-color: $black;
+$font-family-base: 'adelle', "Helvetica Neue", Helvetica, Arial, Lucida, sans-serif;
+
+@import "../fonts/source-sans-pro/source-sans-pro.css";
+@import "bootstrap/bootstrap";
+@import "_rem";
+@import "_stratos";
+
+@mixin circle($width, $border-color:$grey, $bg-color:$white) {
+  width: $width;
+  height: $width;
+  background: $bg-color;
+  border: 1px solid $border-color;
+  color: $border-color;
+  -webkit-border-radius: $width/2;
+  -moz-border-radius: $width/2;
+  border-radius: $width/2;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  @include rem(font-size, 14px);
+  font-weight: 400;
+  //min-height: 75rem;
+  padding-top: 4rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.4em;
+  @include rem(margin-bottom, 60px); /* Margin bottom by footer height */
+}
+
+.body-home {
+  padding-top: 8rem;
+}
+
+.navbar {
+  @include rem(border-bottom, 1px solid #e6e6e6);
+  background-color: $white;
+
+  #contact-tel {
+    @include rem(line-height, 20px);
+    @include rem(font-size, 15px);
+    li {
+      @include rem(padding-top, 7px);
+      @include rem(padding-right, 10px);
+    }
+  }
+}
+
+.navbar-brand {
+  img {
+    @include rem(height, 25px)
+  }
+  color: #001625;
+
+  .navbar-toggler-icon {
+    color: #000
+  }
+}
+
+.page-header {
+  h1, h4 {
+    //@include rem(margin-bottom, 35px)
+    @include rem(margin-top, 20px);
+  }
+}
+
+
+*[data-href] {
+  cursor: pointer;
+}
+
+
+.card-row {
+  @extend .row;
+  @include rem(padding-bottom, 30px);
+
+  .card {
+    border: none;
+  }
+}
+
+a.no-deco {
+  color: $black;
+  text-decoration: none;
+}
+
+
+main {
+  #content {
+    @include rem(padding-bottom, 30px);
+  }
+}
+
+
+.menu-header {
+  margin-top: 20px;
+}
+
+button.close {
+  cursor: pointer;
+}
+
+
+#faqs {
+  .title {
+    margin-bottom: 20px
+  }
+  .question {
+    padding: 10px 30px 0 0;
+    font-weight: bold !important;
+    font-size: 15px;
+    font-family: Arial;
+  }
+  #faqs-menu {
+    padding-left: 18px;
+    li {
+      padding: 5px
+    }
+  }
+}
+
+
+#about-contact {
+  margin-top: 40px;
+  @include rem(border-left, 2px solid $grey);
+}
+
+.welcome-callout {
+  font-family: stratos, Helvetica Neue, Helvetica, Arial, sans-serif
+}
+
+
+
+.invalid-feedback {
+  display: block !important;
+}
+
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  @include rem(height, 60px); /* Set the fixed height of the footer here */
+  @include rem(line-height, 60px); /* Vertically center the text there */
+  @include rem(border-top, 1px solid $grey);
+  a {
+    color: $black !important;
+  }
+  ul#footer-nav {
+    margin-bottom: 0;
+  }
+}
+
+// BREAKPOINT FOR SMALL VIEWPORT
+@include media-breakpoint-down(sm) {
+
+  h1, .h1 { font-size: .8 * $h1-font-size; }
+
+  #always-tap {
+    display: none
+  }
+}
+
+// MISCELLANEOUS
+.btn {
+  cursor: pointer;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.bg-happy {
+  background-color: $happy;
+}
+
+.icons {
+  text-align: center;
+}
+
+.icon {
+  width: 20px;
+  margin: 7px 9px 9px;
+}
+
+.form-control:focus {
+  border-color: $input-border-color !important;
+  -webkit-box-shadow: none!important;
+  -moz-box-shadow: none!important;
+  box-shadow: none!important;
+}

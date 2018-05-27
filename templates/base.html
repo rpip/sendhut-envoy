@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Delivering Happiness">
+    <meta name="author" content="Sendhut, Tade Faweya, Yao Adzaku">
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@sendhuthq" />
+    <meta name="twitter:creator" content="@sendhuthq" />
+    <meta property="og:url" content="sendhut.com" />
+    <meta property="og:title" content="Sendhut" />
+    <meta property="og:description" content="Delicious meals from your favourite restaurants - right to your door" />
+    <meta property="og:image" content="{% static 'images/icon-yellow.png' %}" />
+
+    {% block extra_head_meta %}{% endblock %}
+    <title>Sendhut | {% block title %} {{ page_title }} {% endblock %}</title>
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/sendhut-icon.png' %}">
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "name": "Sendhut",
+      "url": "http://sendhut.com/",
+      "logo": "{% static 'images/icon-yellow.png' %}",
+      "sameAs": [
+        "https://twitter.com/sendhuthq",
+        "https://www.facebook.com/sendhuthq",
+        "https://www.instagram.com/sendhuthq"
+      ],
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "08096699966‬",
+          "contactType": "customer service"
+        },
+        {
+          "@type": "ContactPoint",
+          "telephone": "08169567693",
+          "contactType": "customer service"
+        }
+      ]
+    }
+  </script>
+  </head>
+  <body class="{% block body_class %}{% endblock %}">
+   <div class="overlay"></div>
+    {% include "partials/top_nav.html" %}
+   <main role="main" class="container">
+     <div class="container">
+       {% include "partials/messages.html" %}
+       {% block masthead %}{% endblock %}
+      <div class="page-header">
+        <h4 class="bold">
+          {% block page_header %} {% endblock %}
+        </h4>
+      </div>
+      <div id="content">
+        {% block content %}{% endblock %}
+      </div>
+    </main><!--// main -->
+    <div class="container-fluid">
+      {% block main_bottom %}
+      {% endblock %}
+    </div>
+    <!-- item modal -->
+    <div class="modal fade" id="item-modal" tabindex="-1" role="dialog"
+         aria-labelledby="item-modal-label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="item-modal-label"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body food-modal">
+          </div>
+        </div>
+      </div>
+    </div><!--// item modal -->
+
+    {% include "partials/footer_static.html" %}
+
+    {% include "partials/footer.html" %}
+    {% block extra_js %}{% endblock %}
+    {% block extra_css %}{% endblock %}
+  </body>
+</html>
