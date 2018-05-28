@@ -1,0 +1,58 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[dev-packages]
+
+factory-boy = "*"
+faker = "*"
+ipython = "*"
+
+
+[packages]
+
+dj-database-url = "==0.4.2"
+django-debug-toolbar = "==1.8"
+django-extensions = "==1.7.9"
+django = "==1.11.7"
+"psycopg2" = "==2.7.1"
+gunicorn = "==19.7.1"
+newrelic = "*"
+werkzeug = "*"
+django-taggit = "*"
+sorl-thumbnail = "*"
+python-decouple = "*"
+faker = "*"
+simplejson = "*"
+django-widget-tweaks = "*"
+django-templated-email = "==2.2.0"
+jsonfield = "*"
+django-storages = "*"
+django-money = "*"
+pillow = "*"
+factory-boy = "*"
+"boto3" = "*"
+paystackapi = "*"
+django-redis-cache = "*"
+raven = "*"
+django-safedelete = "*"
+jusibe = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
+django-jet = "*"
+django-rq = "*"
+rq-scheduler = "*"
+multiupload = {git = "git://github.com/gkuhn1/django-admin-multiupload.git"}
+django-nested-admin = "*"
+pyyaml = "*"
+geopy = "*"
+dj-email-url = "*"
+django-mailgun = "*"
+honcho = "*"
+ipython = "*"
+django-loginas = "*"
+slackclient = "*"
