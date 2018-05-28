@@ -3,22 +3,21 @@ $black: #231f1a;
 $grey: #f5f5f5;
 $orange-happy: #ffeae4; // orange happy
 $orange-light-happy: #faf8f8; // light orange
-$grey-happy: #f5f5f5;;
 
 $flinto-blue: #365a87;
 $info: $flinto-blue;
 $primary: $flinto-blue;
 $success: $flinto-blue;
-$happy: $grey-happy;
 
 $light-grey: #f8f8f9;
 $body-color: $black;
-$font-family-base: 'adelle', "Helvetica Neue", Helvetica, Arial, Lucida, sans-serif;
+$font-family-base: Cereal, Helvetica Neue, Helvetica, Arial, Lucida, sans-serif;
 
 @import "../fonts/source-sans-pro/source-sans-pro.css";
+@import "../fonts/Cereal/cereal.css";
 @import "bootstrap/bootstrap";
 @import "_rem";
-@import "_stratos";
+//@import "_stratos";
 
 @mixin circle($width, $border-color:$grey, $bg-color:$white) {
   width: $width;
@@ -47,12 +46,23 @@ body {
   @include rem(margin-bottom, 60px); /* Margin bottom by footer height */
 }
 
+.hero-title {
+  font-size: 72px;
+  line-height: 74px;
+  font-weight: 600;
+}
+
+.hero-text{
+  font-weight: 500;
+  margin-bottom: 20px;
+  line-height: 1.5rem;
+}
+
 .body-home {
   padding-top: 8rem;
 }
 
 .navbar {
-  @include rem(border-bottom, 1px solid #e6e6e6);
   background-color: $white;
 
   #contact-tel {
@@ -63,23 +73,49 @@ body {
       @include rem(padding-right, 10px);
     }
   }
+
+  nav {
+    a {
+      color: $black;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .navbar-brand {
+    img {
+      @include rem(height, 25px)
+    }
+    color: #001625;
+
+    .navbar-toggler-icon {
+      color: #000
+    }
+  }
 }
 
-.navbar-brand {
-  img {
-    @include rem(height, 25px)
-  }
-  color: #001625;
+#hero-merchant {
+  background: url(../images/stuart-delivery.png);
+  background-repeat: no-repeat;
+  background-size: cover
+}
 
-  .navbar-toggler-icon {
-    color: #000
+#fleet-strip {
+  padding: 30px;
+}
+
+#pitch {
+  ul {
+    list-style-type: none;
+    padding-left: 0;
   }
 }
 
 .page-header {
   h1, h4 {
     //@include rem(margin-bottom, 35px)
-    @include rem(margin-top, 20px);
+    //@include rem(margin-top, 20px);
   }
 }
 
@@ -88,28 +124,73 @@ body {
   cursor: pointer;
 }
 
-
-.card-row {
-  @extend .row;
-  @include rem(padding-bottom, 30px);
-
-  .card {
-    border: none;
-  }
-}
-
 a.no-deco {
   color: $black;
   text-decoration: none;
 }
 
+#testimonials-wrapper {
+  background-color: $grey; //#f6f9fc;
+  padding: 60px 40px;
+  form {
+    padding-left: 0;
+  }
+}
+#customers {
+  .customer-quotes {
+    padding-top: 20px;
+    padding-left: 35px;
+    .customer-quote {
+      @extend .card;
+      top: 0px;
+      border: 1px solid $grey;
+      box-shadow: 0 5px 17px rgba(34,46,58,.1);
+      padding: 10px 10px 0 10px;
+      line-height: 1.75em;
+      position: relative;
+      -webkit-transition: top 150ms ease-out;
+      transition: top 150ms ease-out;
 
-main {
-  #content {
-    @include rem(padding-bottom, 30px);
+      &:hover {
+        top: -10px;
+        cursor: pointer
+      }
+      .card-footer {
+        border: none !important;
+        background-color: transparent !important;
+      }
+    }
   }
 }
 
+.sps {
+  padding: 1em .5em;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: all 0.25s ease;
+  width: 100%;
+}
+
+.sps--blw {
+  border-bottom: 1px solid #e6e6e6;
+}
+
+
+#estimator-strip {
+  background-color: $grey;
+  padding: 40px;
+}
+
+.footer-try {
+  padding: 60px 30px;
+}
+
+
+#partner-strip {
+  background-color: #f6f9fc;
+  padding: 50px;
+}
 
 .menu-header {
   margin-top: 20px;
@@ -187,10 +268,6 @@ footer {
 
 .bold {
   font-weight: bold;
-}
-
-.bg-happy {
-  background-color: $happy;
 }
 
 .icons {

@@ -3,57 +3,162 @@
 
 {% block body_class %}body-home{% endblock %}
 
-{% block masthead %}
-  <div class="row" id="how-it-works">
-    <div class="col-sm-4">
-      <div class="card">
-        <div class="card-body">
-          <p class="card-text">
-            <img class="icon" src="{% static 'images/icons/clock.svg' %}" alt="Twitter">
-            From Monday to Saturday.
-            <br>Delivery from 11:30am to 2:30pm
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="card">
-        <div class="card-body">
-          <p class="card-text">
-            <img class="icon" src="{% static 'images/icons/bowl.svg' %}" alt="Twitter">
-            Get amazing food from our carefully
-            curated selection of restaurants whose food we genuinely love - and we're sure you will, too
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="card">
-        <div class="card-body">
-          <p class="card-text">
-            <img class="icon" src="{% static 'images/icons/credit-card.svg' %}" alt="Twitter">
-            Secure online payment. <br> Cash on delivery accepted
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> <!--// how it works -->
+{% block masthead %}{% endblock %}
 
-{% endblock %}
-{% block page_header %}
-  <h2 class="welcome-callout">What's on the menu?</h2>
-{% endblock %}
+{% block page_header %} {% endblock %}
 
 {% block content %}
-  <br>
-
-  {% include "partials/store_list.html" %}
-
-  {% include "partials/popular_tags.html" %}
-
+  <div class="row"><!-- hero -->
+    <div class="col-sm-5">
+      <div id="pitch" class="hero">
+        <h2 class="hero-title">Delivery</h2>
+        <h2 class="hero-title" id="hero-title-dynamic">done right</h2>
+        <ul class="hero-text">
+          <li><img class="icon" src="{% static 'images/icons/flash.svg' %}" alt="">Want it delivered ASAP? Done!</li>
+          <li><img class="icon" src="{% static 'images/icons/calendar.svg' %}" alt=""> Want it delivered tomorrow afternoon? No problem</li>
+        </ul>
+        <button type="button" class="btn btn-primary btn-md">GET STARTED</button>
+      </div>
+    </div>
+    <div class="col-sm-7" id="hero-merchant">
+    </div>
+  </div> <!--//hero -->
+  <br><br>
+  <div class="row"> <!-- marketing -->
+    <div class="col-lg-4">
+      <h5><img class="icon" src="{% static 'images/icons/clock.svg' %}"/>At your service, Mon-Sat. 9-5pm</h5>
+      <p>Request and schedule deliveries at your customers’ convenience. Choose now,
+        or schedule a delivery for a later date</p>
+    </div>
+    <div class="col-lg-4">
+      <h5><img class="icon" src="{% static 'images/icons/credit-card.svg' %}"/> Collect Payments on Delivery</h5>
+      <p>Let your customers pay for goods on delivery. We deposit any money collected to your bank account the NEXT DAY.</p>
+    </div>
+    <div class="col-lg-4">
+      <h5><img class="icon" src="{% static 'images/icons/text.svg' %}"/> Reduce costs</h5>
+      <p>Manage all your deliveries from one spot, where you can see spending, and your personal address</p>
+    </div>
+  </div> <!--//marketing -->
 {% endblock %}
 
 {% block main_bottom %}
-  {% include "partials/group_order_banner.html" %}
+    <div class="row" id="estimator-strip"> <!-- estimate -->
+      <hr/>
+    <div class="col-sm-11">
+      <h4>Get an estimate</h4>
+      <div class="row">
+      <div class="col-sm-4">
+        <form>
+          <div class="form-group">
+            <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter pickup location">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" placeholder="Enter dropoff location">
+          </div>
+          <button type="submit" class="btn">Go</button>
+        </form>
+      </div>
+      <div class="col-sm-6 offset-sm-1">
+        <h2 class="bold">₦</h2>
+      </div>
+      </div>
+    </div>
+    </div> <!--//estimate -->
+
+    <div class="row offset-sm-1" id="fleet-strip"> <!-- fleet -->
+      <div class="col-sm-4">
+        <img src="{% static 'images/stuart-fleet.png' %}" width="400px"/>
+      </div>
+      <div class="col-sm offset-sm-1">
+        <h3 class="bold">We come to you</h3>
+        <p>
+          Our couriers are carefully vetted and receive extensive training to ensure <b>your delivery arrives in style</b>.
+        </p>
+        <p>
+          We have the right ride for your product. Our delivery fleet includes motorbikes and cars.
+        </p>
+        <p>And you can <b>track deliveries in real time</b>, from start to finish.</p>
+        <p>If you expect to deliver more than 50 items a week, contact us about volume pricing.</p>
+      </div>
+    </div> <!--//fleet -->
+
+  <div class="row" id="partner-strip"> <!-- partner-->
+    <div class="col-sm-6 text-right"><h4>Got a vehicle?</h4></div>
+    <div class="col-sm-6">
+      <button type="button" class="btn btn-primary btn-md">Partner with Sendhut</button>
+    </div>
+  </div> <!--//partner -->
+
+
+  <div class="row" id="testimonials-wrapper">
+    <div class="col-sm-10 offset-sm-1">
+      <div class="row" id="customers"> <!-- customers -->
+        <div class="col-sm">
+          <div class="text-center">
+            <h3 class="bold">See why our customers love us!</h3>
+            <h5>Businesses rely on Sendhut to solve their local delivery needs</h5>
+          </div>
+
+          <div class="row customer-quotes">
+              <div class="customer-quote col-sm-3">
+                <div class="card-body">
+                  <p class="card-text">
+                    Sendhut packages my art safely and professionally, mails it in a timely manner, and works with my schedule. Best of all? It saves me time and money so I can focus on my art.
+                  </p>
+                </div>
+                <div class="card-footer row">
+                  <div class="col-sm-4">
+                    <img src="holder.js/60x60" class="rounded-circle">
+                  </div>
+                  <div class="col-sm-8">
+                    <h6 class="bold">Sophie Ike-Onu</h6>
+                    <a href="#">The 5K shop</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="customer-quote col-sm-3 offset-sm-1">
+                <div class="card-body">
+                  <p class="card-text">
+                    With Sendhut, all the struggles associated with shipping my items have disappeared. I just use Shyp’s mobile app to request a pickup, without having to disrupt my day.
+                  </p>
+                </div>
+                <div class="card-footer row">
+                  <div class="col-sm-4">
+                    <img src="holder.js/60x60" class="rounded-circle">
+                  </div>
+                  <div class="col-sm-8">
+                    <h6 class="bold">Amaka</h6>
+                    <a href="#">Voila Bakehouse</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="customer-quote col-sm-3 offset-sm-1">
+                <div class="card-body">
+                  <p class="card-text">
+                    When building a partnership, it’s the little gestures that count. Shyp makes it so much easier for us to surprise and delight our community in a variety of ways.
+                  </p>
+                </div>
+                <div class="card-footer row">
+                  <div class="col-sm-4">
+                    <img src="holder.js/60x60" class="rounded-circle">
+                  </div>
+                  <div class="col-sm-8">
+                    <h6 class="bold">James Yemi</h6>
+                    <a href="#">Backdoor laundry</a>
+                  </div>
+                </div>
+              </div>
+
+          </div>
+        </div>
+      </div> <!--//customers -->
+    </div>
+  </div>
+
+  <div class="text-center footer-try">
+    <h3 class="bold">Try Sendhut today</h3>
+    <button type="button" class="btn btn-primary btn-md">GET STARTED</button>
+  </div>
 {% endblock %}
