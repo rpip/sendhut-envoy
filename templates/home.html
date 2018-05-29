@@ -9,7 +9,7 @@
 
 {% block content %}
   <div class="row"><!-- hero -->
-    <div class="col-sm-5">
+    <div class="col-md-5">
       <div id="pitch" class="hero">
         <h2 class="hero-title">Delivery</h2>
         <h2 class="hero-title" id="hero-title-dynamic">done right</h2>
@@ -20,23 +20,23 @@
         <button type="button" class="btn btn-primary btn-md">GET STARTED</button>
       </div>
     </div>
-    <div class="col-sm-7" id="hero-merchant">
+    <div class="col-md-7" id="hero-merchant">
     </div>
   </div> <!--//hero -->
   <br><br>
   <div class="row"> <!-- marketing -->
-    <div class="col-lg-4">
+    <div class="col-md-4">
       <h6 class="bold"><img class="icon" src="{% static 'images/icons/clock.svg' %}"/>At your service, Monday - Saturday</h6>
       <p>Request and schedule deliveries at your customers’ convenience. Choose now,
         or schedule a delivery for a later date</p>
     </div>
-    <div class="col-lg-4">
+    <div class="col-md-4">
       <h6 class="bold"><img class="icon" src="{% static 'images/icons/credit-card.svg' %}"/> Collect Payments on Delivery</h6>
       <p>Let your customers pay for goods on delivery. We deposit any money collected to your bank account the NEXT DAY.</p>
     </div>
-    <div class="col-lg-4">
+    <div class="col-md-4">
       <h6 class="bold"><img class="icon" src="{% static 'images/icons/text.svg' %}"/> Reduce costs</h6>
-      <p>Manage all your deliveries from one spot, where you can see spending, and your personal address</p>
+      <p>Manage all your deliveries from one spot, where you can see spending and your customer address book.</p>
     </div>
   </div> <!--//marketing -->
 {% endblock %}
@@ -44,10 +44,10 @@
 {% block main_bottom %}
     <div class="row" id="estimator-strip"> <!-- estimate -->
       <hr/>
-    <div class="col-sm-11">
+    <div class="col-md-11">
       <h4>Get an estimate</h4>
       <div class="row">
-      <div class="col-sm-4">
+      <div class="col-md-4">
         <form>
           <div class="form-group">
             <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter pickup location">
@@ -58,7 +58,7 @@
           <button type="submit" class="btn">Go</button>
         </form>
       </div>
-      <div class="col-sm-6 offset-sm-1">
+      <div class="col-md-6 offset-md-1">
         <h2 class="bold">₦</h2>
       </div>
       </div>
@@ -66,10 +66,10 @@
     </div> <!--//estimate -->
 
     <div class="row" id="fleet-strip"> <!-- fleet -->
-      <div class="col-sm-4 offset-sm-1">
-        <img src="{% static 'images/stuart-fleet.png' %}" width="400px"/>
+      <div class="col-md-5 offset-md-1">
+        <img src="{% static 'images/stuart-fleet.png' %}" width="400px" class="img-fluid"/>
       </div>
-      <div class="col-sm offset-sm-1">
+      <div class="col-md-5">
         <h3 class="bold">Our drivers</h3>
         <p>
           Our couriers are carefully vetted and receive extensive training to ensure <b>your delivery arrives in style</b>. We have the right ride for your product. Our delivery fleet includes motorbikes and cars.
@@ -86,65 +86,72 @@
     </div> <!--//fleet -->
 
   <div class="row" id="testimonials-wrapper">
-    <div class="col-sm-10 offset-sm-1">
+    <div class="col-md-10 offset-md-1">
       <div class="row" id="customers"> <!-- customers -->
-        <div class="col-sm">
+        <div class="col-md">
           <div class="text-center">
             <h3 class="bold">See why our customers love us!</h3>
             <h5>Businesses rely on Sendhut to solve their local delivery needs</h5>
           </div>
 
           <div class="row customer-quotes">
-              <div class="customer-quote col-sm-3">
+            <div class="customer-quote col-lg">
+              <div class="card">
                 <div class="card-body">
                   <p class="card-text">
                     Sendhut packages my art safely and professionally, mails it in a timely manner, and works with my schedule. Best of all? It saves me time and money so I can focus on my art.
                   </p>
                 </div>
-                <div class="card-footer row">
-                  <div class="col-sm-4">
+              </div>
+                <div class="row customer-info">
+                  <div class="col-md-4">
                     <img src="holder.js/60x60" class="rounded-circle">
                   </div>
-                  <div class="col-sm-8">
-                    <span>Sophie Ike-Onu</span>
+                  <div class="col-md-8">
+                    <div class="customer-name">Sophie Ike-Onu</div>
                     <a href="#">The 5K shop</a>
                   </div>
                 </div>
+
               </div>
 
-              <div class="customer-quote col-sm-3 offset-sm-1">
+            <div class="customer-quote col-lg offset-lg-1">
+              <div class="card">
                 <div class="card-body">
                   <p class="card-text">
                     With Sendhut, all the struggles associated with shipping my items have disappeared. I just use Sendhut’s mobile app to request a pickup, without having to disrupt my day.
                   </p>
                 </div>
-                <div class="card-footer row">
-                  <div class="col-sm-4">
-                    <img src="holder.js/60x60" class="rounded-circle">
-                  </div>
-                  <div class="col-sm-8">
-                    <span>Amaka</span>
-                    <a href="#">Voila Bakehouse</a>
-                  </div>
+              </div>
+              <div class="row customer-info">
+                <div class="col-md-4">
+                  <img src="holder.js/60x60" class="rounded-circle">
+                </div>
+                <div class="col-md-8">
+                  <div class="customer-name">Amaka Okonkwo</div>
+                  <a href="#">Voila Bakehouse</a>
                 </div>
               </div>
+            </div>
 
-              <div class="customer-quote col-sm-3 offset-sm-1">
+            <div class="customer-quote col-lg offset-lg-1">
+              <div class="card">
                 <div class="card-body">
                   <p class="card-text">
                     When building a partnership, it’s the little gestures that count. Sendhut makes it so much easier for us to surprise and delight our community in a variety of ways.
                   </p>
                 </div>
-                <div class="card-footer row">
-                  <div class="col-sm-4">
-                    <img src="holder.js/60x60" class="rounded-circle">
-                  </div>
-                  <div class="col-sm-8">
-                    <span>James Yemi</span>
-                    <a href="#">Backdoor laundry</a>
-                  </div>
+              </div>
+              <div class="row customer-info">
+                <div class="col-md-4">
+                  <img src="holder.js/60x60" class="rounded-circle">
+                </div>
+                <div class="col-md-8">
+                  <div class="customer-name">James Yemi</div>
+                  <a href="#">Backdoor laundry</a>
                 </div>
               </div>
+            </div>
 
           </div>
         </div>

@@ -135,25 +135,41 @@ a.no-deco {
 #customers {
   .customer-quotes {
     padding-top: 20px;
-    padding-left: 35px;
     .customer-quote {
-      @extend .card;
+      .card {
       top: 0px;
       border: 1px solid $grey;
+      border-radius: 8px;
       box-shadow: 0 5px 17px rgba(34,46,58,.1);
-      padding: 10px 10px 0 10px;
       line-height: 1.75em;
-      position: relative;
       -webkit-transition: top 150ms ease-out;
       transition: top 150ms ease-out;
 
-      &:hover {
-        top: -10px;
-        cursor: pointer
+        &:hover {
+          top: -10px;
+          cursor: pointer
+        }
+      &:after{
+	      content: ' ';
+	      position: absolute;
+	      left: 20px;
+        right: auto;
+        top: auto;
+	      bottom: -20px;
+	      border: 22px solid;
+	      border-color: transparent transparent transparent $white;
+        }
       }
-      .card-footer {
+      .customer-info {
         border: none !important;
         background-color: transparent !important;
+        margin-left: 5px;
+        margin-top: 10px;
+        padding: 5px;
+      }
+      .customer-name {
+        font-size: 18px;
+        padding-top: 10px;
       }
     }
   }
@@ -247,14 +263,15 @@ footer {
   }
 }
 
+@include media-breakpoint-up(sm) {
+  min-height: 184px;
+}
+
 // BREAKPOINT FOR SMALL VIEWPORT
 @include media-breakpoint-down(sm) {
 
   h1, .h1 { font-size: .8 * $h1-font-size; }
 
-  #always-tap {
-    display: none
-  }
 }
 
 // MISCELLANEOUS
