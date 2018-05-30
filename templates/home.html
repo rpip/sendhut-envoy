@@ -42,48 +42,69 @@
 {% endblock %}
 
 {% block main_bottom %}
-    <div class="row" id="estimator-strip"> <!-- estimate -->
-      <hr/>
+  <div class="row" id="estimator-strip"> <!-- estimate -->
+    <hr/>
     <div class="col-md-11">
-      <h4>Get an estimate</h4>
       <div class="row">
-      <div class="col-md-4">
-        <form>
-          <div class="form-group">
-            <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter pickup location">
+        <div class="col-md-4" id="estimate-form-wrapper">
+          <h4>Get a price estimate</h4>
+      <div class="row">
+          <div class="col-1">
+            <svg height="100" width="190">
+              <line class="line" x1="20" y1="20" x2="20" y2="90"></line>
+              <marker id="marker-start" markerWidth="8" markerHeight="8" refX="5" refY="5">
+                <circle class="foreground" cx="5" cy="5" r="1" />
+              </marker>
+              <marker id="marker-end" markerWidth="8" markerHeight="8" refX="5" refY="5">
+                <circle class="foreground" cx="5" cy="5" r="1" />
+              </marker>
+            </svg>
           </div>
-          <div class="form-group">
-            <input type="password" class="form-control" placeholder="Enter dropoff location">
+          <div class="col-10">
+          <form>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Enter pickup location" id="pickup">
+              <span class="input-group-addon" id="pickup-addon">
+                <img class="icon" src="{% static 'images/icons/location.svg' %}">
+              </span>
+            </div>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Enter destination">
+              <span class="input-group-addon" id="dropoff-addon">
+                <img class="icon" src="{% static 'images/icons/arrow-right.svg' %}">
+              </span>
+            </div>
+            <small class="form-text text-muted">
+              Estimates do not reflect variations due to discounts, demand or other factors.</small>
+          </form>
           </div>
-          <button type="submit" class="btn">Go</button>
-        </form>
-      </div>
-      <div class="col-md-6 offset-md-1">
-        <h2 class="bold">₦</h2>
-      </div>
-      </div>
-    </div>
-    </div> <!--//estimate -->
-
-    <div class="row" id="fleet-strip"> <!-- fleet -->
-      <div class="col-md-5 offset-md-1">
-        <img src="{% static 'images/stuart-fleet.png' %}" width="400px" class="img-fluid"/>
-      </div>
-      <div class="col-md-5">
-        <h3 class="bold">Our drivers</h3>
-        <p>
-          Our couriers are carefully vetted and receive extensive training to ensure <b>your delivery arrives in style</b>. We have the right ride for your product. Our delivery fleet includes motorbikes and cars.
-        </p>
-        <p>
-          And you can <b>track deliveries in real time</b>, from start to finish.
-        </p>
-        <div>
-          <br>
-          <h6 class="bld">Got a vehicle?</h6>
-          <button type="button" class="btn btn-primary btn-md">Partner with Sendhut</button>
+          </div>
+        </div>
+        <div class="col-md-6 offset-md-1" id="estimate-map">
         </div>
       </div>
-    </div> <!--//fleet -->
+    </div>
+  </div> <!--//estimate -->
+
+  <div class="row" id="fleet-strip"> <!-- fleet -->
+    <div class="col-md-5 offset-md-1">
+      <img src="{% static 'images/stuart-fleet.png' %}" width="400px" class="img-fluid"/>
+    </div>
+    <div class="col-md-5">
+      <h3 class="bold">Our drivers</h3>
+      <p>
+        Our couriers are carefully vetted and receive extensive training to ensure <b>your delivery arrives in style</b>. We have the right ride for your product. Our delivery fleet includes motorbikes and cars.
+      </p>
+      <p>
+        And you can <b>track deliveries in real time</b>, from start to finish.
+      </p>
+      <div>
+        <br>
+        <h6 class="bld">Got a vehicle?</h6>
+        <button type="button" class="btn btn-primary btn-md">Partner with Sendhut</button>
+      </div>
+    </div>
+  </div> <!--//fleet -->
 
   <div class="row" id="testimonials-wrapper">
     <div class="col-md-10 offset-md-1">
@@ -103,17 +124,17 @@
                   </p>
                 </div>
               </div>
-                <div class="row customer-info">
-                  <div class="col-md-4">
-                    <img src="holder.js/60x60" class="rounded-circle">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="customer-name">Sophie Ike-Onu</div>
-                    <a href="#">The 5K shop</a>
-                  </div>
+              <div class="row customer-info">
+                <div class="col-md-4">
+                  <img src="holder.js/60x60" class="rounded-circle">
                 </div>
-
+                <div class="col-md-8">
+                  <div class="customer-name">Sophie Ike-Onu</div>
+                  <a href="#">The 5K shop</a>
+                </div>
               </div>
+
+            </div>
 
             <div class="customer-quote col-lg offset-lg-1">
               <div class="card">

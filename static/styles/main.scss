@@ -191,8 +191,47 @@ a.no-deco {
 
 #estimator-strip {
   background-color: $grey;
-  padding: 40px;
+  h3, h4 {
+    padding-left: 14px;
+  }
+  #estimate-form-wrapper {
+    padding: 30px;
+  }
+  form {
+    input.form-control {
+      margin-bottom: 10px;
+      #dropoff-addon {
+        cursor: pointer;
+      }
+    }
+    .input-group-addon {
+      padding: 0px;
+      height: 38px;
+    }
+  }
+  svg {
+    background-color: transparent;
+    margin-top: -10px;
+  }
+  .line {
+    stroke: #c6c6c6;
+    stroke-width: 2;
+    marker-start: url(#marker-start);
+    marker-end: url(#marker-end);
+  }
+  #marker-start circle {
+    fill: #2cac10;
+    stroke-width: 1;
+    stroke: #2cac10;
+  }
+
+  #marker-end circle {
+    fill: #f32f00;
+    stroke-width: 1;
+    stroke: #f32f00;
+  }
 }
+
 
 .footer-try {
   padding: 60px 30px;
@@ -211,7 +250,6 @@ a.no-deco {
 button.close {
   cursor: pointer;
 }
-
 
 #faqs {
   .title {
