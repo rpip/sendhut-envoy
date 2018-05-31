@@ -200,13 +200,22 @@ a.no-deco {
   form {
     input.form-control {
       margin-bottom: 10px;
-      #dropoff-addon {
-        cursor: pointer;
-      }
     }
     .input-group-addon {
       padding: 0px;
       height: 38px;
+    }
+    #pickup {
+      border-right: 0;
+    }
+    #pickup-addon {
+      background-color: white;
+      border-left: 0 !important;
+      cursor: pointer;
+    }
+
+    #dropoff-addon {
+      cursor: pointer;
     }
   }
   svg {
@@ -215,7 +224,7 @@ a.no-deco {
   }
   .line {
     stroke: #c6c6c6;
-    stroke-width: 2;
+    stroke-width: 1;
     marker-start: url(#marker-start);
     marker-end: url(#marker-end);
   }
@@ -309,7 +318,9 @@ footer {
 @include media-breakpoint-down(sm) {
 
   h1, .h1 { font-size: .8 * $h1-font-size; }
-
+  #hero-merchant {
+    display: none !important;
+  }
 }
 
 // MISCELLANEOUS
