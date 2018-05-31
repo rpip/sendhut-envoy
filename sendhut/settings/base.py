@@ -82,6 +82,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                'sendhut.context_processors.base_configs',
                 'sendhut.context_processors.mobile_check',
             ],
         },
@@ -263,4 +264,4 @@ except:
     pass
 
 
-GOOGLE_MAPS_API_KEY = 'AIzaSyDVZn9gbIfivvhXOI1eAY1tu2M-yo2LO9w'
+GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY')
