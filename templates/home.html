@@ -24,17 +24,17 @@
     </div>
   </div> <!--//hero -->
   <br><br>
-  <div class="row"> <!-- marketing -->
-    <div class="col-md-4">
+  <div class="row" id="benefits"> <!-- marketing -->
+    <div class="col-md-4 benefit">
       <h6 class="bold"><img class="icon" src="{% static 'images/icons/clock.svg' %}"/>At your service, Monday - Saturday</h6>
       <p>Request and schedule deliveries at your customers’ convenience. Choose now,
         or schedule a delivery for a later date</p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 benefit">
       <h6 class="bold"><img class="icon" src="{% static 'images/icons/credit-card.svg' %}"/> Collect Payments on Delivery</h6>
       <p>Let your customers pay for goods on delivery. We deposit any money collected to your bank account the NEXT DAY.</p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 benefit">
       <h6 class="bold"><img class="icon" src="{% static 'images/icons/text.svg' %}"/> Reduce costs</h6>
       <p>Manage all your deliveries from one spot, where you can see spending and your customer address book.</p>
     </div>
@@ -42,10 +42,6 @@
 {% endblock %}
 
 {% block main_bottom %}
-  <div class="row" id="how-it-works"> <!-- how-it-works -->
-
-  </div>
-
   <div class="row" id="estimator-strip"> <!-- estimate -->
     <hr/>
     <div class="col-md-11">

@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body_class %}body-home{% endblock %}
+
+{% block masthead %}{% endblock %}
+
+{% block page_header %} {% endblock %}
+
+{% block content %}
+  <div class="row" id="fleet-join-wrapper"><!-- hero -->
+    <div class="col-md-5">
+      <div id="fleet-join" class="hero">
+        <h1 class="hero-titl bold">Make more money</h1>
+        <h4 class="hero-titl old">Partner with Sendhut</h4>
+        <div class="form-text text-muted">It’s free to sign up and fast to get started. </div>
+        <br>
+        <form>
+          <div class="form-group">
+            <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Your first name">
+          </div>
+          <div class="form-group">
+            <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Your last name">
+          </div>
+          <div class="form-group">
+            <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Your email address">
+          </div>
+          <div class="row">
+            <div class="col">
+              <input type="phone" class="form-control" placeholder="Your phone number">
+            </div>
+            <div class="col">
+              <button type="submit" class="btn btn-primary">Apply</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> <!--//hero -->
+  <br><br>
+  <div class="row" id="benefits"> <!-- marketing -->
+    <div class="col-md-4 benefit">
+      <h6 class="bold">
+        <img class="icon" src="{% static 'images/icons/text-document.svg' %}"/>With you, all the way</h6>
+      <p>Put your vehicle on our platform, and we'll connect you to more delivery opportunities and access to carrier liability and driver accident insurance.</p>
+    </div>
+    <div class="col-md-4 benefit">
+      <h6 class="bold"><img class="icon" src="{% static 'images/icons/credit-card.svg' %}"/>More money, fast deposit</h6>
+      <p>See how much you earned anytime and exactly how your earnings were calculated. Your money is deposited on a weekly basis.</p>
+    </div>
+    <div class="col-md-4 benefit">
+      <h6 class="bold"><img class="icon" src="{% static 'images/icons/old-mobile.svg' %}"/>All the tools you need</h6>
+      <p>We want every delivery to be hassle-free. So we're here to help with delivery kits and prepaid card so you can deliver food, drinks and more whenever you need it.</p>
+    </div>
+  </div> <!--//marketing -->
+{% endblock %}
+
+{% block main_bottom %}
+  <div class="row" id="how-it-works"> <!-- how-it-works -->
+    <div class="col-md-10 offset-sm-1">
+      <h4>How does it work?</h4>
+      <br>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-4 fleet-icon">
+              <img src="{% static 'images/accept.png' %}" class="img-fluid"/>
+            </div>
+            <div class="col">
+              <h6 class="bold">Receive delivery orders</h6>
+              Sendhut sends you delivery orders to process, with request details displayed upfront.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-4 fleet-icon">
+              <img src="{% static 'images/pickup.png' %}" class="img-fluid"/>
+            </div>
+            <div class="col">
+              <h6 class="bold">Pickup delivery</h6>
+              After accepting a delivery request, pickup the item at the merchant location.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-4 fleet-icon">
+              <img src="{% static 'images/deliver.png' %}" class="img-fluid"/>
+            </div>
+            <div class="col">
+              <h6 class="bold">Deliver goods to destination</h6>
+              Once you've collected the order, navigate to the drop-off location and deliver the item.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> <!--//how-it-works -->
+
+
+  <div class="row faqs" id="partner-faqs"> <!-- faqs -->
+    <div class="col-md-10 offset-sm-1">
+    <h4 class="title">Frequently Asked Questions </h4>
+    <hr>
+    <a class="question" id="q1">
+      What are the requirements to join Sendhut??
+    </a>
+    <p>
+      Equipments
+      <ul>
+        <li>A 200cc or above motorbike</li>
+        <li>A safety helmet</li>
+        <li>A smartphone – iPhone or Android </li>
+      </ul>
+
+      Documenatations
+
+      <ul>
+        <li>Valid rider's card</li>
+        <li>Valid motorcycle registration papers. Road worthiness</li>
+      </ul>
+    </p>
+
+    <a class="question" id="q2">How will I be paid?</a>
+    <p>
+Partners can withdraw total weekly earnings on Saturday. The money can be delivered to either the driver, owner or another number provided during training.
+    </p>
+
+    <a class="question" id="q3">How much do I pay Sendhut?</a>
+    <p>
+      Sign up is free and there's no time commitments. Sendhut takes only 15% of each delivery.
+    </p>
+
+    <a class="question" id="q4">Can I bring multiple vehicles to the platform?</a>
+    <p>
+      Yes! There is no limit to the number of vehicles you can bring to the platform.
+    </p>
+
+    <a class="question" id="q5">Who brings the Driver on board?</a>
+    <p>The owner of the vehicle is responsible for sourcing the driver(s).</p>
+
+    <a class="question" id="q6">Who covers fuel costs and Driver stipend?</a>
+    <p>The owner covers the fuel costs, driver stipend, and any other expenses that are driver or vehicle related.</p>
+  </div>
+  </div> <!-- // faqs -->
+
+  <div class="text-center footer-try">
+    <h3 class="bold">Start making money</h3>
+    <a class="btn btn-primary btn-md" href="#fleet-join">Apply now</a>
+  </div>
+{% endblock %}
