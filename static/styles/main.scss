@@ -101,6 +101,21 @@ body {
   background-size: cover
 }
 
+#fleet-join-wrapper {
+  background: url(../images/partner-fleets.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 450px;
+  box-shadow: 0 5px 17px rgba(34,46,58,.1);
+  #fleet-join {
+    background-color: $white;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 5px 17px rgba(34,46,58,.1);
+  }
+
+}
+
 #pitch {
   ul {
     list-style-type: none;
@@ -188,6 +203,15 @@ a.no-deco {
   border-bottom: 1px solid #e6e6e6;
 }
 
+#how-it-works {
+  padding: 40px;
+  background-color: #f6f9fc;
+
+  .fleet-icon {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+}
 
 #estimator-strip {
   background-color: $grey;
@@ -260,7 +284,13 @@ button.close {
   cursor: pointer;
 }
 
-#faqs {
+#partner-faqs {
+  padding: 40px;
+  background-color: $grey;
+
+}
+
+.faqs {
   .title {
     margin-bottom: 20px
   }
@@ -311,7 +341,9 @@ footer {
 }
 
 @include media-breakpoint-up(sm) {
-  min-height: 184px;
+  .benefit {
+    padding: 20px 15px;
+  }
 }
 
 // BREAKPOINT FOR SMALL VIEWPORT
