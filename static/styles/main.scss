@@ -101,6 +101,12 @@ body {
   background-size: cover
 }
 
+#benefits {
+  .benefit {
+    padding: 40px 10px;
+  }
+}
+
 #fleet-join-wrapper {
   background: url(../images/partner-fleets.jpg);
   background-repeat: no-repeat;
@@ -204,7 +210,7 @@ a.no-deco {
 }
 
 #how-it-works {
-  padding: 40px;
+  padding: 60px 40px;
   background-color: #f6f9fc;
 
   .fleet-icon {
@@ -215,11 +221,15 @@ a.no-deco {
 
 #estimator-strip {
   background-color: $grey;
+  padding: 60px 30px;
   h3, h4 {
     padding-left: 14px;
   }
   #estimate-form-wrapper {
-    padding: 30px;
+    padding: 70px 10px;
+  }
+  #estimate-map {
+    min-height: 340px;
   }
   form {
     input.form-control {
@@ -340,13 +350,14 @@ footer {
   }
 }
 
-@include media-breakpoint-up(sm) {
+// Medium viewport
+@include media-breakpoint-down(md) {
   .benefit {
-    padding: 20px 15px;
+    padding: 10px !important;
   }
 }
 
-// BREAKPOINT FOR SMALL VIEWPORT
+// Small viewport
 @include media-breakpoint-down(sm) {
 
   h1, .h1 { font-size: .8 * $h1-font-size; }
