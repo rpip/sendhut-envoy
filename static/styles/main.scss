@@ -364,6 +364,15 @@ footer {
   #hero-merchant {
     display: none !important;
   }
+  #estimator-strip {
+    padding: 20px;
+    #estimate-map {
+      display: none !important
+    }
+    #estimate-form-wrapper {
+      padding: 10px;
+    }
+  }
 }
 
 // MISCELLANEOUS
