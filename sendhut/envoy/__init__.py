@@ -1,50 +1,81 @@
-"""
-order journey: received, in progress, on the way, delivered
+class TransportTypes:
+    """Enum of possible transport types"""
+    BIKE = "bike"
+    CAR = "car"
+    VAN = "van"
+    PICKUP = "pickup"
+    TRUCK = "truck"
 
-Trip fares start with a base amount, then increase with time and distance.
-
-distance between the pickup point and delivery point.
-65NGN/KM, which translates to a minimum delivery fee of ₦650
-
-- base fare of 300 NGN (a flat fee that covers the pickup price)
-- then increase with time and distance
-- dynamic pricing (push vendor commission on to user):
-  - traffic, events, weather, timings and driver expertise
-  - distance
-  - location specific factors
-  - demand
-  - vehicle type
-  - batched delivery or one-off
-
-dispatch to nearest available rider within a certain dispatch radius.
-Stays on phone for 7 seconds. If order is not picked, dispatch to the next
-nearest available rider if not picked for the same amount of time.
-Repeats to all riders within that radius until the order is confirmed.
-
-Lower delivery fees for orders from one of Sendhut partners.
-
-# 2
-introduce surge at peak times?
-
-# 3
-On top of the delivery fee, charge a convenience fee.
-It's a flat fee and amounts to x% of the order.
-It factors things like delivery distance and size of order.
-
-A variable percentage-based service fee is also applied to the price
-of the items that are ordered
+    CHOICES = [
+        (BIKE, "bike"),
+        (CAR, "car"),
+        (VAN, "van"),
+        (PICKUP, "pickup")
+    ]
 
 
-# estimated delivery time
-location of the envoy
-food preparation time (confirm with restaurants)
-amount of traffic
-the distance from the pickup location
+class PackageTypes:
+    """Enum of possible package sizes"""
+    EXTRA_SMALL = 'extra_small'
+    SMALL = 'small'
+    MEDIUM = 'medium'
+    LARGE = 'large'
+    EXTRA_LARGE = 'extra_large'
 
-# multidrop:
-Pricing is based on distance, from pickup to drop off, driving down the price per drop.
-"""
-from django.conf import settings
-from geopy.geocoders import GoogleV3
+    CHOICES = [
+        (EXTRA_SMALL, "Extra small"),
+        (SMALL, "Small"),
+        (MEDIUM, "Medium"),
+        (LARGE, "Large"),
+        (EXTRA_LARGE, "Extra large")
+    ]
 
-geolocator = GoogleV3(api_key=settings.GOOGLE_MAPS_API_KEY)
+
+class DeliveryStatus:
+    """Enum of possible delivery statuses."""
+
+    PENDING = "pending"
+    PICK_UP = "pick_up"
+    ALMOST_PICKUP = "almost_pickup"
+    WAITING_AT_PICKUP = "waiting_at_pickup"
+    PICKUP_COMPLETE = "pickup_complete"
+    DROPOFF = "dropoff"
+    ALMOST_DROPOFF = "almost_dropoff"
+    WAITING_AT_DROPOFF = "waiting_at_dropoff"
+    CANCELLED = "cancelled"
+    DELIVERED = "delivered"
+    RETURNED = "returned"
+    SCHEDULED = "scheduled"
+    EXPIRED = "expired"
+
+    CHOICES = [
+        (PENDING,  "Pending - We've accepted the delivery and will be assigning it to a courier"),
+        (PICK_UP, "Pick Up - Courier is assigned and is en route to pick up the items"),
+        (ALMOST_PICKUP, "Almost Pickup - The driver is close to the pickup point"),
+        (WAITING_AT_PICKUP, "Waiting At Pickup The driver is waiting at the pickup point"),
+        (PICKUP_COMPLETE, "Picking Complete - Courier has picked up the items"),
+        (DROPOFF, "Dropoff - Courier is moving towards the dropoff"),
+        (ALMOST_DROPOFF, "Almost Dropoff - The driver is close to the delivery point"),
+        (WAITING_AT_DROPOFF, "Waiting At Dropoff - The driver is waiting at the delivery point"),
+        (CANCELLED, "Cancelled -  Items won't be delivered. Deliveries are either canceled by the customer or by our customer service team"),
+        (DELIVERED, "Delivered - The package has been delivered successfully"),
+        (RETURNED, "Returned - The delivery was returned"),
+        (SCHEDULED, "Scheduled - The job has been scheduled. It will start later"),
+        (EXPIRED, "Expired - Job has expired. No driver accepted the job. It didn't cost any money")
+    ]
+
+
+class CancellationReasons:
+    """Enum of possible cancellation reasons"""
+    ETA_TOO_LONG = "eta-too-long"
+    NO_CONNECTION = "no-connection"
+
+    CHOICES = [
+        (ETA_TOO_LONG, "eta is too long"),
+        (NO_CONNECTION, "couldn't connect to courier")
+    ]
+
+
+class ZoneRegions:
+    """Enum of zones"""
+    CHOICES = []

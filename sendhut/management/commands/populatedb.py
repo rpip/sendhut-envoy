@@ -1,23 +1,10 @@
-from random import choice, shuffle
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
-from sendhut.stores.models import Item, Store
-from sendhut.factory import (
-    ImageFactory, UserFactory, OptionGroupFactory,
-    CartFactory, GroupOrderFactory, OptionFactory,
-    OrderFactory, create_orderlines,
-)
-from .load_menus import create_lagos_stores
+from sendhut.envoy import DeliveryStatus
+from sendhut.factory import DeliveryFactory, UserFactory
 
 
 ADMIN_PASSWORD = USER_PASSWORD = 'h3ll02018!'
-
-
-def get_random_food_categories():
-    n = choice(range(1, 4))
-    categories = [k for k, _ in Item.FOOD_CATEGORIES]
-    shuffle(categories)
-    return categories[:n]
 
 
 class Command(BaseCommand):
@@ -26,9 +13,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write(self.style.SUCCESS('Creating ADMIN user'))
 
-        # raise CommandError()
-        self.stdout.write(self.style.SUCCESS('Creating users'))
-        UserFactory.create_batch(3, password=USER_PASSWORD)
+        self._create_deliveries()
 
         # create admin user
         self.stdout.write(self.style.SUCCESS('Creating admin user'))
@@ -39,6 +24,15 @@ class Command(BaseCommand):
         admin.save()
 
         self.stdout.write(self.style.SUCCESS('DONE'))
+
+    def _create_deliveries(self):
+        self.stdout.write(self.style.SUCCESS('Creating users'))
+        users = UserFactory.create_batch(3, password=USER_PASSWORD)
+        for user in users:
+            DeliveryFactory.create_batch(5)
+            DeliveryFactory.create_batch(5, status=DeliveryStatus.SCHEDULED, user=user)
+            DeliveryFactory.create_batch(10, status=DeliveryStatus.DELIVERED, user=user)
+
 
 
 # IDEA(yao):

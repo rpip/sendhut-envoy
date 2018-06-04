@@ -4,9 +4,9 @@ from datetime import datetime, timedelta
 from functools import singledispatch
 from enum import Enum
 import json
-import os
 import hashlib
-import binascii
+import random
+import string
 import re
 
 from dateutil import parser
@@ -53,10 +53,10 @@ def image_upload_path(instance, filename):
     )
 
 
-def generate_token(token_length=16):
-    "Returns a random hexadecimal string with the given length."
-    token = binascii.b2a_hex(os.urandom(token_length))[:token_length]
-    return token.decode('utf-8')
+def generate_token(length=14):
+    "Returns a random alphanumeric string with the given length."
+    chars = random.choices(string.ascii_letters + string.digits, k=length)
+    return ''.join(chars)
 
 
 def hash_data(data, hash_length=190, data_type=None):

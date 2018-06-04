@@ -1,13 +1,12 @@
-from uuid import uuid4
-
-from django.db import models
+from django.contrib.gis.db import models
 from jsonfield import JSONField
 from django.urls import reverse
 
 from safedelete.models import SafeDeleteModel
-from safedelete.models import HARD_DELETE
 from safedelete.admin import SafeDeleteAdmin, highlight_deleted
 from safedelete.models import SOFT_DELETE_CASCADE, HARD_DELETE
+
+from sendhut.utils import generate_token
 
 
 class UpdateMixin(object):
@@ -24,16 +23,22 @@ class BaseModel(SafeDeleteModel, UpdateMixin):
     An abstract base class model that provides
     self-updating ``created`` and ``modified`` fields.
     """
+
+    def make_id(self):
+        return '{}_{}'.format(self.ID_PREFIX, generate_token(12))
+
     _safedelete_policy = SOFT_DELETE_CASCADE
 
+    id = models.CharField(max_length=16, unique=True, primary_key=True, editable=False)
     created = models.DateTimeField(auto_now_add=True, blank=True)
     updated = models.DateTimeField(auto_now=True, blank=True)
     deleted = models.DateTimeField(null=True, blank=True)
     metadata = JSONField(blank=True, null=True, max_length=360)
-    uuid = models.UUIDField(
-        default=uuid4, blank=True,
-        editable=False, unique=True
-    )
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.id = self.make_id()
+        super().save(*args, **kwargs)
 
     def get_admin_url(self):
         return reverse('admin:%s_%s_change' % (self._meta.app_label, self._meta.model_name),

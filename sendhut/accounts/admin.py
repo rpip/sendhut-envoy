@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 from sendhut.db import BaseModelAdmin
-from .models import User, Address
+from .models import User
 
 
 @admin.register(User)
@@ -31,18 +31,3 @@ class UserAdmin(BaseModelAdmin):
     )
 
     change_form_template = 'loginas/change_form.html'
-
-
-@admin.register(Address)
-class AddressAdmin(BaseModelAdmin):
-    list_display = (
-        'id',
-        'created',
-        'user',
-        'apt_number',
-        'name',
-        'phone',
-        'address',
-        'instructions'
-    )
-    list_filter = ('created',)

@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'sendhut',
     'sendhut.accounts',
     'sendhut.partners',
+    'sendhut.envoy',
+    'sendhut.addressbook'
 ]
 
 MIDDLEWARE = [
@@ -100,7 +102,7 @@ DATABASES = {
             'DATABASE_URL',
             default='sqlite:///{}'.format(Path(BASE_DIR, 'db.sqlite3'))
         ),
-        # engine='django.contrib.gis.db.backends.postgis',
+        engine='django.contrib.gis.db.backends.postgis',
         conn_max_age=500,
     )
 }

@@ -16,7 +16,7 @@ echo "----------------------------------------------------------"
 echo "Deleting images..."
 echo "----------------------------------------------------------"
 
-python manage.py thumbnail clear_delete_all
+#python manage.py thumbnail clear_delete_all
 
 echo "----------------------------------------------------------"
 echo "Creating fixtures..."
