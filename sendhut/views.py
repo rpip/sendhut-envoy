@@ -7,7 +7,8 @@ def home(request):
     context = {
         'page_title': 'Home',
     }
-    return render(request, 'home.html', context)
+    template = 'app.html' if request.user.is_authenticated() else 'home.html'
+    return render(request, template, context)
 
 
 def about(request):
