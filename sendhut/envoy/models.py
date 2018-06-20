@@ -46,9 +46,10 @@ class Courier(BaseModel):
         max_length=32, choices=TransportTypes.CHOICES,
         default=TransportTypes.BIKE
     )
-    location = models.PointField(null=True, spatial_index=True, geography=True)
+    location = models.PointField(u"longitude/latitude", null=True, spatial_index=True, geography=True)
     zone = models.ForeignKey('Zone')
     partner = models.ForeignKey(Partner)
+    # TODO(yao): add status field: onduty, offdduty
 
     class Meta:
         db_table = 'courier'

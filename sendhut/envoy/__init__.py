@@ -1,3 +1,20 @@
+"""
+websocket feeds:
+
+[
+  "driver_locations.barcelona",
+  {
+    "id": 333644644,
+    "created_at": "2018-06-17T19:09:51.932+02:00",
+    "driver_id": 50406,
+    "latitude": 41.43416173,
+    "longitude": 2.2277651,
+    "status": "on_duty",
+    "transport_type": "motorbike"
+  }
+]
+"""
+
 class TransportTypes:
     """Enum of possible transport types"""
     BIKE = "bike"
@@ -61,7 +78,7 @@ class DeliveryStatus:
         (DELIVERED, "Delivered - The package has been delivered successfully"),
         (RETURNED, "Returned - The delivery was returned"),
         (SCHEDULED, "Scheduled - The job has been scheduled. It will start later"),
-        (EXPIRED, "Expired - Job has expired. No driver accepted the job. It didn't cost any money")
+        (EXPIRED, "Expired - job has expired. No driver accepted the job. It didn't cost any money")
     ]
 
 
