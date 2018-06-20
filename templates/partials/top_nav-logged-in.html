@@ -1,0 +1,43 @@
+{% load static %}
+<nav class="navbar navbar-expand-md navbar-light fixed-top sps sps--abv">
+  <div class="container-fluid">
+    <div class="float-left">
+      <div class="float-left">
+        <nav class="nav">
+          <a class="navbar-brand text-hide nav-link" href="{% url 'home' %}">
+            <img src="{% static 'images/icon-yellow.png' %}" alt="">Sendhut
+          </a>
+          <a class="nav-link bold" href="#">Request Delivery</a>
+        </nav>
+      </div>
+      <div class="float-left">
+        <nav class="nav">
+          <a class="nav-link" href="#">Ongoing</a>
+          <a class="nav-link" href="#">Scheduled</a>
+          <a class="nav-link" href="#">History</a>
+        </nav>
+      </div>
+    </div>
+    <div class="float-right">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="dropdown">
+          <button class="btn btn-outline-primary dropdown-toggle"
+                  type="button" id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false">
+            My Account
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'accounts:profile' %}">Settings</a>
+            <a class="dropdown-item" href="#">Credit </a>
+            <a class="dropdown-item" href="#">Payments</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -28,9 +28,8 @@
         <p><a href="{% url 'accounts:password_reset' %}">Lost password?</a></p>
     </div>
   </div>
-<hr>
-{% if cart %}
-<div class="row">
+  <hr>
+  <div class="row">
     <div class="col-md-4 offset-md-4">
       <h4>Create an account</h4>
 
@@ -45,10 +44,4 @@
         </form>
     </div>
 </div>
-{% else %}
-  <div class="col-md-4 offset-md-4">
-    <p>Don't have an account yet?</p>
-    <p>No worries. Just place an order to create one.</p>
-  </div>
-{% endif %}
 {% endblock %}
