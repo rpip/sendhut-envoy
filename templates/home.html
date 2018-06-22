@@ -17,7 +17,7 @@
           <li><img class="icon" src="{% static 'images/icons/flash.svg' %}" alt="">Want it delivered ASAP? Done!</li>
           <li><img class="icon" src="{% static 'images/icons/calendar.svg' %}" alt=""> Want it delivered tomorrow afternoon? No problem</li>
         </ul>
-        <button type="button" class="btn btn-primary btn-md">GET STARTED</button>
+        <!-- <button type="button" class="btn btn-primary btn-md">GET STARTED</button> -->
       </div>
     </div>
     <div class="col-md-7" id="hero-merchant">
@@ -42,49 +42,49 @@
 {% endblock %}
 
 {% block main_bottom %}
-  <div class="row" id="estimator-strip"> <!-- estimate -->
-    <hr/>
-    <div class="col-md-11">
-      <div class="row">
-        <div class="col-md-4 align-middle" id="estimate-form-wrapper">
-          <h4>Get a price estimate</h4>
-          <div class="row">
-            <div class="col-1">
-              <svg height="100" width="190">
-                <line class="line" x1="20" y1="20" x2="20" y2="90"></line>
-                <marker id="marker-start" markerWidth="8" markerHeight="8" refX="5" refY="5">
-                  <circle class="foreground" cx="5" cy="5" r="1" />
-                </marker>
-                <marker id="marker-end" markerWidth="8" markerHeight="8" refX="5" refY="5">
-                  <circle class="foreground" cx="5" cy="5" r="1" />
-                </marker>
-              </svg>
-            </div>
-            <div class="col-10">
-              <form>
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Enter pickup location" id="pickup">
-                  <span class="input-group-addon" id="pickup-addon">
-                    <img class="icon" src="{% static 'images/icons/location.svg' %}">
-                  </span>
-                </div>
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Enter destination">
-                  <span class="input-group-addon" id="dropoff-addon">
-                    <img class="icon" src="{% static 'images/icons/arrow-right.svg' %}">
-                  </span>
-                </div>
-                <small class="form-text text-muted">
-                  Estimates do not reflect variations due to discounts, demand or other factors.</small>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 offset-md-1" id="estimate-map">
-        </div>
-      </div>
-    </div>
-  </div> <!--//estimate -->
+  <!-- <div class="row" id="estimator-strip"> <\!-- estimate -\-> -->
+  <!--   <hr/> -->
+  <!--   <div class="col-md-11"> -->
+  <!--     <div class="row"> -->
+  <!--       <div class="col-md-4 align-middle" id="estimate-form-wrapper"> -->
+  <!--         <h4>Get a price estimate</h4> -->
+  <!--         <div class="row"> -->
+  <!--           <div class="col-1"> -->
+  <!--             <svg height="100" width="190"> -->
+  <!--               <line class="line" x1="20" y1="20" x2="20" y2="90"></line> -->
+  <!--               <marker id="marker-start" markerWidth="8" markerHeight="8" refX="5" refY="5"> -->
+  <!--                 <circle class="foreground" cx="5" cy="5" r="1" /> -->
+  <!--               </marker> -->
+  <!--               <marker id="marker-end" markerWidth="8" markerHeight="8" refX="5" refY="5"> -->
+  <!--                 <circle class="foreground" cx="5" cy="5" r="1" /> -->
+  <!--               </marker> -->
+  <!--             </svg> -->
+  <!--           </div> -->
+  <!--           <div class="col-10"> -->
+  <!--             <form> -->
+  <!--               <div class="input-group"> -->
+  <!--                 <input type="text" class="form-control" placeholder="Enter pickup location" id="pickup"> -->
+  <!--                 <span class="input-group-addon" id="pickup-addon"> -->
+  <!--                   <img class="icon" src="{% static 'images/icons/location.svg' %}"> -->
+  <!--                 </span> -->
+  <!--               </div> -->
+  <!--               <div class="input-group"> -->
+  <!--                 <input type="text" class="form-control" placeholder="Enter destination"> -->
+  <!--                 <span class="input-group-addon" id="dropoff-addon"> -->
+  <!--                   <img class="icon" src="{% static 'images/icons/arrow-right.svg' %}"> -->
+  <!--                 </span> -->
+  <!--               </div> -->
+  <!--               <small class="form-text text-muted"> -->
+  <!--                 Estimates do not reflect variations due to discounts, demand or other factors.</small> -->
+  <!--             </form> -->
+  <!--           </div> -->
+  <!--         </div> -->
+  <!--       </div> -->
+  <!--       <div class="col-md-6 offset-md-1" id="estimate-map"> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!-- </div> <\!--//estimate -\-> -->
 
   <div class="row" id="fleet-strip"> <!-- fleet -->
     <div class="col-md-5 offset-md-1">
@@ -101,7 +101,10 @@
       <div>
         <br>
         <h6 class="bld">Got a vehicle?</h6>
-        <button type="button" class="btn btn-primary btn-md">Partner with Sendhut</button>
+
+        <a href="{% url 'partners:apply' %}">
+          <button type="button" class="btn btn-primary btn-md">Partner with Sendhut</button>
+</a>
       </div>
     </div>
   </div> <!--//fleet -->
@@ -120,7 +123,9 @@
               <div class="card">
                 <div class="card-body">
                   <p class="card-text">
-                    Sendhut packages my art safely and professionally, mails it in a timely manner, and works with my schedule. Best of all? It saves me time and money so I can focus on my art.
+                    These guys are amazing! Started outsourcing my deliveries because the
+                    dispatch riders I employed in-house in the past were stressing me out.
+                    Sendhut saves me time and money so I can focus on my business.
                   </p>
                 </div>
               </div>
@@ -140,7 +145,8 @@
               <div class="card">
                 <div class="card-body">
                   <p class="card-text">
-                    With Sendhut, all the struggles associated with shipping my items have disappeared. I just use Sendhut’s mobile app to request a pickup, without having to disrupt my day.
+                    I use Sendhut to deliver my cakes and other items within Lagos.
+                    Items arrive fresh and on time. Their drivers are always friendly and continuously impress our customers. Very happy with the service!
                   </p>
                 </div>
               </div>
@@ -159,7 +165,9 @@
               <div class="card">
                 <div class="card-body">
                   <p class="card-text">
-                    When building a partnership, it’s the little gestures that count. Sendhut makes it so much easier for us to surprise and delight our community in a variety of ways.
+                    Sendhut allows me to deliver to customers at home or office.
+                  My things are nicely packaged, and handles returns and collect payments.
+                    Great customer service.
                   </p>
                 </div>
               </div>
@@ -168,8 +176,7 @@
                   <img src="holder.js/60x60" class="rounded-circle">
                 </div>
                 <div class="col-md-8">
-                  <div class="customer-name">James Yemi</div>
-                  <a href="#">Backdoor laundry</a>
+                  <div class="customer-name">MakeupByAshabee</div>
                 </div>
               </div>
             </div>
@@ -182,6 +189,6 @@
 
   <div class="text-center footer-try">
     <h3 class="bold">Try Sendhut today</h3>
-    <button type="button" class="btn btn-primary btn-md">GET STARTED</button>
+    <!-- <button type="button" class="btn btn-primary btn-md">GET STARTED</button> -->
   </div>
 {% endblock %}
