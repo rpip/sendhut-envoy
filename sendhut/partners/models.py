@@ -11,7 +11,8 @@ class Partner(BaseModel):
     last_name = models.CharField(max_length=152)
     email = models.EmailField(max_length=42, unique=True)
     phone = models.CharField(max_length=30, unique=True)
-    address = models.CharField(max_length=80, unique=True)
+    address = models.CharField(
+        max_length=80, unique=True, blank=True, null=True)
 
     class Meta:
         db_table = 'partner'

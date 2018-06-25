@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block body_class %}body-home{% endblock %}
 
@@ -15,19 +16,21 @@
         <h4 class="hero-titl old">Partner with Sendhut</h4>
         <div class="form-text text-muted">It’s free to sign up and fast to get started. </div>
         <br>
-        <form>
+        <form method="POST">
+          {% csrf_token %}
+
           <div class="form-group">
-            <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Your first name">
+            {% include "partials/_field.html" with field=form.first_name %}
           </div>
           <div class="form-group">
-            <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Your last name">
+            {% include "partials/_field.html" with field=form.last_name %}
           </div>
           <div class="form-group">
-            <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Your email address">
+            {% include "partials/_field.html" with field=form.email %}
           </div>
           <div class="row">
-            <div class="col">
-              <input type="phone" class="form-control" placeholder="Your phone number">
+            <div class="col-md-7">
+              {% include "partials/_field.html" with field=form.phone %}
             </div>
             <div class="col">
               <button type="submit" class="btn btn-primary">Apply</button>

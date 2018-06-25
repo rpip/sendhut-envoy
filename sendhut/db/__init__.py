@@ -51,6 +51,7 @@ class BaseModel(SafeDeleteModel, UpdateMixin):
         self.delete(force_policy=HARD_DELETE)
 
 
+# from django.contrib.gis.admin import GeoModelAdmin
 class BaseModelAdmin(SafeDeleteAdmin):
 
     exclude = ('metadata',)
