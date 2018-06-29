@@ -1,27 +1,27 @@
 {% load static %}
+{% load render_bundle from webpack_loader %}
 <script src="{% static 'vendor/jquery.js' %}"></script>
 <script src="{% static 'vendor/popper.js' %}"></script>
 <script src="{% static 'vendor/bootstrap.js' %}"></script>
 <script src="{% static 'vendor/holder.js' %}"></script>
 <script src="{% static 'vendor/scrollPosStyler.js' %}"></script>
-<script src="{% static 'vendor/js.cookie.js' %}"></script>
-<script src="{% static 'vendor/jquery.serialize-object.min.js' %}"></script>
 
-<script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'bundle.js' %}"></script>
 
 <script type="text/javascript">
-var csrftoken = Cookies.get('csrftoken');
+<!-- var csrftoken = Cookies.get('csrftoken'); -->
 
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
+<!-- function csrfSafeMethod(method) { -->
+<!--     // these HTTP methods do not require CSRF protection -->
+<!--     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method)); -->
+<!-- } -->
 
-$.ajaxSetup({beforeSend: function(xhr, settings) {
-    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-    }
-}});
+<!-- $.ajaxSetup({beforeSend: function(xhr, settings) { -->
+<!--     if (!csrfSafeMethod(settings.type) && !this.crossDomain) { -->
+<!--         xhr.setRequestHeader("X-CSRFToken", csrftoken); -->
+<!--     } -->
+<!-- }}); -->
+
 // List your words here:
 var words = [
 'done right',

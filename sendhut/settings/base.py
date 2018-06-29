@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'multiupload',
     'nested_admin',
     'loginas',
+    'webpack_loader',
 
     'sendhut',
     'sendhut.accounts',
@@ -269,3 +270,14 @@ except:
 
 
 GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY')
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': 'dist/',  # must end with slash
+        'STATS_FILE': os.path.join(BASE_DIR, 'static/webpack-stats.json'),
+        'POLL_INTERVAL': 0.1,
+        'TIMEOUT': None,
+        'IGNORE': ['.+\.hot-update.js', '.+\.map']
+    }
+}
