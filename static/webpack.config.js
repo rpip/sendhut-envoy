@@ -23,6 +23,7 @@ module.exports = {
     // naming convention webpack should use for your files
     //filename: '[name]-[hash].js',
     filename: 'bundle.js',
+    //publicPath: 'http://localhost:3000/assets/bundles/', // Tell django to use this URL to load packages and not use STATIC_URL + bundle_name
   },
   module: {
     rules: [
@@ -93,6 +94,8 @@ module.exports = {
   plugins: [
     // TODO(yao): split vendor from internal code
     new CleanWebpackPlugin(['dist']),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(), // don't reload if there is an error
     //new UglifyJSPlugin(),
     new ExtractTextPlugin('main.css'),
     //tells webpack where to store data about your bundles.
