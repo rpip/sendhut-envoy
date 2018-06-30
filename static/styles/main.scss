@@ -226,6 +226,9 @@ a.no-deco {
 #estimator-strip {
   background-color: $grey;
   padding: 60px 30px;
+  div {
+    width: 100%;
+  }
   h3, h4 {
     padding-left: 14px;
   }

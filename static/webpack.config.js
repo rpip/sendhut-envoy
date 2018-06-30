@@ -15,7 +15,7 @@ module.exports = {
   //the entry point we created earlier. Note that './' means
   //your current directory. You don't have to specify the extension  now,
   //because you will specify extensions later in the `resolve` section
-  entry: './app/app.js',
+  entry: './app.js',
   mode: 'development',
   output: {
     //where you want your compiled bundle to be stored
@@ -69,8 +69,9 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[path][name].[ext]',
-              outputPath: 'images/',
-              include: './images',
+              //outputPath: 'images/',
+              //include: './images',
+              publicPath: '/static'
             }
           }, 'image-webpack-loader'
         ]
@@ -94,7 +95,7 @@ module.exports = {
   plugins: [
     // TODO(yao): split vendor from internal code
     new CleanWebpackPlugin(['dist']),
-    new webpack.HotModuleReplacementPlugin(),
+    //new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(), // don't reload if there is an error
     //new UglifyJSPlugin(),
     new ExtractTextPlugin('main.css'),
