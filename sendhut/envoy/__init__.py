@@ -15,6 +15,7 @@ websocket feeds:
 ]
 """
 
+
 class TransportTypes:
     """Enum of possible transport types"""
     BIKE = "bike"

@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     'sendhut.accounts',
     'sendhut.partners',
     'sendhut.envoy',
-    'sendhut.addressbook'
+    'sendhut.addressbook',
+    'sendhut.api'
 ]
 
 MIDDLEWARE = [
@@ -280,4 +281,12 @@ WEBPACK_LOADER = {
         'TIMEOUT': None,
         'IGNORE': ['.+\.hot-update.js', '.+\.map']
     }
+}
+
+
+REST_FRAMEWORK = {
+ 'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
 }

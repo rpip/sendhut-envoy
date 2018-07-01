@@ -108,7 +108,8 @@ body {
 }
 
 #fleet-join-wrapper {
-  background: url(../images/partner-fleets.jpg);
+  background: url(images/partner-fleets.png);
+  background-color: $grey;
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 450px;
@@ -214,7 +215,8 @@ a.no-deco {
 }
 
 #how-it-works {
-  padding: 60px 40px;
+  padding-top: 60px;
+  padding-bottom: 60px;
   background-color: #f6f9fc;
 
   .fleet-icon {
@@ -223,7 +225,7 @@ a.no-deco {
   }
 }
 
-#estimator-strip {
+#ride-estimate {
   background-color: $grey;
   padding: 60px 30px;
   div {
@@ -233,10 +235,10 @@ a.no-deco {
     padding-left: 14px;
   }
   #estimate-form-wrapper {
-    padding: 70px 10px;
+    padding: 90px 10px;
   }
   #estimate-map {
-    min-height: 340px;
+    min-height: 380px;
   }
   form {
     input.form-control {

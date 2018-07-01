@@ -146,13 +146,15 @@ def calculate_pricing(pickup: Point, dropoff: Point) -> float:
     return (dist.km * FEE_PER_KM) + BASE_FARE + TOLL_FEE
 
 
-def get_delivery_quote(pickup: str, dropoff: str) -> DeliveryQuote:
+def get_delivery_quote(pickup: str, dropoff: str,
+                       package_size, transport_type) -> DeliveryQuote:
     """
     Returns a delivery quote.
 
     The `eta` is the estimated time of arrival at the origin address.
     The `pricing` is the delivery fee.
     """
+    # TODO(yao): calculate price based on package size & type
     pickup_loc = validate_address(pickup)
     dropoff_loc = validate_address(dropoff)
     courier = find_nearest_courier()

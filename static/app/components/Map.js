@@ -19,8 +19,8 @@ export default class MapContainer extends Component {
         google={this.google}
         zoom={11}
         initialCenter={{
-          lat: 6.44,
-          lng: 3.44
+          lat: 6.50,
+          lng: 3.37
         }}
         mapType='roadmap'
         mapTypeControl={false}

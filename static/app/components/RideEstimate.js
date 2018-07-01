@@ -87,6 +87,7 @@ class RideEstimate extends React.Component {
 
     let latlng1 = this.getLatLng(pickup)
     let latlng2 = this.getLatLng(dropoff)
+    console.log(latlng1, latlng2)
 
     this.setPolyLine(latlng1, latlng2)
     const bounds = new this.google.maps.LatLngBounds(latlng1, latlng2)
@@ -95,8 +96,8 @@ class RideEstimate extends React.Component {
   }
 
   getLatLng(place) {
-    const lng = place.geometry.location.lng()
     const lat = place.geometry.location.lat()
+    const lng = place.geometry.location.lng()
     return new google.maps.LatLng(lat, lng)
   }
 
@@ -187,13 +188,11 @@ class RideEstimate extends React.Component {
                       <img className="icon" src={ArrowRightIcon} />
                     </span>
                   </div>
-                  <small className="form-text text-muted">
-                    Estimates do not reflect variations due to discounts, demand or other factors.</small>
                 </form>
               </div>
             </div>
           </div>
-          <div className="col-md-6 offset-md" id="estimate-map">
+          <div className="col-md-6" id="estimate-map">
             <MapContainer google={this.props.google} ref={this.mapRef} />
           </div>
         </div>
