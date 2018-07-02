@@ -96,9 +96,10 @@ body {
 }
 
 #hero-merchant {
-  background: url(images/stuart-delivery.png);
+  background: url(images/new/20180630_114516.jpg);
   background-repeat: no-repeat;
-  background-size: cover
+  background-size: cover;
+  box-shadow: 0 5px 17px rgba(34,46,58,.1);
 }
 
 #benefits {
@@ -108,7 +109,7 @@ body {
 }
 
 #fleet-join-wrapper {
-  background: url(images/partner-fleets.png);
+  background: url(images/new/20180630_114454.jpg);
   background-color: $grey;
   background-repeat: no-repeat;
   background-size: cover;
@@ -149,7 +150,7 @@ a.no-deco {
 
 #testimonials-wrapper {
   background-color: $grey; //#f6f9fc;
-  padding: 60px 40px;
+  padding: 60px 40px 0 40px;
   form {
     padding-left: 0;
   }
@@ -292,7 +293,10 @@ a.no-deco {
 
 #fleet-strip {
   background-color: #f6f9fc;
-  padding: 50px;
+  padding: 60px 50px 60px 50px;
+  #fleet-pic {
+    box-shadow: 0 5px 17px rgba(34,46,58,.1);
+  }
 }
 
 .menu-header {
@@ -356,6 +360,32 @@ footer {
   }
   ul#footer-nav {
     margin-bottom: 0;
+  }
+}
+
+#food-delivery-strip {
+  background-color: $grey;
+
+  #pitch {
+    @extend .jumbotron;
+    background-color: transparent;
+    @include rem(padding-bottom, 10px);
+
+    .card {
+      background-color: transparent;
+      border: 0;
+    }
+  }
+
+  #signup {
+    background-color: $white;
+    @extend .jumbotron;
+
+    #meal-always-tap {
+      background: $white url(images/meal-always-tap.png) no-repeat top;
+      @include rem(width, 380px);
+      @include rem(height, 250px);
+    }
   }
 }
 

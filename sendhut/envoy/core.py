@@ -22,27 +22,27 @@ of the items that are ordered.
 """
 from typing import Dict, Tuple, List
 from datetime import datetime, timedelta
+from djmoney.money import Money
 
 from django.conf import settings
 from django.contrib.gis import geos
-from django.contrib.gis.measure import Distance
-from geopy.geocoders import GoogleV3
-from geopy import distance, Location, Address, Point
+# from django.contrib.gis.measure import Distance
+# from geopy.geocoders import GoogleV3
+# from geopy import Location, Point
+import googlemaps
 
 from .models import Courier
 
+# geolocator = GoogleV3(api_key=settings.GOOGLE_MAPS_API_KEY)
 
-geolocator = GoogleV3(api_key=settings.GOOGLE_MAPS_API_KEY)
+gmaps = googlemaps.Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 BASE_FARE = 300
-FEE_PER_KM = 65
+FEE_PER_MILE = 65
 TOLL_FEE = 100
 
 # mo work on sunday, weekday 6
 SUNDAY = 6
-
-DeliveryQuote = dict()
-SchedulingSlot = dict
 
 
 def datetime_range(start, end, delta):
@@ -73,7 +73,7 @@ def format_time_slots(time_slots):
     return time_slots
 
 
-def get_delivery_schedule() -> SchedulingSlot:
+def get_delivery_schedule():
     """
     Returns 3-day delivery schedule.
     Offdays, in this case, Sunday is removed from the schedule.
@@ -102,30 +102,13 @@ def get_delivery_schedule() -> SchedulingSlot:
     return {'slots': schedule}
 
 
-def calculate_eta(pickup: Point, courier: Point) -> int:
-    "Returns the estimated ETA in seconds"
-    # return time in seconds
-    return distance(courier, pickup) * 60
-
-
-def find_nearest_courier(loc: Location) -> Courier:
-    """
-    Returns the nearest courier from the location given.
-    """
-    radius = 6
-    point = geos.fromstr("POINT(%s %s)" % (loc.longitude, loc.latitude))
-    couriers = Courier.objects.filter(
-        location__distance_lt=(point, Distance(km=radius))
-    ).distance(point).order_by('distance')
-    return couriers[0]
-
-
-def calculate_pricing(pickup: Point, dropoff: Point) -> float:
+def calculate_pricing(distance):
     """
     Calculates delivery fee.
 
     Trip fares start with a base amount, then increase with time and distance.
 
+    - pricing brackets: below 1.5 Miles, 1.5 - 2.5 Miles,  2.5 - 5 Miles, Above 5 Miles
     - base fare of 300 NGN (a flat fee that covers the pickup price)
     - then increase with time and distance, 65NGN/KM
 
@@ -141,33 +124,33 @@ def calculate_pricing(pickup: Point, dropoff: Point) -> float:
       - multidrop: Pricing is based on distance, from pickup to drop off,
     driving down the price per drop.
     """
-    dist = distance(pickup, dropoff)
     # TODO(yao): check number of Toll fees to pay
-    return (dist.km * FEE_PER_KM) + BASE_FARE + TOLL_FEE
+    return (distance * FEE_PER_MILE) + BASE_FARE + TOLL_FEE
 
 
-def get_delivery_quote(pickup: str, dropoff: str,
-                       package_size, transport_type) -> DeliveryQuote:
+def get_delivery_quote(pickup: str, dropoffs: [str]):
     """
     Returns a delivery quote.
 
     The `eta` is the estimated time of arrival at the origin address.
     The `pricing` is the delivery fee.
     """
-    # TODO(yao): calculate price based on package size & type
-    pickup_loc = validate_address(pickup)
-    dropoff_loc = validate_address(dropoff)
-    courier = find_nearest_courier()
+    # TODO(yao): factor in package size & type
+    # TODO(yao): multi drops
+    dropoff = dropoffs[0]
+    try:
+        resp = gmaps.distance_matrix(
+            origins=pickup, destinations=dropoff, units='imperial')
+        resp = resp['rows'][0]['elements'][0]
+        KM_TO_MILES_FACTOR = 0.621371
+        distance = (resp['distance']['value']/1000) * KM_TO_MILES_FACTOR
+    except TimeoutError as ex:
+        # TODO(yao): handle timeout
+        # use alt geo-coders, spawn multiple searches, first come, first use
+        pass
+
+    pricing = calculate_pricing(distance)
     return {
-        'pricing': calculate_pricing(pickup_loc.point, dropoff_loc.point),
-        'eta': calculate_eta(pickup_loc, courier.location.coords)
+        'pricing': str(Money(pricing, settings.DEFAULT_CURRENCY)),
+        'eta': resp['duration']['text']
     }
-
-
-def validate_address(address: str) -> Location:
-    """
-    Returns a location point given an address, otherwise returns None
-    """
-    # TODO(yao): index address in Elasticsearch
-    # TODO(yao): return error
-    return geolocator.geocode(address)

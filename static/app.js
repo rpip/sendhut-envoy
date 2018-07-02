@@ -26,6 +26,6 @@ function initMastheadAnimtion() {
   }, 5000);
 }
 
-//initMastheadAnimtion()
+initMastheadAnimtion()
 
 ReactDOM.render(<RideEstimate />, document.getElementById('ride-estimate'));

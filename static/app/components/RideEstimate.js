@@ -2,16 +2,40 @@ var _ = require('lodash');
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { GoogleApiWrapper } from 'google-maps-react'
+import styled from 'styled-components';
 
 import MapContainer from './Map.js'
 
 import LocationIcon from  '../../images/icons/location.svg'
 import ArrowRightIcon from '../../images/icons/arrow-right.svg'
+import API from './api'
 
 const MapsAPIKey = 'AIzaSyDVZn9gbIfivvhXOI1eAY1tu2M-yo2LO9w'
 
 // __GAPI_KEY__
 // __IS_DEV__
+
+const fadeAnimationStyle = styled.div`
+  animation: FadeAnimation 1s ease-in .2s forwards;
+
+  @keyframes FadeAnimation {
+    0% {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+}
+`
+
+const FadeAnimation = ({content}) => (
+  // TODO(yao): render children components instead
+  <div>{content}</div>
+)
 
 class RideEstimate extends React.Component {
   constructor(props) {
@@ -25,7 +49,9 @@ class RideEstimate extends React.Component {
 
     this.state = {
       pickup: null,
-      dropoff: null
+      dropoff: null,
+      quote: null,
+      error: null
     }
   }
 
@@ -40,12 +66,46 @@ class RideEstimate extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
+    this.updateWithMarkers()
+  }
+
+  getQuote(pickup, dropoff) {
+    console.log('POST request')
+    API.post('quotes/', {pickup: pickup, dropoffs: [dropoff]})
+      .then(res => {
+        console.log('state =>')
+        // TODO(yao): create TimeoutError type
+        // a lot can happen in 1 second
+        // ideal: 1 second. uber 1.03
+        // ok: 2
+        // quotes is the pricing, magic sauce
+        // ASAP: PERFECT THIS
+        // good pricing in itself is the product. the real value
+        // - cache most common quotes
+        // - check nearest server/peer client (driver or customer) for quote
+        // - on app start, load quotes from server
+        this.setState((prevState, props) => {
+          return { ...prevState, quote: res.data}
+        })
+        console.log(this.state)
+      }).catch((error) => {
+        this.setRequestError()
+        console.log(error)
+      })
+  }
+
+  setRequestError() {
+    const error_msg = "Error, please try again."
+    console.log(error_msg)
+    this.setState((prevState, props) => {
+      return {...prevState, error: error_msg}
+    })
+    console.log('request error =>')
   }
 
   renderAutoComplete() {
     const {google, map} = this
 
-   // console.log(google)
     if (!google || !map) return;
 
     this.poly = new this.google.maps.Polyline({
@@ -78,16 +138,21 @@ class RideEstimate extends React.Component {
   }
 
   updateWithMarkers() {
-    console.log(this.state)
+    console.log('update with markers')
+
     const {pickup, dropoff} = this.state
     this.clearMarkers()
     if (pickup) this.addMarker(this.getLatLng(pickup))
     if (dropoff) this.addMarker(this.getLatLng(dropoff))
     if (!pickup || !dropoff) return;
 
+    console.log('latlng')
     let latlng1 = this.getLatLng(pickup)
     let latlng2 = this.getLatLng(dropoff)
-    console.log(latlng1, latlng2)
+    console.log(latlng2)
+    console.log('end latlng')
+
+    this.getQuote(pickup.formatted_address, dropoff.formatted_address)
 
     this.setPolyLine(latlng1, latlng2)
     const bounds = new this.google.maps.LatLngBounds(latlng1, latlng2)
@@ -188,6 +253,21 @@ class RideEstimate extends React.Component {
                       <img className="icon" src={ArrowRightIcon} />
                     </span>
                   </div>
+                  <div>
+                    {this.state.quote &&
+                      <div>
+                          <small className="form-text text-muted">
+                              Estimates do not reflect variations due to discounts, demand or other factors.</small>
+                            <h3>{this.state.quote.pricing}</h3>
+                        </div>
+                      }
+                  </div>
+                  <div>
+                    {this.state.error &&
+                      <FadeAnimation style={fadeAnimationStyle} content={this.state.error} />
+                      }
+                  </div>
+                  <input type="submit" hidden />
                 </form>
               </div>
             </div>

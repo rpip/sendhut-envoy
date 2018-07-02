@@ -9,7 +9,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 
-module.exports = {
+module.exports = env => {
   //the base directory (absolute path) for resolving the entry option
   context: __dirname,
   //the entry point we created earlier. Note that './' means

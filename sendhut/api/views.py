@@ -2,10 +2,25 @@ from rest_framework import viewsets
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view
+from schematics.exceptions import DataError
 
 from sendhut.accounts.models import User
 from sendhut.addressbook.models import Address
+from sendhut.envoy.core import get_delivery_quote
+from sendhut.utils import json_encode
 from .serializers import UserSerializer, AddressSerializer
+from . import DeliveryQuoteRequest
+from .exceptions import ValidationError
+
+
+def ok(data):
+    return Response(data)
+
+
+def fail(err):
+    return Response(err._error)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -16,6 +31,24 @@ class UserViewSet(viewsets.ModelViewSet):
 class AddressViewSet(viewsets.ModelViewSet):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
+
+
+class DeliveryQuote(APIView):
+    """
+    View get delivery quote.
+
+    * Requires token authentication.
+    * Only admin users are able to access this view.
+    """
+    def post(self, request, format=None):
+        dv_req = DeliveryQuoteRequest(request.data)
+        try:
+            dv_req.validate()
+            quote = get_delivery_quote(**dv_req.to_primitive())
+            return ok(quote)
+        except DataError as ex:
+            details = {k: v.to_primitive() for k, v in ex.messages.items()}
+            return fail(ValidationError(details=details))
 
 
 class AuthToken(ObtainAuthToken):
