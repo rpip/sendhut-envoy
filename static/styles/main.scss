@@ -1,6 +1,6 @@
 $rem-fallback: true;
 $black: #231f1a;
-$grey: #f5f5f5;
+$grey: #f8f8f9;
 $orange-happy: #ffeae4; // orange happy
 $orange-light-happy: #faf8f8; // light orange
 
@@ -156,6 +156,8 @@ a.no-deco {
   }
 }
 #customers {
+  padding-bottom: 60px;
+
   .customer-quotes {
     padding-top: 20px;
     .customer-quote {
@@ -364,9 +366,10 @@ footer {
 }
 
 #food-delivery-strip {
-  background-color: $grey;
+  background-color: $white;
   padding-bottom: 60px;
   @extend .jumbotron;
+  padding-top: 20px;
 
   #pitch {
     background-color: transparent;
