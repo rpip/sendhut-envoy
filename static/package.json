@@ -10,7 +10,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production",
+    "build": "webpack --mode development",
     "deploy": "webpack --mode production --env.NODE_ENV=production",
     "heroku-postbuild": "npm run build-emails",
     "build-emails": "mkdir -p ../templates/templated_email/compiled/ && find ../templates -name \"*.mjml\" -not -path \"../templates/templated_email/source/*partials/*\" -not -path \"../templates/templated_email/source/*shared/*\" -exec ./node_modules/.bin/mjml -l skip {} -o ../templates/templated_email/compiled/ \\;"

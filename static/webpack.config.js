@@ -11,8 +11,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = env => {
 
-  console.log('ENV: ', env);
-
   return {
     //the base directory (absolute path) for resolving the entry option
     context: __dirname,

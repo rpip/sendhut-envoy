@@ -1,17 +1,18 @@
 const ENV = process.env.NODE_ENV || 'development'
 
+console.log(ENV)
 
-module.exports = function(){
+let loadConf = function(){
   switch(ENV){
     case 'development':
       return {
         apiBaseURL:  'http://localhost:8000/api',
-        staticUrl: staticUrl
+        staticUrl: '/static'
       };
 
     case 'production':
       return {
-        apiBaseURL: 'http://envoy.herokuapp.com',
+        apiBaseURL: 'http://envoy.herokuapp.com/api',
         staticUrl: 'https://sendhut-envoy-assets.s3.amazonaws.com/static/'
       };
 
@@ -22,3 +23,6 @@ module.exports = function(){
       return {};
   }
 };
+
+
+export default loadConf()
