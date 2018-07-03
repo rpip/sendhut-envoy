@@ -12,7 +12,7 @@ let loadConf = function(){
 
     case 'production':
       return {
-        apiBaseURL: 'http://envoy.herokuapp.com/api',
+        apiBaseURL: 'https://envoy.herokuapp.com/api',
         staticUrl: 'https://sendhut-envoy-assets.s3.amazonaws.com/static/'
       };
 
