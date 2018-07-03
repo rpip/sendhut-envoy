@@ -35,5 +35,4 @@ const DEV = 'dev'
 
 export default axios.create({
   baseURL: process.env.ENVIRONMENT == PROD ? prodUrl : devUrl
-  // timeout: 2500
 });

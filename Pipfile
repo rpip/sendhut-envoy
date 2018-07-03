@@ -61,3 +61,4 @@ coreapi-cli = "*"
 googlemaps = "*"
 schematics = "*"
 jet = {git = "git@github.com:rpip/django-jet.git", editable = true}
+django-cors-headers = "*"

@@ -365,11 +365,13 @@ footer {
 
 #food-delivery-strip {
   background-color: $grey;
+  padding-bottom: 60px;
+  @extend .jumbotron;
 
   #pitch {
-    @extend .jumbotron;
     background-color: transparent;
     @include rem(padding-bottom, 10px);
+    @extend .jumbotron;
 
     .card {
       background-color: transparent;
@@ -377,14 +379,22 @@ footer {
     }
   }
 
-  #signup {
+  #food-how-it-works {
     background-color: $white;
-    @extend .jumbotron;
+    box-shadow: 0 5px 17px rgba(34,46,58,.1);
 
-    #meal-always-tap {
-      background: $white url(images/meal-always-tap.png) no-repeat top;
+    #group-order-explainer {
+      padding-top: 60px;
+      padding-left: 30px;
+      padding-bottom: 10px;
+      background-color: $white;
+    }
+
+    #meal {
+      background: $white url(images/slant-white2.png) no-repeat top;
       @include rem(width, 380px);
-      @include rem(height, 250px);
+      @include rem(min-eight, 290px);
+      background-size: cover;
     }
   }
 }

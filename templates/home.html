@@ -8,169 +8,147 @@
 {% block page_header %} {% endblock %}
 
 {% block content %}
-  <div class="row"><!-- hero -->
-    <div class="col-md-5">
-      <div id="pitch" class="hero">
-        <h2 class="hero-title">Delivery</h2>
-        <h2 class="hero-title" id="hero-title-dynamic">done right</h2>
-        <ul class="hero-text">
-          <li><img class="icon" src="{% static 'images/icons/flash.svg' %}" alt="">Want it delivered ASAP? Done!</li>
-          <li><img class="icon" src="{% static 'images/icons/calendar.svg' %}" alt=""> Want it delivered tomorrow afternoon? No problem</li>
-        </ul>
-        <!-- <button type="button" class="btn btn-primary btn-md">GET STARTED</button> -->
-      </div>
+<div class="row"><!-- hero -->
+  <div class="col-md-5">
+    <div id="pitch" class="hero">
+      <h2 class="hero-title">Delivery</h2>
+      <h2 class="hero-title" id="hero-title-dynamic">done right</h2>
+      <ul class="hero-text">
+        <li><img class="icon" src="{% static 'images/icons/flash.svg' %}" alt="">Want it delivered ASAP? Done!</li>
+        <li><img class="icon" src="{% static 'images/icons/calendar.svg' %}" alt=""> Want it delivered tomorrow afternoon? No problem</li>
+      </ul>
+      <!-- <button type="button" class="btn btn-primary btn-md">GET STARTED</button> -->
     </div>
-    <div class="col-md-7" id="hero-merchant">
-    </div>
-  </div> <!--//hero -->
-  <br><br>
-  <div class="row" id="benefits"> <!-- marketing -->
-    <div class="col-md-4 benefit">
-      <h6 class="bold"><img class="icon" src="{% static 'images/icons/clock.svg' %}"/>At your service, Monday - Saturday</h6>
-      <p>Request and schedule deliveries at your customers’ convenience. Choose now,
-        or schedule a delivery for a later date</p>
-    </div>
-    <div class="col-md-4 benefit">
-      <h6 class="bold"><img class="icon" src="{% static 'images/icons/credit-card.svg' %}"/> Collect Payments on Delivery</h6>
-      <p>Let your customers pay for goods on delivery. We deposit any money collected to your bank account the NEXT DAY.</p>
-    </div>
-    <div class="col-md-4 benefit">
-      <h6 class="bold"><img class="icon" src="{% static 'images/icons/text.svg' %}"/> Reduce costs</h6>
-      <p>Manage all your deliveries from one spot, where you can see spending and your customer address book.</p>
-    </div>
-  </div> <!--//marketing -->
+  </div>
+  <div class="col-md-7" id="hero-merchant">
+  </div>
+</div> <!--//hero -->
+<br><br>
+<div class="row" id="benefits"> <!-- marketing -->
+  <div class="col-md-4 benefit">
+    <h6 class="bold"><img class="icon" src="{% static 'images/icons/clock.svg' %}"/>At your service, Monday - Saturday</h6>
+    <p>Request and schedule deliveries at your customers’ convenience. Choose now,
+      or schedule a delivery for a later date</p>
+  </div>
+  <div class="col-md-4 benefit">
+    <h6 class="bold"><img class="icon" src="{% static 'images/icons/credit-card.svg' %}"/> Collect Payments on Delivery</h6>
+    <p>Let your customers pay for goods on delivery. We deposit any money collected to your bank account the NEXT DAY.</p>
+  </div>
+  <div class="col-md-4 benefit">
+    <h6 class="bold"><img class="icon" src="{% static 'images/icons/text.svg' %}"/> Reduce costs</h6>
+    <p>Manage all your deliveries from one spot, where you can see spending and your customer address book.</p>
+  </div>
+</div> <!--//marketing -->
 {% endblock %}
 
 {% block main_bottom %}
-  <div class="row" id="ride-estimate"></div> <!--//estimate -->
+<div class="row" id="ride-estimate"></div> <!--//estimate -->
 
-  <div class="row" id="fleet-strip"> <!-- fleet -->
-    <div class="col-md-5 offset-md-1">
-      <img src="{% static 'images/new/IMG_1051.jpg' %}" width="400px" class="img-fluid"/ id="fleet-pic">
-    </div>
-    <div class="col-md-5">
-      <h3 class="bold">Our drivers</h3>
-      <p>
-        Our couriers are carefully vetted and receive extensive training to ensure <b>your delivery arrives in style</b>. We have the right ride for your product. Our delivery fleet includes motorbikes and cars.
-      </p>
-      <p>
-        And you can <b>track deliveries in real time</b>, from start to finish.
-      </p>
-      <div>
-        <br>
-        <h6 class="bld">Got a vehicle?</h6>
+<div class="row" id="fleet-strip"> <!-- fleet -->
+  <div class="col-md-5 offset-md-1">
+    <img src="{% static 'images/new/IMG_1051.jpg' %}" width="400px" class="img-fluid"/ id="fleet-pic">
+  </div>
+  <div class="col-md-5">
+    <h3 class="bold">Our drivers</h3>
+    <p>
+      Our couriers are carefully vetted and receive extensive training to ensure <b>your delivery arrives in style</b>. We have the right ride for your product. Our delivery fleet includes motorbikes and cars.
+    </p>
+    <p>
+      And you can <b>track deliveries in real time</b>, from start to finish.
+    </p>
+    <div>
+      <br>
+      <h6 class="bld">Got a vehicle?</h6>
 
-        <a href="{% url 'partners:apply' %}">
-          <button type="button" class="btn btn-primary btn-md">Partner with Sendhut</button>
-</a>
-      </div>
-    </div>
-  </div> <!--//fleet -->
-
-  <div class="row" id="testimonials-wrapper">
-    <div class="col-md-10 offset-md-1">
-      <div class="row" id="customers"> <!-- customers -->
-        <div class="col-md">
-          <div class="text-center">
-            <h3 class="bold">Our customers ❤️ us</h3>
-            <h5>Businesses rely on Sendhut to solve their local delivery needs</h5>
-          </div>
-
-          <div class="row customer-quotes">
-            <div class="customer-quote col-lg">
-              <div class="card">
-                <div class="card-body">
-                  <p class="card-text">
-                    Started outsourcing my deliveries because it was hard
-                    managing my own dispatch riders. Sendhut saves me time and money so I can focus on my business.
-                  </p>
-                </div>
-              </div>
-              <div class="row customer-info">
-                <div class="col-md-4">
-                  <img src="{% static 'images/5kshop.jpg' %}" class="rounded-circle">
-                </div>
-                <div class="col-md-8">
-                  <div class="customer-name">Sophie Ike-Onu</div>
-                  <a href="https://www.instagram.com/the5kshop/" target="_blank">
-                    The 5K shop</a>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="customer-quote col-lg offset-lg-1">
-              <div class="card">
-                <div class="card-body">
-                  <p class="card-text">
-                    I use Sendhut to deliver my cakes and other items within Lagos.
-                    Items arrive fresh and on time. Their drivers are always friendly. Very happy with the service!
-                  </p>
-                </div>
-              </div>
-              <div class="row customer-info">
-                <div class="col-md-4">
-                  <img src="{% static 'images/voilabakehouse.jpg' %}" class="rounded-circle">
-                </div>
-                <div class="col-md-8">
-                  <div class="customer-name">Amaka</div>
-                  <a href="http://instagram.com/voilabakehouse" target="_blank">
-                    Voila Bakehouse</a>
-                </div>
-              </div>
-            </div>
-
-            <div class="customer-quote col-lg offset-lg-1">
-              <div class="card">
-                <div class="card-body">
-                  <p class="card-text">
-                    Sendhut allows me to deliver to customers at home or office.
-                  My things are nicely packaged, plus they handle returns and collect payments.
-                    Great customer service.
-                  </p>
-                </div>
-              </div>
-              <div class="row customer-info">
-                <div class="col-md-4">
-                  <img src="{% static 'images/ashabee.jpg' %}" class="rounded-circle">
-                </div>
-                <div class="col-md-8">
-                  <div class="customer-name">Ashabee</div>
-                  <a href="https://www.instagram.com/makeupbyashabee" target="_blank">
-                    MakeUpByAshabee</a>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div> <!--//customers -->
+      <a href="{% url 'partners:apply' %}">
+        <button type="button" class="btn btn-primary btn-md">Partner with Sendhut</button>
+      </a>
     </div>
   </div>
+</div> <!--//fleet -->
 
-<div class="row" id="food-delivery-strip">
-  <div class="col-sm-8 offset-sm-2" id="pitch">
-    <h2 class="text-center bold">Food delivery from Sendhut</h2>
-    <h5 class="text-center">feel-good office lunch. everyday, 11:30am - 2:30pm</h5>
-  </div> <!--// happiness-pitch -->
-  <div class="col-sm-8 offset-sm-2" id="signup">
-    <div class="row align-items-center">
-      <div class="col-sm-5">
-        <h5>How it works</h5>
-        <ul class="group-order-explainer">
-          <li>
-            Choose a restaurant and share it with a friend – by email, facebook, whatsapp or however you like
-          </li>
-          <li>You can also set spending limit for each person who's ordering — perfect for those company lunch orders.
-          </li>
-          <li>Everyone adds their items and the order is delivered together at lunchtime.</li>
-          <li>Labels are provided for each dish, with dietary restrictions noted.</li>
-        </ul>
+<div class="row" id="testimonials-wrapper">
+  <div class="col-md-10 offset-md-1">
+    <div class="row" id="customers"> <!-- customers -->
+      <div class="col-md">
+        <div class="text-center">
+          <h3 class="bold">Our customers ❤️ us</h3>
+          <h5>Businesses rely on Sendhut to solve their local delivery needs</h5>
+        </div>
+
+        <div class="row customer-quotes">
+          <div class="customer-quote col-lg">
+            <div class="card">
+              <div class="card-body">
+                <p class="card-text">
+                  Started outsourcing my deliveries because it was hard
+                  managing my own dispatch riders. Sendhut saves me time and money so I can focus on my business.
+                </p>
+              </div>
+            </div>
+            <div class="row customer-info">
+              <div class="col-md-4">
+                <img src="{% static 'images/5kshop.jpg' %}" class="rounded-circle">
+              </div>
+              <div class="col-md-8">
+                <div class="customer-name">Sophie Ike-Onu</div>
+                <a href="https://www.instagram.com/the5kshop/" target="_blank">
+                  The 5K shop</a>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="customer-quote col-lg offset-lg-1">
+            <div class="card">
+              <div class="card-body">
+                <p class="card-text">
+                  I use Sendhut to deliver my cakes and other items within Lagos.
+                  Items arrive fresh and on time. Their drivers are always friendly. Very happy with the service!
+                </p>
+              </div>
+            </div>
+            <div class="row customer-info">
+              <div class="col-md-4">
+                <img src="{% static 'images/voilabakehouse.jpg' %}" class="rounded-circle">
+              </div>
+              <div class="col-md-8">
+                <div class="customer-name">Amaka</div>
+                <a href="http://instagram.com/voilabakehouse" target="_blank">
+                  Voila Bakehouse</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="customer-quote col-lg offset-lg-1">
+            <div class="card">
+              <div class="card-body">
+                <p class="card-text">
+                  Sendhut allows me to deliver to customers at home or office.
+                  My things are nicely packaged, plus they handle returns and collect payments.
+                  Great customer service.
+                </p>
+              </div>
+            </div>
+            <div class="row customer-info">
+              <div class="col-md-4">
+                <img src="{% static 'images/ashabee.jpg' %}" class="rounded-circle">
+              </div>
+              <div class="col-md-8">
+                <div class="customer-name">Ashabee</div>
+                <a href="https://www.instagram.com/makeupbyashabee" target="_blank">
+                  MakeUpByAshabee</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
-      <div class="col-sm-6" id="meal-always-tap"></div>
-    </div>
-  </div><!--// signup-form-wrapper-->
-</div> <!--// business marketing -->
+    </div> <!--//customers -->
+  </div>
+</div>
 
+
+{% include "partials/food_delivery_banner.html" %}
 
 {% endblock %}

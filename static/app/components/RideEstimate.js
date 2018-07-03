@@ -12,9 +12,6 @@ import API from './api'
 
 const MapsAPIKey = 'AIzaSyDVZn9gbIfivvhXOI1eAY1tu2M-yo2LO9w'
 
-// __GAPI_KEY__
-// __IS_DEV__
-
 const fadeAnimationStyle = styled.div`
   animation: FadeAnimation 1s ease-in .2s forwards;
 
@@ -60,20 +57,19 @@ class RideEstimate extends React.Component {
     this.renderAutoComplete();
   }
 
-  componentDidUpdate() {
-    this.updateWithMarkers();
+  componentDidUpdate(prevProps, prevState) {
+      this.updateWithMarkers();
   }
 
-  onSubmit(e) {
+  onSubmit = (e) => {
     e.preventDefault();
     this.updateWithMarkers()
   }
 
   getQuote(pickup, dropoff) {
-    console.log('POST request')
+    // TODO(yao): cache lookups locally. key expires after 30 minutes
     API.post('quotes/', {pickup: pickup, dropoffs: [dropoff]})
       .then(res => {
-        console.log('state =>')
         // TODO(yao): create TimeoutError type
         // a lot can happen in 1 second
         // ideal: 1 second. uber 1.03
@@ -87,7 +83,6 @@ class RideEstimate extends React.Component {
         this.setState((prevState, props) => {
           return { ...prevState, quote: res.data}
         })
-        console.log(this.state)
       }).catch((error) => {
         this.setRequestError()
         console.log(error)
@@ -96,11 +91,14 @@ class RideEstimate extends React.Component {
 
   setRequestError() {
     const error_msg = "Error, please try again."
-    console.log(error_msg)
     this.setState((prevState, props) => {
       return {...prevState, error: error_msg}
     })
-    console.log('request error =>')
+    // TODO(yao): after 3 second dynamuically change CSS or delete component
+    setTimeout(function() {}, 200)
+    this.setState((prevState, props) => {
+      return {...prevState, error: null}
+    })
   }
 
   renderAutoComplete() {
@@ -119,10 +117,10 @@ class RideEstimate extends React.Component {
     this.setupAutoComplete(this.dropoffRef.current, 'dropoff')
   }
 
-  setupAutoComplete(ele, addressType) {
+  setupAutoComplete(elem, addressType) {
     const {google, map} = this
     // restrict the search to geographical location types {types: ['geocode']}
-    var autocomplete = new google.maps.places.Autocomplete(ele)
+    var autocomplete = new google.maps.places.Autocomplete(elem)
 
     autocomplete.bindTo('bounds', map);
     autocomplete.addListener('place_changed', () => {
@@ -138,26 +136,29 @@ class RideEstimate extends React.Component {
   }
 
   updateWithMarkers() {
-    console.log('update with markers')
-
     const {pickup, dropoff} = this.state
     this.clearMarkers()
     if (pickup) this.addMarker(this.getLatLng(pickup))
     if (dropoff) this.addMarker(this.getLatLng(dropoff))
     if (!pickup || !dropoff) return;
 
-    console.log('latlng')
     let latlng1 = this.getLatLng(pickup)
     let latlng2 = this.getLatLng(dropoff)
-    console.log(latlng2)
-    console.log('end latlng')
-
-    this.getQuote(pickup.formatted_address, dropoff.formatted_address)
 
     this.setPolyLine(latlng1, latlng2)
     const bounds = new this.google.maps.LatLngBounds(latlng1, latlng2)
     this.map.fitBounds(bounds)
     //this.map.setZoom(14);
+
+    let params = {
+      pickup: pickup.formatted_address,
+      dropoff: dropoff.formatted_address
+    }
+    if (_.isEqual(this.prevLookup, params)) return;
+
+    console.log('prevlookup ' + this.prevLookup)
+    this.getQuote(params.pickup, params.dropoff)
+    this.prevLookup = params
   }
 
   getLatLng(place) {
@@ -254,21 +255,21 @@ class RideEstimate extends React.Component {
                     </span>
                   </div>
                   <div>
-                    {this.state.quote &&
-                      <div>
-                          <small className="form-text text-muted">
-                              Estimates do not reflect variations due to discounts, demand or other factors.</small>
-                            <h3>{this.state.quote.pricing}</h3>
-                        </div>
-                      }
-                  </div>
-                  <div>
-                    {this.state.error &&
-                      <FadeAnimation style={fadeAnimationStyle} content={this.state.error} />
+                    {this.state.error?
+                      <FadeAnimation style={fadeAnimationStyle} content={this.state.error} /> :
+                        <div>
+                            {this.state.quote &&
+                              <div>
+                                  <small className="form-text text-muted">
+                                      Estimates do not reflect variations due to discounts, demand or other factors.</small>
+                                    <h3>{this.state.quote.pricing}</h3>
+                                </div>
+                                }
+                          </div>
                       }
                   </div>
                   <input type="submit" hidden />
-                </form>
+               </form>
               </div>
             </div>
           </div>

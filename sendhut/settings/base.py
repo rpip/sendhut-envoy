@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'nested_admin',
     'loginas',
     'webpack_loader',
+    'corsheaders',
 
     'sendhut',
     'sendhut.accounts',
@@ -62,6 +63,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -288,3 +290,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
 }
+
+
+CORS_ORIGIN_ALLOW_ALL = True

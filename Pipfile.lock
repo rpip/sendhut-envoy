@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "14385639e43fda4e41f7272480da19213bb2a6690c91626bbabc019a901fed4f"
+            "sha256": "dbc9a661b5459fb10a8689d0614b7ae45d9911a697e87092080c78df186fb420"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -138,6 +138,13 @@
             ],
             "version": "==1.11.7"
         },
+        "django-cors-headers": {
+            "hashes": [
+                "sha256:1460b67c51706307e3f66515e86b10181badd66448a2fc44278f47bf402c6fd3",
+                "sha256:3c618a964e3034ae4dad8bbb902e625daa6c894444ddeaf7b24125299add54f0"
+            ],
+            "version": "==2.3.0"
+        },
         "django-debug-toolbar": {
             "hashes": [
                 "sha256:0b4d2b1ac49a8bc5604518e8e20f56c1c08c0c4873336107e7c773c42537876b",
@@ -212,9 +219,9 @@
         },
         "django-safedelete": {
             "hashes": [
-                "sha256:dcee8182783d5fc878da908bf9cf36273de3706356ec440d65d5a92c8b519c33"
+                "sha256:24037eb9d0e581d1aab350c2622db1398bbc47118da5d8a84c434aad20446a68"
             ],
-            "version": "==0.5.0"
+            "version": "==0.5.1"
         },
         "django-storages": {
             "hashes": [
@@ -583,7 +590,6 @@
                 "sha256:1adb80e7a782c12e52ef9a8182bebeb73f1d7e24e374397af06fb4956c8dc5c0",
                 "sha256:e27001de32f627c22380a688bcc43ce83504a7bc5da472209b4c70f02829f0b8"
             ],
-            "markers": "python_version >= '2.7'",
             "version": "==2.7.3"
         },
         "python-decouple": {
@@ -940,7 +946,6 @@
                 "sha256:1adb80e7a782c12e52ef9a8182bebeb73f1d7e24e374397af06fb4956c8dc5c0",
                 "sha256:e27001de32f627c22380a688bcc43ce83504a7bc5da472209b4c70f02829f0b8"
             ],
-            "markers": "python_version >= '2.7'",
             "version": "==2.7.3"
         },
         "scandir": {
