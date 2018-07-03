@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "dbc9a661b5459fb10a8689d0614b7ae45d9911a697e87092080c78df186fb420"
+            "sha256": "23344eed4e966a09d3d04c97d55e54c3fcef5a3cce5919381868b527fea43135"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -43,17 +43,17 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:581a1b77e72ece6190df1f6be1a5601a9877c256304298358d0387189652bf0e",
-                "sha256:c5a52cb93f7ae28e960810cb69d1fc8a9d00c1f122a681d7454a4d70e42dd5de"
+                "sha256:eb9dda4af561fa377fa86f7aaeee5521655a1a25fff2ceea83d07d9cfa1c60ef",
+                "sha256:bd6b2e070deed55821588b27f23b3054eaa28f33210e34d7c92eaeabff8d31c3"
             ],
-            "version": "==1.7.48"
+            "version": "==1.7.49"
         },
         "botocore": {
             "hashes": [
-                "sha256:541e08b6eedb3156a6bec66092b76729704310c61bccf3ad5867ca774f4fa87a",
-                "sha256:1218517172be766acb9f5de7f4044f9f0f9d9589614e7e6fe6562072586e6290"
+                "sha256:88ae098a7bc1abba936d2d879db970159fee1b633061dfeb58c16a0bea1a9ea6",
+                "sha256:23ffa326a8cff8a098dedc574dd7c0e8913a6ef2e499b99459b43c8cba0d57e8"
             ],
-            "version": "==1.10.48"
+            "version": "==1.10.49"
         },
         "certifi": {
             "hashes": [
@@ -168,7 +168,7 @@
         },
         "django-jet": {
             "editable": true,
-            "git": "git@github.com:rpip/django-jet.git",
+            "git": "https://github.com/rpip/django-jet.git",
             "ref": "7933d31c197f10b39812932dbd377943d7e66f66"
         },
         "django-loginas": {
@@ -382,7 +382,7 @@
         },
         "jet": {
             "editable": true,
-            "git": "git@github.com:rpip/django-jet.git"
+            "git": "https://github.com/rpip/django-jet.git"
         },
         "jinja2": {
             "hashes": [
@@ -492,6 +492,9 @@
                 "sha256:5914cff11f3e920626da48e564be6818831713a3087586302444b9c70e8552d9",
                 "sha256:1be66b9a89e367e7d20d6cae419794997921fe105090fafd86ef39e20a3baab2",
                 "sha256:c5dcb5a56aebb8a8f2585042b2f5c496d7624f0bcfe248f0cc33ceb2fd8d39e7",
+                "sha256:a3d7511d3fad1618a82299aab71a5fceee5c015653a77ffea75ced9ef917e71a",
+                "sha256:2a3e362c97a5e6a259ee9cd66553292a1f8928a5bdfa3622fdb1501570834612",
+                "sha256:b3ef168d4d6fd4fa6685aef7c91400f59f7ab1c0da734541f7031699741fb23f",
                 "sha256:522184556921512ec484cb93bd84e0bab915d0ac5a372d49571c241a7f73db62",
                 "sha256:81918afeafc16ba5d9d0d4e9445905f21aac969a4ebb6f2bff4b9886da100f4b",
                 "sha256:84d5d31200b11b3c76fab853b89ac898bf2d05c8b3da07c1fcc23feb06359d6e",
