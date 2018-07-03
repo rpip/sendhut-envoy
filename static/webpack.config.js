@@ -11,9 +11,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = env => {
 
-  /* console.log('NODE_ENV: ', env.NODE_ENV);
-   * console.log('Environment: ', env.ENVIRONMENT);
-   */
+  console.log('ENV: ', env);
 
   return {
     //the base directory (absolute path) for resolving the entry option
@@ -72,7 +70,7 @@ module.exports = env => {
           use: [
             {
               //loader: 'file-loader!postcss-loader',
-              loader: 'file-loader',
+              loader: 'url-loader',
               options: {
                 name: '[path][name].[ext]',
                 //outputPath: 'images/',

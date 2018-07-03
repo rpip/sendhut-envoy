@@ -11,7 +11,7 @@
     "start": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production",
-    "deploy": "webpack --mode production --env.ENVIRONMENT=prod",
+    "deploy": "webpack --mode production --env.NODE_ENV=production",
     "heroku-postbuild": "npm run build-emails",
     "build-emails": "mkdir -p ../templates/templated_email/compiled/ && find ../templates -name \"*.mjml\" -not -path \"../templates/templated_email/source/*partials/*\" -not -path \"../templates/templated_email/source/*shared/*\" -exec ./node_modules/.bin/mjml -l skip {} -o ../templates/templated_email/compiled/ \\;"
   },
@@ -35,7 +35,8 @@
     "react-dom": "^16.4.1",
     "sass-rem": "^2.0.0",
     "scrollpos-styler": "^0.7.0",
-    "source-sans-pro": "git://github.com/adobe-fonts/source-sans-pro.git#release"
+    "source-sans-pro": "git://github.com/adobe-fonts/source-sans-pro.git#release",
+    "url-loader": "^1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.32",
