@@ -3,13 +3,11 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view
 from schematics.exceptions import DataError
 
 from sendhut.accounts.models import User
 from sendhut.addressbook.models import Address
 from sendhut.envoy.core import get_delivery_quote
-from sendhut.utils import json_encode
 from .serializers import UserSerializer, AddressSerializer
 from . import DeliveryQuoteRequest
 from .exceptions import ValidationError
