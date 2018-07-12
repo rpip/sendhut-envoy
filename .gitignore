@@ -101,4 +101,5 @@ static/styles/bootstrap
 
 NOTES
 NOTES
-static/webpack-stats.json
+
+webpack-stats.json
