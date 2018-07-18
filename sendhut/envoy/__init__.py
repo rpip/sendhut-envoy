@@ -97,3 +97,9 @@ class CancellationReasons:
 class ZoneRegions:
     """Enum of zones"""
     CHOICES = []
+
+
+class LookupError(Exception):
+
+    def __init__(self, status):
+        self.status = status

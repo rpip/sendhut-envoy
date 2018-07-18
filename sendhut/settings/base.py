@@ -5,7 +5,6 @@ from django.contrib.messages import constants as messages
 
 from decouple import config, Csv
 import dj_database_url
-import dj_email_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).parent.parent.parent
@@ -289,6 +288,7 @@ WEBPACK_LOADER = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
+    'EXCEPTION_HANDLER': 'sendhut.api.exceptions.exception_handler'
 }
 
 

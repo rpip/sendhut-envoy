@@ -26,11 +26,9 @@ from djmoney.money import Money
 
 from django.conf import settings
 from django.contrib.gis import geos
-# from django.contrib.gis.measure import Distance
-# from geopy.geocoders import GoogleV3
-# from geopy import Location, Point
 import googlemaps
 
+from . import LookupError
 from .models import Courier
 
 # geolocator = GoogleV3(api_key=settings.GOOGLE_MAPS_API_KEY)
@@ -40,6 +38,8 @@ gmaps = googlemaps.Client(key=settings.GOOGLE_MAPS_API_KEY)
 BASE_FARE = 300
 FEE_PER_MILE = 65
 TOLL_FEE = 100
+
+KM_TO_MILES_FACTOR = 0.621371
 
 # mo work on sunday, weekday 6
 SUNDAY = 6
@@ -135,22 +135,27 @@ def get_delivery_quote(pickup: str, dropoffs: [str]):
     The `eta` is the estimated time of arrival at the origin address.
     The `pricing` is the delivery fee.
     """
+    # TODO(yao): handle timeout
     # TODO(yao): factor in package size & type
     # TODO(yao): multi drops
     dropoff = dropoffs[0]
-    try:
-        resp = gmaps.distance_matrix(
-            origins=pickup, destinations=dropoff, units='imperial')
-        resp = resp['rows'][0]['elements'][0]
-        KM_TO_MILES_FACTOR = 0.621371
-        distance = (resp['distance']['value']/1000) * KM_TO_MILES_FACTOR
-    except TimeoutError as ex:
-        # TODO(yao): handle timeout
-        # use alt geo-coders, spawn multiple searches, first come, first use
-        pass
+    resp = gmaps.distance_matrix(
+        origins=pickup, destinations=dropoff, units='imperial')
+    resp = resp['rows'][0]['elements'][0]
+    if resp['status'] != 'OK':
+        raise LookupError(status=resp['status'])
 
+    distance = (resp['distance']['value']/1000) * KM_TO_MILES_FACTOR
     pricing = calculate_pricing(distance)
     return {
         'pricing': str(Money(pricing, settings.DEFAULT_CURRENCY)),
         'eta': resp['duration']['text']
     }
+
+
+def breakdown_fees(quote):
+    # Sendhut commission
+    # Cost of goods sold
+    # Cost of payment processing
+    # Contributing margin
+    pass
