@@ -73,7 +73,7 @@ def format_time_slots(time_slots):
     return time_slots
 
 
-def get_delivery_schedule():
+def get_scheduling_slots():
     """
     Returns 3-day delivery schedule.
     Offdays, in this case, Sunday is removed from the schedule.

@@ -87,6 +87,7 @@ class DeliveryQuote(BaseModel):
 
     ID_PREFIX = 'dqt'
 
+    # todo: add transport type & delivery mode: asap or scheduled
     expires = models.DateTimeField(null=True, blank=True)
     eta = models.DateTimeField(null=True, blank=True)
     fee = MoneyField(

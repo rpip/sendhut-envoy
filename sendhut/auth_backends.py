@@ -1,20 +1,12 @@
-from django.db.models import Q
 from django.contrib.auth.hashers import check_password
 from sendhut.accounts.models import User
+from sendhut.accounts.utils import get_user
 
 
 class UsernamePhoneAuthentication:
 
     def authenticate(self, request, username=None, password=None):
-        try:
-            user = User.objects.filter(
-                Q(username=username) |
-                Q(phone=username) |
-                Q(email=username))
-            user = user[0] if user else None
-        except User.DoesNotExist:
-            return None
-
+        user = get_user(username)
         if user:
             # Check password of the user we found
             if check_password(password, user.password):

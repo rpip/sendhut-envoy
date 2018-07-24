@@ -6,6 +6,7 @@ from django.contrib.gis.db import models
 from sorl.thumbnail import ImageField
 from sorl.thumbnail import get_thumbnail
 from sendhut.utils import sane_repr, image_upload_path
+from sendhut.accounts.models import User
 
 from sendhut.db import BaseModel
 
@@ -51,6 +52,7 @@ class Address(BaseModel):
     location = models.PointField(null=True, spatial_index=True, geography=True)
     photo = models.ForeignKey(Image, related_name='address', blank=True, null=True)
     notes = models.CharField(max_length=252, null=True, blank=True)
+    user = models.ForeignKey(User, null=True, blank=True)
 
     class Meta:
         db_table = 'address'

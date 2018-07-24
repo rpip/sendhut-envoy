@@ -23,6 +23,8 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='*')
 
 SITE_ID = 1
 
+APPEND_SLASH = False
+
 # Application definition
 INSTALLED_APPS = [
     'jet.dashboard',
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     'templated_email',
     'safedelete',
     'rest_framework',
+    'rest_framework.authtoken',
     'multiupload',
     'nested_admin',
     'loginas',
