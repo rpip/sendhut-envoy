@@ -10,11 +10,13 @@ from . import views
 
 
 urlpatterns = [
+    url(r'^auth/logout/$', views.LogoutView.as_view(), name='logout'),
     url(r'^auth/$', views.AuthToken.as_view()),
     url(r'^me/$', views.UserDetail.as_view(), name='user_details'),
-    url(r'^quotes/$', views.Quotes.as_view(), name='quotes'),
+    url(r'^users/password-reset/$', views.PasswordResetView.as_view(),
+        name='password_reset'),
+    url(r'^users/password-change/$', views.PasswordChangeView.as_view(),
+        name='password_change'),
     url(r'^users/$', views.UserCreate.as_view(), name='users'),
-    # url(r'^schema/$', schema_view),
-    # url(r'^auth-token/$', include(
-    #     'rest_framework.urls', namespace='rest_framework')),
+    url(r'^quotes/$', views.Quotes.as_view(), name='quotes'),
 ]

@@ -1,4 +1,5 @@
 from django.utils.decorators import method_decorator
+from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.debug import sensitive_post_parameters
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authentication import TokenAuthentication
@@ -81,7 +82,7 @@ class PasswordChangeView(APIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return ok({"detail": _("New password has been saved.")})
+        return ok({"detail": "New password has been saved."})
 
 
 class UserDetail(APIView):
@@ -98,6 +99,25 @@ class UserDetail(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return ok(UserSerializer(serializer.instance).data)
+
+
+class LogoutView(APIView):
+    """
+    Delete the Token object assigned to the current User object.
+    Accepts/Returns nothing.
+    """
+    permission_classes = (AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        return self.logout(request)
+
+    def logout(self, request):
+        try:
+            request.user.auth_token.delete()
+        except (AttributeError, ObjectDoesNotExist):
+            pass
+
+        return ok({"message": "Successfully logged out."})
 
 
 class Quotes(APIView):
