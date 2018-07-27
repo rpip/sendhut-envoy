@@ -17,6 +17,7 @@ from sendhut.accounts.models import User
 
 
 SLACK_CHANNEL = '#orders'
+PASSWORD_RESET_TEMPLATE = 'source/accounts/password_reset'
 
 
 def collect_data_for_email(email, template):

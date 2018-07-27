@@ -138,7 +138,6 @@ def exception_handler(exc, context):
         msg = "This {} is already taken".format(column)
         exc = APIError(message=msg, details={column: value})
     else:
-        import pdb; pdb.set_trace()
         exc = APIError()
 
     return Response(exc._error, status=exc.code, headers={})

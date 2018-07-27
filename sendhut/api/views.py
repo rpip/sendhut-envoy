@@ -8,7 +8,11 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from sendhut.envoy.core import get_delivery_quote
+from sendhut.envoy.core import (
+    get_delivery_quote, get_scheduling_slots)
+from sendhut.utils import generate_password_token
+from sendhut import notifications
+from .utils import change_password
 from .serializers import (
     UserSerializer, UserDetailsSerializer, DeliveryQuoteSerializer,
     PasswordResetSerializer, PasswordChangeSerializer
@@ -59,11 +63,15 @@ class PasswordResetView(APIView):
 
     def post(self, request, *args, **kwargs):
         # Create a serializer with request.data
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        self.send_password_notification(serializer.validated_data["username"])
         # Return the success message with OK HTTP status
         return ok({"message": "Password reset e-mail has been sent."})
+
+    def send_password_notification(self, user):
+        token = generate_password_token(user.email)
+        notifications.send_password_reset(user.email, token)
 
 
 class PasswordChangeView(APIView):
@@ -81,8 +89,10 @@ class PasswordChangeView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
         return ok({"detail": "New password has been saved."})
+
+    def change_password(self, user):
+        change_password(user)
 
 
 class UserDetail(APIView):
@@ -137,7 +147,10 @@ class Delivery(APIView):
     """
     # TODO(yao): filter by state: ongoing, scheduled, finished
     def get(self, request, format=None):
-        pass
+        user = request.user
+        status = request.data.get('status')
+        deliveries = get_deliveries(user, status)
+        return ok(deliveries)
 
     def post(self, request, format=None):
         pass
@@ -163,8 +176,6 @@ class Payment(APIView):
     pass
 
 
-class ProfileDetail(APIView):
-    """
-    Create, retrieve and update profiles
-    """
-    pass
+class Schedules(APIView):
+    def get(self, request, city=None, type=None, date=None, format=None):
+        return ok(get_scheduling_slots(city, type, date))

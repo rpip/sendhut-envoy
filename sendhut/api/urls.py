@@ -19,4 +19,6 @@ urlpatterns = [
         name='password_change'),
     url(r'^users/$', views.UserCreate.as_view(), name='users'),
     url(r'^quotes/$', views.Quotes.as_view(), name='quotes'),
+    url(r'^schedules(?:/(?P<city>[a-zA-Z]+))?(?:/(?P<type>[a-zA-Z]+))?(?:/(?P<date>[a-zA-Z]+))?/?$',
+        views.Schedules.as_view(), name='schedules')
 ]

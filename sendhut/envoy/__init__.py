@@ -94,6 +94,27 @@ class CancellationReasons:
     ]
 
 
+class LOCATIONS:
+    """Enum of locations for scheduling slots"""
+    ACCRA = "accra"
+    LAGOS = "lagos"
+    CHOICES = [
+        (ACCRA,  "accra"),
+        (LAGOS, "lagos")
+    ]
+
+
+class DELIVERY_TYPE:
+    """Enum of delivery types"""
+    PICKUP = "pickup"
+    DROPOFF = "dropoff"
+
+    CHOICES = [
+        (PICKUP, "pickup"),
+        (DROPOFF, "dropoff")
+    ]
+
+
 class ZoneRegions:
     """Enum of zones"""
     CHOICES = []

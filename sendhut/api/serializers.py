@@ -52,8 +52,11 @@ class PasswordResetSerializer(serializers.Serializer):
 
     def validate_username(self, value):
         # check if email or phone exist
-        if not get_user(value):
+        user = get_user(value)
+        if not user:
             raise serializers.ValidationError('No user found')
+
+        return user
 
 
 class PasswordChangeSerializer(serializers.Serializer):

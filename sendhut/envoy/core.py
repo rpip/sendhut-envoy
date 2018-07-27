@@ -28,7 +28,7 @@ from django.conf import settings
 from django.contrib.gis import geos
 import googlemaps
 
-from . import LookupError
+from . import LookupError, LOCATIONS, DELIVERY_TYPE
 from .models import Courier
 
 # geolocator = GoogleV3(api_key=settings.GOOGLE_MAPS_API_KEY)
@@ -73,7 +73,20 @@ def format_time_slots(time_slots):
     return time_slots
 
 
-def get_scheduling_slots():
+def zone_info(zone):
+    return {
+        "region": "swa", # southern west africa
+        "name": zone,
+        "code": zone,
+        "timezone": "Africa/Accra",
+        "latitude": 51.528642,
+        "longitude": -0.101599
+    }
+
+
+def get_scheduling_slots(
+        city=LOCATIONS.ACCRA,
+        type=DELIVERY_TYPE.PICKUP, date=None):
     """
     Returns 3-day delivery schedule.
     Offdays, in this case, Sunday is removed from the schedule.
@@ -99,7 +112,12 @@ def get_scheduling_slots():
             day3.day: format_time_slots(get_time_slots())
         }
     }
-    return {'slots': schedule}
+    return {
+        'zone': zone_info(city),
+        'type': type,
+        'date': date or datetime.now(),
+        'slots': schedule
+    }
 
 
 def calculate_pricing(distance):

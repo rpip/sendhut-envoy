@@ -19,13 +19,22 @@ def trigger_password_reset(username):
     pass
 
 
-def change_password(user, new_password, new_password_repeat):
-    pass
+def change_password(user, new_password):
+    user.set_password(new_password)
+    user.save()
 
 
-def logout(self):
+def logout(user):
     pass
 
 
 def update_model_fields(instance, data):
+    pass
+
+
+def get_deliveries(user, status):
+    pass
+
+
+def delivery_detail(delivery_id):
     pass
