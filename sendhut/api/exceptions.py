@@ -85,9 +85,13 @@ class CouriersBusy(APIException):
 
 class AuthenticationError(APIException):
     """
+    Authentication
+
     Unauthorized: missing API key or invalid API key provided.
     """
-    pass
+    code = status.HTTP_404_NOT_FOUND
+    message = 'Invalid username or password'
+    type = 'authentication_error'
 
 
 class NotFound(APIException):
@@ -123,9 +127,10 @@ def exception_handler(exc, context):
         exc = NotFound()
     elif isinstance(exc, DjPermissionDenied):
         exc = PermissionDenied()
-    elif isinstance(exc, LookupError):
-        # get exact reason: unknown_location? etc
-        exc = UnknownLocation()
+    # elif isinstance(exc, LookupError):
+    #     # get exact reason: unknown_location? etc
+    #     exc = UnknownLocation()
+    # handle DRF exceptions
     elif issubclass(exc.__class__, drf_exceptions.APIException):
         errors = [(k, _err(v)) for k, v in exc.get_full_details().items()]
         exc = _DRF_HANDLERS[exc.status_code](details=errors)
@@ -137,6 +142,8 @@ def exception_handler(exc, context):
         column, value = m.groups()
         msg = "This {} is already taken".format(column)
         exc = APIError(message=msg, details={column: value})
+    elif issubclass(exc.__class__, APIException):
+        pass
     else:
         exc = APIError()
 

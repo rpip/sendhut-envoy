@@ -1,4 +1,5 @@
 from sendhut.accounts.models import User
+from sendhut.accounts.utils import get_user
 from sendhut.utils import generate_random_name
 
 
@@ -12,10 +13,15 @@ def create_user(phone, email, password):
 
 
 def authenticate(username, password):
-    pass
+    user = get_user(username)
+    if user and user.check_password(password):
+        return user
+
+    return None
 
 
 def trigger_password_reset(username):
+    # send sms if username is phone, else email
     pass
 
 
@@ -29,6 +35,11 @@ def logout(user):
 
 
 def update_model_fields(instance, data):
+    pass
+
+
+# delivery
+def create_delivery(data):
     pass
 
 
