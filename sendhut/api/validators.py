@@ -60,8 +60,16 @@ class QuotesValidator(serializers.Serializer):
         child=serializers.CharField(), min_length=1, max_length=4)
 
 
-class DeliveryValidator(serializers.ModelSerializer):
+class DeliveryValidator(serializers.Serializer):
     pickup = serializers.CharField(required=True)
     dropoff = serializers.CharField(required=True)
     quote = serializers.CharField(required=False)
     notes = serializers.CharField(required=False)
+
+
+class ProfileValidator(serializers.Serializer):
+    company = serializers.CharField(required=False)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+    phone = serializers.CharField(required=True)
+    email = serializers.CharField(required=False)

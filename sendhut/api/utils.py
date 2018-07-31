@@ -31,11 +31,15 @@ def change_password(user, new_password):
 
 
 def logout(user):
-    pass
+    user.auth_key.delete()
 
 
 def update_model_fields(instance, data):
-    pass
+    for k, v in data.items():
+        setattr(instance, k, v)
+
+    instance.save()
+    return instance
 
 
 # delivery

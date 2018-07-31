@@ -24,6 +24,7 @@ from .validators import (
     LoginValidator,
     AddressValidator,
     UserCreateValidator,
+    ProfileValidator,
     PasswordResetValidator,
     PasswordChangeValidator,
     QuotesValidator,
@@ -42,7 +43,11 @@ from .serializers import (
     CancellationSerializer
 )
 from .exceptions import ValidationError, AuthenticationError
-from .utils import create_user, authenticate
+from .utils import (
+    create_user,
+    authenticate,
+    update_model_fields
+)
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
@@ -107,7 +112,13 @@ class ProfileEndpoint(Endpoint):
         return self.respond(serialize(request.user))
 
     def put(self, request):
-        pass
+        validator = ProfileValidator(data=request.data)
+        if not validator.is_valid():
+            raise ValidationError(details=validator.errors)
+
+        user = request.user
+        user = update_model_fields(user, validator.data)
+        return self.respond(serialize(user))
 
 
 class SchedulesEndpoint(Endpoint):
