@@ -16,8 +16,6 @@ from sendhut.envoy.core import (
     get_delivery_quote,
     get_scheduling_slots
 )
-from sendhut.utils import generate_password_token
-from sendhut import notifications
 from .base import serialize
 from .permissions import NoPermission
 from .validators import (
@@ -46,7 +44,8 @@ from .exceptions import ValidationError, AuthenticationError
 from .utils import (
     create_user,
     authenticate,
-    update_model_fields
+    update_model_fields,
+    logout
 )
 
 sensitive_post_parameters_m = method_decorator(
@@ -87,6 +86,14 @@ class AuthTokenEndpoint(Endpoint):
         token, created = Token.objects.get_or_create(user=user)
         data = {'token': token.key, 'user': serialize(user)}
         return self.respond(data)
+
+
+class LogoutEndpoint(Endpoint):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        logout(request.user)
+        return self.respond({'status': 'OK'})
 
 
 class RegistrationEndpoint(Endpoint):

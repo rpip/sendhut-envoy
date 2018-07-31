@@ -34,7 +34,7 @@ def change_password(user, new_password):
 
 
 def logout(user):
-    user.auth_key.delete()
+    user.auth_token.delete()
 
 
 def update_model_fields(instance, data):

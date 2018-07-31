@@ -2,6 +2,7 @@ from django.conf.urls import url
 
 from .endpoints import (
     AuthTokenEndpoint,
+    LogoutEndpoint,
     ProfileEndpoint,
     RegistrationEndpoint,
     SchedulesEndpoint,
@@ -9,8 +10,8 @@ from .endpoints import (
 )
 
 urlpatterns = [
-    # url(r'^auth/logout/$', views.LogoutView.as_view(), name='logout'),
-    url(r'^auth/$', AuthTokenEndpoint.as_view(), name='auth-token'),
+    url(r'^auth/logout/?$', LogoutEndpoint.as_view(), name='logout'),
+    url(r'^auth/?$', AuthTokenEndpoint.as_view(), name='auth-token'),
     url(r'^me/?$', ProfileEndpoint.as_view(), name='profile'),
     # url(r'^users/password-reset/$', views.PasswordResetView.as_view(),
     #     name='password_reset'),
