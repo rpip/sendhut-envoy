@@ -1,12 +1,15 @@
+from django.template.defaultfilters import slugify
+
 from sendhut.accounts.models import User
 from sendhut.accounts.utils import get_user
 from sendhut.utils import generate_random_name
 
 
 # users
-def create_user(phone, email, password):
-    username = generate_random_name()
-    user = User(phone=phone, email=email, username=username)
+def create_user(phone, password, email=None):
+    user = User(phone=phone, username=phone)
+    if email:
+        user.email = email
     user.set_password(password)
     user.save()
     return user

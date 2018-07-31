@@ -13,6 +13,9 @@ class User(AbstractUser, BaseModel):
     last_login = models.DateTimeField(null=True, blank=True)
     identity_verified = models.BooleanField(default=False)
 
+    def get_username(self):
+        return self.phone
+
     __repr__ = sane_repr('id')
 
     def __str__(self):

@@ -16,7 +16,7 @@ urlpatterns = [
     #     name='password_reset'),
     # url(r'^users/password-change/$', views.PasswordChangeView.as_view(),
     #     name='password_change'),
-    url(r'^users/$', RegistrationEndpoint.as_view(), name='users'),
+    url(r'^users/?$', RegistrationEndpoint.as_view(), name='users'),
     url(r'^quotes/?$', QuotesEndpoint.as_view(), name='quotes'),
     url(r'^schedules(?:/(?P<city>[a-zA-Z]+))?(?:/(?P<type>[a-zA-Z]+))?(?:/(?P<date>[a-zA-Z]+))?/?$',
         SchedulesEndpoint.as_view(), name='schedules')

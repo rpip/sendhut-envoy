@@ -23,7 +23,6 @@ class UserCreateValidator(serializers.Serializer):
     # Use a minimum of 8 characters
     password = serializers.CharField(min_length=8, required=True)
     email = serializers.EmailField(required=False)
-    name = serializers.CharField(required=False)
 
 
 class PasswordResetValidator(serializers.Serializer):

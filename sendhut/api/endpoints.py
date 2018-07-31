@@ -94,7 +94,7 @@ class RegistrationEndpoint(Endpoint):
     permission_classes = ()
 
     def post(self, request):
-        validator = UserCreateValidator(data=request.DATA)
+        validator = UserCreateValidator(data=request.data)
         if not validator.is_valid():
             raise ValidationError(details=validator.errors)
 
