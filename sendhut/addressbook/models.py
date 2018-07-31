@@ -52,7 +52,7 @@ class Address(BaseModel):
     location = models.PointField(null=True, spatial_index=True, geography=True)
     photo = models.ForeignKey(Image, related_name='address', blank=True, null=True)
     notes = models.CharField(max_length=252, null=True, blank=True)
-    user = models.ForeignKey(User, null=True, blank=True)
+    user = models.ForeignKey(User, null=True, blank=True, related_name='addresses')
 
     class Meta:
         db_table = 'address'

@@ -65,6 +65,7 @@ class DeliveryStatus:
     RETURNED = "returned"
     SCHEDULED = "scheduled"
     EXPIRED = "expired"
+    INCOMING = "incoming"
 
     CHOICES = [
         (PENDING,  "Pending - We've accepted the delivery and will be assigning it to a courier"),

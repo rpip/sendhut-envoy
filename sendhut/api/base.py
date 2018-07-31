@@ -13,9 +13,6 @@ def serialize(objects, user=None, serializer=None, *args, **kwargs):
     elif not isinstance(objects, (list, tuple, set, frozenset)):
         return serialize([objects], user=user, serializer=serializer, *args, **kwargs)[0]
 
-    # elif isinstance(obj, dict):
-    #     return dict((k, serialize(v, user=user, args, kwargs)) for k, v in six.iteritems(obj))
-
     if serializer is None:
         # find the first object that is in the registry
         for o in objects:

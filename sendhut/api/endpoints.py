@@ -26,7 +26,7 @@ from .validators import (
     UserCreateValidator,
     PasswordResetValidator,
     PasswordChangeValidator,
-    DeliveryQuoteValidator,
+    QuotesValidator,
     DeliveryValidator
 )
 from .serializers import (
@@ -66,7 +66,7 @@ class Endpoint(APIView):
         return Response(context, **kwargs)
 
 
-class AuthToken(Endpoint):
+class AuthTokenEndpoint(Endpoint):
     authentication_classes = ()
     permission_classes = ()
 
@@ -84,7 +84,7 @@ class AuthToken(Endpoint):
         return self.respond(data)
 
 
-class UserCreate(Endpoint):
+class RegistrationEndpoint(Endpoint):
     authentication_classes = ()
     permission_classes = ()
 
@@ -93,14 +93,38 @@ class UserCreate(Endpoint):
         if not validator.is_valid():
             raise ValidationError(details=validator.errors)
 
-        user = create_user(**validator.object)
+        user = create_user(**validator.data)
         return self.respond({
             'token': user.auth_token.key,
             'user': serialize(user)
         })
 
 
-class Schedules(Endpoint):
+class ProfileEndpoint(Endpoint):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        return self.respond(serialize(request.user))
+
+    def put(self, request):
+        pass
+
+
+class SchedulesEndpoint(Endpoint):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, city=None, type=None, date=None, format=None):
         schedules = get_scheduling_slots(city, type, date)
         return self.respond(schedules)
+
+
+class QuotesEndpoint(Endpoint):
+    permission_classes = ()
+
+    def post(self, request):
+        validator = QuotesValidator(data=request.data)
+        if not validator.is_valid():
+            raise ValidationError(details=validator.errors)
+
+        quote = get_delivery_quote(**validator.validated_data)
+        return self.respond(serialize(quote))

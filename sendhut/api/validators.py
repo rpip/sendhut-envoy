@@ -23,7 +23,7 @@ class UserCreateValidator(serializers.Serializer):
     # Use a minimum of 8 characters
     password = serializers.CharField(min_length=8, required=True)
     email = serializers.EmailField(required=False)
-    username = serializers.CharField(required=False)
+    name = serializers.CharField(required=False)
 
 
 class PasswordResetValidator(serializers.Serializer):
@@ -54,7 +54,7 @@ class PasswordChangeValidator(serializers.Serializer):
             raise ValidationError('Invalid password')
 
 
-class DeliveryQuoteValidator(serializers.Serializer):
+class QuotesValidator(serializers.Serializer):
     pickup = serializers.CharField(required=False)
     dropoffs = serializers.ListField(
         child=serializers.CharField(), min_length=1, max_length=4)

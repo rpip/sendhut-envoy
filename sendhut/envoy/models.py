@@ -166,6 +166,9 @@ class DeliveryQueryset(models.QuerySet):
         """Return cancelled deliveries"""
         return self.filter(status=DeliveryStatus.CANCELLED)
 
+    def incoming(self):
+        """Return incoming deliveries"""
+        return self.filter(status=DeliveryStatus.INCOMING)
 
 class Batch(BaseModel):
     "A group of deliveries jobs requested at together"
@@ -202,7 +205,7 @@ class Delivery(BaseModel):
         default_currency=settings.DEFAULT_CURRENCY,
         null=True, blank=True
     )
-    batch = models.ForeignKey(Batch)
+    batch = models.ForeignKey(Batch, related_name='deliveries')
 
     objects = DeliveryQueryset.as_manager()
 
