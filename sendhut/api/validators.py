@@ -28,7 +28,6 @@ class UserCreateValidator(serializers.Serializer):
 class PasswordResetValidator(serializers.Serializer):
     # can be email or phone. if phone, send sms else email
     username = serializers.CharField(max_length=20)
-    # maybe use SMS token to confirm password reset?
 
     def validate_username(self, value):
         # check if email or phone exist
@@ -36,7 +35,7 @@ class PasswordResetValidator(serializers.Serializer):
         if not user:
             raise ValidationError('No user found')
 
-        return user
+        return value
 
 
 class PasswordChangeValidator(serializers.Serializer):

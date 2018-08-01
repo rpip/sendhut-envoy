@@ -1,8 +1,11 @@
+import logging
 from django.template.defaultfilters import slugify
 
 from sendhut.accounts.models import User
 from sendhut.accounts.utils import get_user
 from sendhut.utils import generate_random_name
+
+logger = logging.getLogger(__name__)
 
 
 # users
@@ -25,12 +28,15 @@ def authenticate(username, password):
 
 def trigger_password_reset(username):
     # send sms if username is phone, else email
-    pass
+    logger.log('sending password reset')
 
 
-def change_password(user, new_password):
-    user.set_password(new_password)
-    user.save()
+def change_password(user, old_password, new_password):
+    if user.check_password(old_password):
+        user.set_password(new_password)
+        user.save()
+
+    return False
 
 
 def logout(user):

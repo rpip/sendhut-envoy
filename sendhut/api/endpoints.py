@@ -45,7 +45,9 @@ from .utils import (
     create_user,
     authenticate,
     update_model_fields,
-    logout
+    logout,
+    trigger_password_reset,
+    change_password
 )
 
 sensitive_post_parameters_m = method_decorator(
@@ -93,6 +95,35 @@ class LogoutEndpoint(Endpoint):
 
     def post(self, request, *args, **kwargs):
         logout(request.user)
+        return self.respond({'status': 'OK'})
+
+
+class PasswordResetEndpoint(Endpoint):
+    authentication_classes = ()
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        validator = PasswordResetValidator(data=request.data)
+        if not validator.is_valid():
+            raise ValidationError(details=validator.errors)
+
+        trigger_password_reset(validator.data['username'])
+        return self.respond({'message': 'Password reset sent'})
+
+
+class PasswordChangeEndpoint(Endpoint):
+    authentication_classes = ()
+    permission_classes = (AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        validator = PasswordChangeEndpoint(data=request.data)
+        if not validator.is_valid():
+            raise ValidationError(details=validator.errors)
+
+        # if phone, send code to confirm else if email link
+        old_password = validator.data['old_password']
+        new_password = validator.data['new_password1']
+        change_password(request.user, old_password, new_password)
         return self.respond({'status': 'OK'})
 
 
@@ -146,3 +177,12 @@ class QuotesEndpoint(Endpoint):
 
         quote = get_delivery_quote(**validator.validated_data)
         return self.respond(serialize(quote))
+
+
+class DeliveryEndpoint(Endpoint):
+
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        pass
