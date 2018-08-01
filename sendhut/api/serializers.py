@@ -1,4 +1,5 @@
 # Atomic transactions https://github.com/getsentry/sentry/blob/master/src/sentry/api/endpoints/api_authorizations.py#L45
+from django.contrib.gis.geos import Point
 from sendhut.accounts.models import User
 from sendhut.addressbook.models import Address, Contact
 from sendhut.envoy.models import (
@@ -9,7 +10,8 @@ from sendhut.envoy.models import (
     Dropoff,
     Zone,
     Batch,
-    Cancellation
+    Cancellation,
+    Partner
 )
 from .base import Serializer, register, serialize
 
@@ -38,8 +40,8 @@ class AddressSerializer(Serializer):
             'id': obj.id,
             'address': obj.address,
             'apt': obj.apt,
-            'location': obj.location,
-            'photo': obj.photo,
+            'location': serialize(obj.location),
+            'photo': obj.photo.thumb_sm().url,
             'notes': obj.notes,
         }
 
@@ -60,12 +62,11 @@ class ContactSerializer(Serializer):
 @register(DeliveryQuote)
 class DeliveryQuoteSerializer(Serializer):
     def serialize(self, obj, user, *args, **kwargs):
+        # TODO: add pickup and dropoff
         return {
             'id': obj.id,
-            'pickup': data.get('pickup'),
-            'dropoffs': data.get('dropoffs'),
             'eta': obj.eta,
-            'fee': obj.fee,
+            'fee': str(obj.fee),
             'expires': obj.expires
         }
 
@@ -85,7 +86,8 @@ class DeliverySerializer(Serializer):
             'notes': obj.notes,
             'courier': serialize(obj.courier),
             # TODO: check if fee differs from quote
-            'fee': serialize(obj.fee)
+            'fee': str(obj.fee),
+            'status': obj.status
         }
 
 
@@ -97,8 +99,36 @@ class CourierSerializer(Serializer):
             'first_name': obj.first_name,
             'last_name': obj.last_name,
             'phone': obj.phone,
+            'photo': serialize(obj.photo.thumb_sm().url),
+            'transport_type': serialize(obj.transport_type),
+            'location': serialize(obj.location),
+            'zone': serialize(obj.zone),
+            'partner': serialize(obj.partner)
+            # TODO: add email
+            # 'email': obj.email,
+        }
+
+
+@register(Point)
+class PointFieldSerializer(Serializer):
+    def serialize(self, obj, user, *args, **kwargs):
+        lat, lon = obj.coords
+        return {
+            'lat': lat,
+            'lon': lon
+        }
+
+
+@register(Partner)
+class PartnerSerializer(Serializer):
+    def serialize(self, obj, user, *args, **kwargs):
+        return {
+            'id': obj.id,
+            'first_name': obj.first_name,
+            'last_name': obj.last_name,
+            'phone': obj.phone,
             'email': obj.email,
-            'address': serialize(obj.address)
+            'address': obj.address
         }
 
 
@@ -134,7 +164,7 @@ class ZoneSerializer(Serializer):
             'code': obj.code,
             'region': obj.region,
             'timezone': obj.timezone,
-            'location': obj.location
+            'location': serialize(obj.location)
         }
 
 

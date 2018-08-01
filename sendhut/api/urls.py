@@ -8,7 +8,9 @@ from .endpoints import (
     SchedulesEndpoint,
     QuotesEndpoint,
     PasswordResetEndpoint,
-    PasswordChangeEndpoint
+    PasswordChangeEndpoint,
+    DeliveryEndpoint,
+    DeliveryDetailEndpoint
 )
 
 urlpatterns = [
@@ -22,5 +24,8 @@ urlpatterns = [
     url(r'^users/?$', RegistrationEndpoint.as_view(), name='users'),
     url(r'^quotes/?$', QuotesEndpoint.as_view(), name='quotes'),
     url(r'^schedules(?:/(?P<city>[a-zA-Z]+))?(?:/(?P<type>[a-zA-Z]+))?(?:/(?P<date>[a-zA-Z]+))?/?$',
-        SchedulesEndpoint.as_view(), name='schedules')
+        SchedulesEndpoint.as_view(), name='schedules'),
+    url(r'^delivery/(?P<delivery_id>.+)/?$', DeliveryDetailEndpoint.as_view(),
+        name='delivery_detail'),
+    url(r'^delivery/?$', DeliveryEndpoint.as_view(), name='delivery')
 ]

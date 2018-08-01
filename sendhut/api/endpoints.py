@@ -1,9 +1,7 @@
 import logging
 
 from django.utils.decorators import method_decorator
-from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.debug import sensitive_post_parameters
-from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authtoken.models import Token
@@ -12,6 +10,14 @@ from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 
+from sendhut.utils import update_model_fields
+from sendhut.accounts.utils import (
+    create_user,
+    authenticate,
+    logout,
+    trigger_password_reset,
+    change_password
+)
 from sendhut.envoy.core import (
     get_delivery_quote,
     get_scheduling_slots
@@ -41,14 +47,8 @@ from .serializers import (
     CancellationSerializer
 )
 from .exceptions import ValidationError, AuthenticationError
-from .utils import (
-    create_user,
-    authenticate,
-    update_model_fields,
-    logout,
-    trigger_password_reset,
-    change_password
-)
+from sendhut.envoy.models import Delivery
+
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
@@ -66,7 +66,7 @@ class Endpoint(APIView):
     authentication_classes = DEFAULT_AUTHENTICATION
     renderer_classes = (JSONRenderer, )
     parser_classes = (JSONParser, )
-    permission_classes = (NoPermission, )
+    permission_classes = (IsAuthenticated,)
 
     def respond(self, context=None, **kwargs):
         return Response(context, **kwargs)
@@ -116,7 +116,7 @@ class PasswordChangeEndpoint(Endpoint):
     permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
-        validator = PasswordChangeEndpoint(data=request.data)
+        validator = PasswordChangeValidator(data=request.data)
         if not validator.is_valid():
             raise ValidationError(details=validator.errors)
 
@@ -181,8 +181,23 @@ class QuotesEndpoint(Endpoint):
 
 class DeliveryEndpoint(Endpoint):
 
-    def get(self, request):
-        pass
+    def get(self, request, status=None, *args, **kwargs):
+        status = request.query_params.get('status')
+        deliveries = Delivery.get_for_user(request.user, status)
+        ds = serialize(list(deliveries))
+        return self.respond(ds)
 
     def post(self, request):
-        pass
+        validator = DeliveryValidator(data=request.data)
+        if not validator.is_valid():
+            raise ValidationError(details=validator.errors)
+
+        delivery = Delivery.create(**validator.data)
+        return self.respond(serialize(delivery))
+
+
+class DeliveryDetailEndpoint(Endpoint):
+
+    def get(self, request, delivery_id, *args, **kwargs):
+        delivery = Delivery.objects.get(id=delivery_id)
+        return self.respond(serialize(delivery))

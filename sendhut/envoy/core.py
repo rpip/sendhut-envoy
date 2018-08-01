@@ -20,6 +20,7 @@ of the items that are ordered.
 - if nearest available is on-task, also factor the estimated
   completion time for current task
 """
+import logging
 from typing import Dict, Tuple, List
 from datetime import datetime, timedelta
 from djmoney.money import Money
@@ -30,6 +31,9 @@ import googlemaps
 
 from . import LookupError, LOCATIONS, DELIVERY_TYPE
 from .models import Courier
+
+
+logger = logging.getLogger(__name__)
 
 # geolocator = GoogleV3(api_key=settings.GOOGLE_MAPS_API_KEY)
 

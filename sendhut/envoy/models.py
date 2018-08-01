@@ -144,7 +144,7 @@ class DeliveryQueryset(models.QuerySet):
     def ongoing(self):
         """Return ongoing deliveries"""
         return self.filter(status__in=[
-            DeliveryStatus.PICKUP, DeliveryStatus.ALMOST_PICKUP,
+            DeliveryStatus.PENDING, DeliveryStatus.ALMOST_PICKUP,
             DeliveryStatus.WAITING_AT_PICKUP, DeliveryStatus.PICKUP_COMPLETE,
             DeliveryStatus.DROPOFF, DeliveryStatus.ALMOST_DROPOFF,
             DeliveryStatus.WAITING_AT_DROPOFF
@@ -169,6 +169,7 @@ class DeliveryQueryset(models.QuerySet):
     def incoming(self):
         """Return incoming deliveries"""
         return self.filter(status=DeliveryStatus.INCOMING)
+
 
 class Batch(BaseModel):
     "A group of deliveries jobs requested at together"
@@ -212,6 +213,15 @@ class Delivery(BaseModel):
     @property
     def duration(self):
         pass
+
+    def get_for_user(user, status=None):
+        if status:
+            if hasattr(user.deliveries, status):
+                return getattr(user.deliveries, status)()
+
+            return Delivery.objects.filter(user=user, status=status)
+
+        return Delivery.objects.filter(user=user)
 
     class Meta:
         db_table = 'delivery'

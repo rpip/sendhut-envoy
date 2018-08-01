@@ -175,3 +175,11 @@ def asap_delivery_estimate():
 def windows_from_time_string(time_str):
     start, end = time_str.split('-')
     return parser.parse(start.strip()), parser.parse(end.strip())
+
+
+def update_model_fields(instance, data):
+    for k, v in data.items():
+        setattr(instance, k, v)
+
+    instance.save()
+    return instance
