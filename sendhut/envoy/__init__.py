@@ -2,7 +2,7 @@
 websocket feeds:
 
 [
-  "driver_locations.barcelona",
+  "driver_locations.accra",
   {
     "id": 333644644,
     "created_at": "2018-06-17T19:09:51.932+02:00",

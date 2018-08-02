@@ -5,11 +5,12 @@ from sendhut.accounts.utils import get_user
 ValidationError = serializers.ValidationError
 
 
-class AddressValidator(serializers.Serializer):
-    address = serializers.CharField(max_length=120)
-    # apt number or company name
-    apt = serializers.CharField(max_length=42, required=False)
-    notes = serializers.CharField(max_length=252, required=False)
+class ProfileValidator(serializers.Serializer):
+    company = serializers.CharField(required=False)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+    phone = serializers.CharField(required=True)
+    email = serializers.CharField(required=False)
 
 
 class LoginValidator(serializers.Serializer):
@@ -23,6 +24,14 @@ class UserCreateValidator(serializers.Serializer):
     # Use a minimum of 8 characters
     password = serializers.CharField(min_length=8, required=True)
     email = serializers.EmailField(required=False)
+
+    def validate_phone(self, data):
+        if get_user(data):
+            raise ValidationError("This phone number is already taken")
+
+    def validate_email(self, data):
+        if get_user(data):
+            raise ValidationError("This email is already taken")
 
 
 class PasswordResetValidator(serializers.Serializer):
@@ -58,16 +67,37 @@ class QuotesValidator(serializers.Serializer):
         child=serializers.CharField(), min_length=1, max_length=4)
 
 
+class AddressValidator(serializers.Serializer):
+    address = serializers.CharField(max_length=120)
+    # apt number or company name
+    apt = serializers.CharField(max_length=42, required=False)
+    notes = serializers.CharField(max_length=252, required=False)
+
+
+class ContactValidator(serializers.Serializer):
+    first_name = serializers.CharField(max_length=120, required=True)
+    last_name = serializers.CharField(max_length=120, required=True)
+    phone = serializers.CharField(max_length=30, required=False)
+    email = serializers.CharField(max_length=40, required=False)
+    address = AddressValidator(required=False)
+
+
+class PickupValidator(serializers.Serializer):
+    address = AddressValidator(required=True)
+    # instructions for courier
+    notes = serializers.CharField(required=False)
+    contact = ContactValidator(required=False)
+
+
+class DropoffValidator(serializers.Serializer):
+    address = AddressValidator(required=True)
+    # instructions for courier
+    notes = serializers.CharField(required=False)
+    contact = ContactValidator(required=False)
+
+
 class DeliveryValidator(serializers.Serializer):
-    pickup = serializers.CharField(required=True)
-    dropoff = serializers.CharField(required=True)
+    pickup = PickupValidator(required=True)
+    dropoff = DropoffValidator(required=True)
     quote = serializers.CharField(required=False)
     notes = serializers.CharField(required=False)
-
-
-class ProfileValidator(serializers.Serializer):
-    company = serializers.CharField(required=False)
-    first_name = serializers.CharField(required=True)
-    last_name = serializers.CharField(required=True)
-    phone = serializers.CharField(required=True)
-    email = serializers.CharField(required=False)

@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^quotes/?$', QuotesEndpoint.as_view(), name='quotes'),
     url(r'^schedules(?:/(?P<city>[a-zA-Z]+))?(?:/(?P<type>[a-zA-Z]+))?(?:/(?P<date>[a-zA-Z]+))?/?$',
         SchedulesEndpoint.as_view(), name='schedules'),
-    url(r'^delivery/(?P<delivery_id>.+)/?$', DeliveryDetailEndpoint.as_view(),
+    url(r'^deliveries/(?P<delivery_id>.+)/?$', DeliveryDetailEndpoint.as_view(),
         name='delivery_detail'),
-    url(r'^delivery/?$', DeliveryEndpoint.as_view(), name='delivery')
+    url(r'^deliveries/?$', DeliveryEndpoint.as_view(), name='delivery')
 ]
