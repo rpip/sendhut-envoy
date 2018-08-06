@@ -119,7 +119,6 @@ def exception_handler(exc, context):
         status.HTTP_401_UNAUTHORIZED: AuthenticationError,
         status.HTTP_403_FORBIDDEN: PermissionDenied
     }
-    import pdb; pdb.set_trace()
 
     def _err(e):
         lambda e: [x['message'] for x in e]

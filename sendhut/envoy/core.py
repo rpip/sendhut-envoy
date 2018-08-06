@@ -30,8 +30,15 @@ from django.contrib.gis import geos
 import googlemaps
 
 from . import LookupError, LOCATIONS, DELIVERY_TYPE
-from .models import Courier
-
+from .models import (
+    Address,
+    Contact,
+    Pickup,
+    Dropoff,
+    Courier,
+    Delivery,
+    Batch
+)
 
 logger = logging.getLogger(__name__)
 
@@ -181,3 +188,24 @@ def breakdown_fees(quote):
     # Cost of payment processing
     # Contributing margin
     pass
+
+
+def create_delivery(user, pickup, dropoffs, quote=None):
+    apt = pickup['address'].get('apt')
+    addr = Address.objects.create(address=pickup['address'], apt=apt)
+    contact = Contact.objects.create(**pickup['contact'])
+    pickup = Pickup.objects.create(address=addr, contact=contact)
+    batch = Batch.objects.create()
+    for d in dropoffs:
+        _addr = Address.objects.create(address=d['address'])
+        _contact = Contact.objects.create(**d['contact'])
+        meta = {'size': d['size'], 'notes': d.get('notes')}
+        dropoff = Dropoff.objects.create(
+            address=_addr, contact=_contact, metadata=meta)
+        delivery = Delivery.objects.create(user=user, pickup=pickup, dropoff=dropoff)
+        if quote:
+            delivery.quote_id = quote
+
+        batch.deliveries.add(delivery)
+
+    return batch

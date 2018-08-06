@@ -5,6 +5,8 @@ from django.urls import reverse
 from safedelete.models import SafeDeleteModel
 from safedelete.admin import SafeDeleteAdmin, highlight_deleted
 from safedelete.models import SOFT_DELETE_CASCADE, HARD_DELETE
+from safedelete.queryset import SafeDeleteQueryset
+from safedelete.managers import SafeDeleteManager
 
 from sendhut.utils import generate_token
 
@@ -70,3 +72,11 @@ class BaseModelAdmin(SafeDeleteAdmin):
 
     def get_list_filter(self, request):
         return tuple(self.list_filter) + self._list_filter
+
+
+class BaseQuerySet(SafeDeleteQueryset):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+
+
+class BaseManager(SafeDeleteManager):
+    _safedelete_policy = SOFT_DELETE_CASCADE

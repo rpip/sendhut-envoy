@@ -3,8 +3,9 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 
 from djmoney.models.fields import MoneyField
+from safedelete.models import SOFT_DELETE_CASCADE
 
-from sendhut.db import BaseModel
+from sendhut.db import BaseModel, BaseQuerySet, BaseManager
 from sendhut.addressbook.models import Address, Contact, Image
 from sendhut.partners.models import Partner
 from sendhut.utils import sane_repr
@@ -139,8 +140,10 @@ class Dropoff(BaseModel):
     __repr__ = sane_repr('address', 'contact')
 
 
-class DeliveryQueryset(models.QuerySet):
-    """A specialized queryset for dealing with deliveries."""
+class DeliveryQueryset(BaseQuerySet):
+    """
+    A specialized queryset for dealing with deliveries.
+    """
     def ongoing(self):
         """Return ongoing deliveries"""
         return self.filter(status__in=[
@@ -171,15 +174,8 @@ class DeliveryQueryset(models.QuerySet):
         return self.filter(status=DeliveryStatus.INCOMING)
 
 
-class Batch(BaseModel):
-    "A group of deliveries jobs requested at together"
-
-    ID_PREFIX = 'bat'
-
-    class Meta:
-        db_table = 'batch'
-
-    __repr__ = sane_repr('address', 'contact')
+class DeliveryManager(BaseManager):
+    pass
 
 
 class Delivery(BaseModel):
@@ -196,7 +192,8 @@ class Delivery(BaseModel):
     picked_at = models.DateTimeField(null=True, blank=True)
     delivered_at = models.DateTimeField(null=True, blank=True)
     distance = models.FloatField(null=True, blank=True)
-    quote = models.ForeignKey(DeliveryQuote, related_name='delivery')
+    quote = models.ForeignKey(
+        DeliveryQuote, related_name='delivery', null=True, blank=True)
     tracking_url = models.CharField(max_length=122, null=True, blank=True)
     notes = models.CharField(max_length=152, null=True, blank=True)
     courier = models.ForeignKey(Courier, related_name='deliveries', null=True, blank=True)
@@ -206,15 +203,15 @@ class Delivery(BaseModel):
         default_currency=settings.DEFAULT_CURRENCY,
         null=True, blank=True
     )
-    batch = models.ForeignKey(Batch, related_name='deliveries')
+    batch = models.ForeignKey('Batch', related_name='deliveries', null=True, blank=True)
 
-    objects = DeliveryQueryset.as_manager()
+    objects = DeliveryManager.from_queryset(BaseQuerySet)()
 
     @property
     def duration(self):
         pass
 
-    def get_for_user(user, status=None):
+    def for_user(user, status=None):
         if status:
             if hasattr(user.deliveries, status):
                 return getattr(user.deliveries, status)()
@@ -223,7 +220,22 @@ class Delivery(BaseModel):
 
         return Delivery.objects.filter(user=user)
 
+    @property
+    def create(self, data):
+        pass
+
     class Meta:
         db_table = 'delivery'
 
     __repr__ = sane_repr('pickup', 'dropoff', 'status')
+
+
+class Batch(BaseModel):
+    "A group of deliveries jobs requested at together"
+
+    ID_PREFIX = 'bat'
+
+    class Meta:
+        db_table = 'batch'
+
+    __repr__ = sane_repr('address', 'contact')

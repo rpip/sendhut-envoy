@@ -48,7 +48,7 @@ from .serializers import (
 )
 from .exceptions import ValidationError, AuthenticationError
 from sendhut.envoy.models import Delivery
-
+from sendhut.envoy.core import create_delivery
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
@@ -183,7 +183,7 @@ class DeliveryEndpoint(Endpoint):
 
     def get(self, request, status=None, *args, **kwargs):
         status = request.query_params.get('status')
-        deliveries = Delivery.get_for_user(request.user, status)
+        deliveries = Delivery.for_user(request.user, status)
         ds = serialize(list(deliveries))
         return self.respond(ds)
 
@@ -192,8 +192,8 @@ class DeliveryEndpoint(Endpoint):
         if not validator.is_valid():
             raise ValidationError(details=validator.errors)
 
-        delivery = Delivery.create(**validator.data)
-        return self.respond(serialize(delivery))
+        batch = create_delivery(user=request.user, **validator.data)
+        return self.respond(serialize(batch))
 
 
 class DeliveryDetailEndpoint(Endpoint):

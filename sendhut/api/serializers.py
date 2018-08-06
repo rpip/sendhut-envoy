@@ -41,7 +41,7 @@ class AddressSerializer(Serializer):
             'address': obj.address,
             'apt': obj.apt,
             'location': serialize(obj.location),
-            'photo': obj.photo.thumb_sm().url,
+            'photo': obj.photo.thumb_sm().url if obj.photo else None,
             'notes': obj.notes,
         }
 
@@ -99,7 +99,7 @@ class CourierSerializer(Serializer):
             'first_name': obj.first_name,
             'last_name': obj.last_name,
             'phone': obj.phone,
-            'photo': serialize(obj.photo.thumb_sm().url),
+            'photo': obj.photo.thumb_sm().url if obj.photo else None,
             'transport_type': serialize(obj.transport_type),
             'location': serialize(obj.location),
             'zone': serialize(obj.zone),
@@ -173,7 +173,7 @@ class BatchSerializer(Serializer):
     def serialize(self, obj, user, *args, **kwargs):
         return {
             'batch_id': obj.id,
-            'deliveries': serialize(obj.deliveries.all())
+            'deliveries': serialize(list(obj.deliveries.all()))
         }
 
 

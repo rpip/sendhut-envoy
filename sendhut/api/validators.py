@@ -1,6 +1,8 @@
 # https://github.com/getsentry/sentry/blob/master/src/sentry/api/endpoints/user_subscriptions.py#L59
 from rest_framework import serializers
 from sendhut.accounts.utils import get_user
+from sendhut.envoy import PackageTypes
+
 
 ValidationError = serializers.ValidationError
 
@@ -68,7 +70,7 @@ class QuotesValidator(serializers.Serializer):
 
 
 class AddressValidator(serializers.Serializer):
-    address = serializers.CharField(max_length=120)
+    address = serializers.CharField(max_length=120, required=True)
     # apt number or company name
     apt = serializers.CharField(max_length=42, required=False)
     notes = serializers.CharField(max_length=252, required=False)
@@ -77,7 +79,7 @@ class AddressValidator(serializers.Serializer):
 class ContactValidator(serializers.Serializer):
     first_name = serializers.CharField(max_length=120, required=True)
     last_name = serializers.CharField(max_length=120, required=True)
-    phone = serializers.CharField(max_length=30, required=False)
+    phone = serializers.CharField(max_length=30, required=True)
     email = serializers.CharField(max_length=40, required=False)
     address = AddressValidator(required=False)
 
@@ -91,6 +93,8 @@ class PickupValidator(serializers.Serializer):
 
 class DropoffValidator(serializers.Serializer):
     address = AddressValidator(required=True)
+    size = serializers.ChoiceField(
+        choices=list(dict(PackageTypes.CHOICES).keys()), required=False)
     # instructions for courier
     notes = serializers.CharField(required=False)
     contact = ContactValidator(required=False)
@@ -98,6 +102,8 @@ class DropoffValidator(serializers.Serializer):
 
 class DeliveryValidator(serializers.Serializer):
     pickup = PickupValidator(required=True)
-    dropoff = DropoffValidator(required=True)
+    dropoffs = serializers.ListField(
+        child=DropoffValidator(required=True), min_length=1, max_length=4
+    )
     quote = serializers.CharField(required=False)
     notes = serializers.CharField(required=False)

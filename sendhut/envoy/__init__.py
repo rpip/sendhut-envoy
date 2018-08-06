@@ -34,11 +34,11 @@ class TransportTypes:
 
 class PackageTypes:
     """Enum of possible package sizes"""
-    EXTRA_SMALL = 'extra_small'
+    EXTRA_SMALL = 'extra-small'
     SMALL = 'small'
     MEDIUM = 'medium'
     LARGE = 'large'
-    EXTRA_LARGE = 'extra_large'
+    EXTRA_LARGE = 'extra-large'
 
     CHOICES = [
         (EXTRA_SMALL, "Extra small"),
