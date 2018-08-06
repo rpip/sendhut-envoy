@@ -120,10 +120,11 @@ class PasswordChangeEndpoint(Endpoint):
         if not validator.is_valid():
             raise ValidationError(details=validator.errors)
 
-        # if phone, send code to confirm else if email link
+        # if username is phone, send code to confirm else if email link
+        username = validator.data['username']
         old_password = validator.data['old_password']
         new_password = validator.data['new_password1']
-        change_password(request.user, old_password, new_password)
+        change_password(username, old_password, new_password)
         return self.respond({'status': 'OK'})
 
 
@@ -149,7 +150,7 @@ class ProfileEndpoint(Endpoint):
     def get(self, request):
         return self.respond(serialize(request.user))
 
-    def put(self, request):
+    def patch(self, request):
         validator = ProfileValidator(data=request.data)
         if not validator.is_valid():
             raise ValidationError(details=validator.errors)

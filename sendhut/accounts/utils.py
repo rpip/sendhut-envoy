@@ -38,10 +38,11 @@ def authenticate(username, password):
 
 def trigger_password_reset(username):
     # send sms if username is phone, else email
-    logger.log('sending password reset')
+    logger.debug('sending password reset')
 
 
-def change_password(user, old_password, new_password):
+def change_password(username, old_password, new_password):
+    user = get_user(username)
     if user.check_password(old_password):
         user.set_password(new_password)
         user.save()

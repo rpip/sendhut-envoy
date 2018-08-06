@@ -127,9 +127,6 @@ def exception_handler(exc, context):
         exc = NotFound()
     elif isinstance(exc, DjPermissionDenied):
         exc = PermissionDenied()
-    # elif isinstance(exc, LookupError):
-    #     # get exact reason: unknown_location? etc
-    #     exc = UnknownLocation()
     # handle DRF exceptions
     elif issubclass(exc.__class__, drf_exceptions.APIException):
         errors = [(k, _err(v)) for k, v in exc.get_full_details().items()]

@@ -9,9 +9,9 @@ ValidationError = serializers.ValidationError
 
 class ProfileValidator(serializers.Serializer):
     company = serializers.CharField(required=False)
-    first_name = serializers.CharField(required=True)
-    last_name = serializers.CharField(required=True)
-    phone = serializers.CharField(required=True)
+    first_name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
+    phone = serializers.CharField(required=False)
     email = serializers.CharField(required=False)
 
 
@@ -27,13 +27,17 @@ class UserCreateValidator(serializers.Serializer):
     password = serializers.CharField(min_length=8, required=True)
     email = serializers.EmailField(required=False)
 
-    def validate_phone(self, data):
-        if get_user(data):
+    def validate_phone(self, value):
+        if get_user(value):
             raise ValidationError("This phone number is already taken")
 
-    def validate_email(self, data):
-        if get_user(data):
+        return value
+
+    def validate_email(self, value):
+        if get_user(value):
             raise ValidationError("This email is already taken")
+
+        return value
 
 
 class PasswordResetValidator(serializers.Serializer):
@@ -50,20 +54,20 @@ class PasswordResetValidator(serializers.Serializer):
 
 
 class PasswordChangeValidator(serializers.Serializer):
+    username = serializers.CharField(max_length=128, required=True)
     old_password = serializers.CharField(max_length=128, required=True)
     new_password1 = serializers.CharField(max_length=128, required=True)
     new_password2 = serializers.CharField(max_length=128, required=True)
 
-    def validate_old_password(self, value):
-        if not self.user.check_password(value):
-            raise serializers.ValidationError('Invalid password')
-
     def validate_new_password1(self, value):
-        if value != self.data['new_password2']:
+        if value != self.initial_data['new_password2']:
             raise ValidationError('Invalid password')
+
+        return value
 
 
 class QuotesValidator(serializers.Serializer):
+    # transport_type, package_size
     pickup = serializers.CharField(required=False)
     dropoffs = serializers.ListField(
         child=serializers.CharField(), min_length=1, max_length=4)
