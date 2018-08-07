@@ -18,16 +18,16 @@ The base URL for all requests to the Sendhut API is: `https://sendhut.com/api`
 
 ## Authentication
 
-The Sendhut API uses Token authentication .
+The Sendhut API requires authentication by HTTP Basic Auth headers.
+Your API key should be included as the username. The password is not required.
 
+`Basic Y2YyZjJkNmQtYTMxNC00NGE4LWI2MDAtNTA1M2MwYWYzMTY1Og==`
+
+For Sendhut's internal applications, use the HTTP Basic Auth in combination with the JWT tokens.
 To start sending authenticated HTTP requests on behalf of logged in users, you need to
-authenticate the user by providng the username and password. The login response includes the
-user's unique token and details.  Once you have a valid access JWT token you need to add it as a HTTP header to
-every HTTP request you send to the Sendhut API.
-
-`Token Y2YyZjJkNmQtYTMxNC00NGE4LWI2MDAtNTA1M2MwYWYzMTY1Og==`
-
-When the user logs out, this API token is expired, and a new one created the next time the user logs in.
+authenticate the user by providng the username and password, and receive a JWT token in return.
+Once you have a valid access JWT token you need to add it as a HTTP header to every HTTP request you send to the Sendhut API.
+Use the ``
 
 ## Metadata:
 
@@ -71,24 +71,6 @@ Error responses include details about what went wrong. The response format is de
   "dropoff_phone_number": "Dropoff phone number must be valid phone number."
  }
 }
-
-{
-    "kind": "error",
-    "type": "invalid_params",
-    "message": "The parameters of your request were missing or invalid.",
-    "details": {
-        "password": [
-            "Ensure this field has at least 8 characters."
-        ]
-    }
-}
-
-{
-    "kind": "error",
-    "type": "authentication_error",
-    "message": "Invalid username or password",
-    "details": {}
-}
 ```
 
 Please find below the list of all errors:
@@ -119,7 +101,7 @@ Here is a list of all the status transitions:
 * dropoff - Courier is moving towards the dropoff.
 * almost_dropoff - The driver is close to the delivery point.
 * waiting_at_dropoff - The driver is waiting at the delivery point.
-* cancelled - Items won't be delivered. Deliveries are either canceled by the customer or by our customer service team.
+* canceled - Items won't be delivered. Deliveries are either canceled by the customer or by our customer service team.
 * delivered - The package has been delivered successfully.
 * returned - The delivery was returned either:
    - customer/sendhut cancelled
@@ -163,6 +145,7 @@ return delivery or leave items at the door, depending on your preference.
 - `address` (address)
 - `notes`: `2nd floor on the left` (string)
 - `contact` (contact)
+- `dropoff_identifier` (contact)
 
 ## `cancellation` (object)
 
@@ -177,7 +160,7 @@ return delivery or leave items at the door, depending on your preference.
 
 ## `proof` (object)
 
-- `signature_url`: `https://sendhut-bucket.s3.eu-central-1.amazonaws.com/uploads/signatures/d-1618575-d1954390a6.jpg` (string)
+- `signature_url`: `https://stuart-bucket.s3.eu-central-1.amazonaws.com/uploads/signatures/d-1618575-d1954390a6.jpg` (string)
 
 ## `next` (object)
 
@@ -190,7 +173,7 @@ return delivery or leave items at the door, depending on your preference.
 - `status`: `delivered` (string)
 - `picked_at`: `2017-12-06T16:23:57.000+01:00` (string)
 - `delivered_at`: `2017-12-06T16:23:57.000+01:00` (string)
-- `tracking_url`: `https://sendhut.sandbox.followmy.delivery/72251/3d9e97e10981cffee7777bf0c1d25ad7` (string)
+- `tracking_url`: `https://stuart.sandbox.followmy.delivery/72251/3d9e97e10981cffee7777bf0c1d25ad7` (string)
 - `package_description`: `The blue one.` (string)
 - `package_type`: `small` (string)
 - `pickup` (pickup)
@@ -205,7 +188,7 @@ return delivery or leave items at the door, depending on your preference.
 - `id`: `23129` (number)
 - `display_name`: `Sebastien F.` (string)
 - `phone`: `+33981270162` (string)
-- `picture_url`: `https://sendhut.imgix.net/driver/23129/ba04b0d9179f33696367.png` (string)
+- `picture_url`: `https://stuart.imgix.net/driver/23129/ba04b0d9179f33696367.png` (string)
 - `transport_type`: `bike` (string)
 - `latitude`: `48.831` (number)
 - `longitude`: `2.389` (number)
@@ -282,126 +265,16 @@ return delivery or leave items at the door, depending on your preference.
 - `pricing` (pricing)
 - `metadata` (metadata)
 
-## `DeliveryRequest` (object)
+## `Shipment` (object)
 
 - `pickup` (pickup)
 - `dropoffs` (array[dropoff])
 
+## Accounts [/accounts]
 
-## Login [POST /auth]
+## Shipments [/shipments]
 
-+ Request (application/json)
-
-        {
-          "username": "foo@bar.com",
-          "password": "pa55word"
-        }
-
-+ Response 200 (application/json)
-
-        {
-          "token": "6e1bc30316d526867e4e4ee58713d7a8be3f70cc",
-          "user": {
-            "id": "usr_yHJ6yGGqHfya",
-            "first_name": "Stacey",
-            "last_name": "May",
-            "email": "foo@bar.com",
-            "username": "642.075.4586x126",
-            "last_login": null,
-            "identity_verified": false,
-            "is_active": true,
-            "date_joined": "2018-06-25T17:31:25.781858Z",
-            "addresses": []
-          }
-        }
-
-
-## Change Password [POST /auth/change-password]
-
-+ Request (application/json)
-
-        {
-          "username": "076345678",
-          "old_password": "pa55word",
-          "new_password1": "abc12345",
-          "new_password2": "abc12345"
-        }
-
-
-+ Response 200 (application/json)
-
-        {
-          "status": "OK"
-        }
-
-
-## Register [POST /users]
-
-+ Request (application/json)
-
-        {
-          "phone": "0763456798",
-          "email": "hello@fo9o.com",
-          "password": "abc98765"
-        }
-
-+ Response 200 (application/json)
-
-        {
-          "token": "6e1bc30316d526867e4e4ee58713d7a8be3f70cc",
-          "user": {
-            "id": "usr_yHJ6yGGqHfya",
-            "first_name": "Stacey",
-            "last_name": "May",
-            "email": "foo@bar.com",
-            "username": "642.075.4586x126",
-            "last_login": null,
-            "identity_verified": false,
-            "is_active": true,
-            "date_joined": "2018-06-25T17:31:25.781858Z",
-            "addresses": []
-          }
-        }
-
-
-## Get Profile [GET /me]
-
-+ Response 200 (application/json)
-
-        {
-            "id": "usr_yHJ6yGGqHfya",
-            "first_name": "Stacey",
-            "last_name": "May",
-            "email": "foo@bar.com",
-            "username": "642.075.4586x126",
-            "last_login": null,
-            "identity_verified": false,
-            "is_active": true,
-            "date_joined": "2018-06-25T17:31:25.781858Z",
-            "addresses": []
-        }
-
-## Update Profile [PATCH /me]
-
-+ Request (application/json)
-
-        {"email": "hello@bar.com"}
-
-+ Response 200 (application/json)
-
-        {
-            "id": "usr_yHJ6yGGqHfya",
-            "first_name": "Stacey",
-            "last_name": "May",
-            "email": "hello@bar.com",
-            "username": "642.075.4586x126",
-            "last_login": null,
-            "identity_verified": false,
-            "is_active": true,
-            "date_joined": "2018-06-25T17:31:25.781858Z",
-            "addresses": []
-        }
-
+Shipment: collection of deliveries which has to be delivered if route is same.
 
 ## Get Delivery zones [GET /zones]
 
@@ -483,7 +356,7 @@ To check if an address is within a given zone, use the Delivery Quote endpoint.
         }
 
 
-## Get scheduling slots [GET /schedules/{city}/{type}/{date}]
+### Get scheduling slots [GET /schedules/{city}/{type}/{date}]
 
 Use this endpoint returns the available schedule slots. Please note the schedules may differ from one city to another.
 
@@ -492,6 +365,9 @@ Use this endpoint returns the available schedule slots. Please note the schedule
 
     + Attributes (DeliverySchedule)
 
+# Delivery [/deliveries]
+
+Delivery: individual delivery
 
 ### Get a Delivery Quote [POST /quotes]
 
@@ -500,15 +376,13 @@ for a given Job by using exactly the same request body as Create a Delivery endp
 
 + Request
 
-    + Attributes (DeliveryRequest)
+    + Attributes (Shipment)
 
 + Response 200 (application/json)
 
     + Attributes (DeliveryQuote)
 
-## Deliveries [/deliveries]
-
-### List Deliveries [GET /deliveries]
+### List Deliveries [GET]
 
 List all deliveries for a customer.
 
@@ -518,11 +392,11 @@ You can filter the delivery job statuses by using the `status` parameter. See de
 
     + Attributes (array[Delivery])
 
-### Create a Delivery [POST /deliveries]
+### Create a Delivery [POST]
 
 + Request
 
-    + Attributes (DeliveryRequest)
+    + Attributes (Shipment)
 
 + Response 200 (application/json)
 
@@ -571,7 +445,7 @@ When the delivery status is `dropoff`, `almost_dropoff`, `waiting_at_dropoff` yo
     + Attributes (Delivery)
 
 
-### Cancel a Delivery [POST /deliveries/{delivery_id}/cancel]
+### Cancel a Delivery [POST /{delivery_id}/cancel]
 
 Cancel an ongoing delivery. A delivery can only be canceled prior to a courier completing pickup.
 Delivery fees still apply.

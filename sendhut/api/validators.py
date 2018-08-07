@@ -1,4 +1,7 @@
 # https://github.com/getsentry/sentry/blob/master/src/sentry/api/endpoints/user_subscriptions.py#L59
+from datetime import datetime
+from dateutil.parser import parse
+
 from rest_framework import serializers
 from sendhut.accounts.utils import get_user
 from sendhut.envoy import PackageTypes
@@ -90,9 +93,16 @@ class ContactValidator(serializers.Serializer):
 
 class PickupValidator(serializers.Serializer):
     address = AddressValidator(required=True)
+    pickup_time = serializers.CharField(required=True)
     # instructions for courier
     notes = serializers.CharField(required=False)
     contact = ContactValidator(required=False)
+
+    def validate_pickup_time(self, value):
+        if value == 'asap':
+            return datetime.now()
+
+        return parse(value)
 
 
 class DropoffValidator(serializers.Serializer):
