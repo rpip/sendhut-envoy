@@ -138,6 +138,7 @@ class PickupSerializer(Serializer):
         return {
             'id': obj.id,
             'address': serialize(obj.address),
+            'pickup_time': serialize(obj.pickup_time),
             'notes': serialize(obj.notes),
             'contact': serialize(obj.contact)
         }
