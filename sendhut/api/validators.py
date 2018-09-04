@@ -101,6 +101,8 @@ class PickupValidator(serializers.Serializer):
     def validate_pickup_time(self, value):
         if value == 'asap':
             return datetime.now()
+        elif not isinstance(value, datetime):
+            raise ValidationError('Invalid pickup time')
 
         return parse(value)
 
