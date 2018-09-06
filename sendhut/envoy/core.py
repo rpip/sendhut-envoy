@@ -77,10 +77,13 @@ def adjust_offdays(date):
 
 
 def format_time_slots(time_slots):
-    time_slots = [
-        (t_start.strftime('%-I:%M %p'), t_end.strftime('%-I:%M %p'))
+    time_slots = (
+        {
+            "start_time": t_start,
+            "end_time": t_end
+        }
         for t_start, t_end in time_slots
-    ]
+    )
     return time_slots
 
 
@@ -103,7 +106,9 @@ def get_scheduling_slots(
     Offdays, in this case, Sunday is removed from the schedule.
     """
     # TODO(yao): remove past pick up times from today's schedule
-    day1, adjusted = adjust_offdays(datetime.now())
+    day1, adjusted = adjust_offdays(
+        datetime.today().replace(hour=9, minute=30, second=0, microsecond=0)
+    )
     day1_weekday = day1.strftime('%a') if adjusted else 'Today'
 
     day2, adjusted = adjust_offdays(day1 + timedelta(days=1))
@@ -112,22 +117,25 @@ def get_scheduling_slots(
     day3, _ = adjust_offdays(day2 + timedelta(days=1))
     day3_weekday = day3.strftime('%a')
 
-    schedule = {
-        day1_weekday: {
-            day1.day: format_time_slots(get_time_slots())
-        },
-        day2_weekday: {
-            day2.day: format_time_slots(get_time_slots())
-        },
-        day3_weekday: {
-            day3.day: format_time_slots(get_time_slots())
-        }
-    }
+    schedule = [
+        {'day_name': day1_weekday,
+         'day_num': day1.day,
+         'slots': format_time_slots(get_time_slots())
+         },
+        {'day_name': day2_weekday,
+         'day_num': day2.day,
+         'slots': format_time_slots(get_time_slots(day2))
+         },
+        {'day_name': day3_weekday,
+         'day_num': day3.day,
+         'slots': format_time_slots(get_time_slots(day3))
+         },
+    ]
     return {
         'zone': zone_info(city),
         'type': type,
         'date': date or datetime.now(),
-        'slots': schedule
+        'schedule': schedule
     }
 
 
