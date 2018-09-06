@@ -103,3 +103,6 @@ NOTES
 NOTES
 
 webpack-stats.json
+*.rdb
+.idea
+.vscode
