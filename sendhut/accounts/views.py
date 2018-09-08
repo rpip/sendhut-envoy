@@ -61,10 +61,12 @@ class LoginView(View):
             if user:
                 # restore cart from anonymous user sesssion
                 login(request, user)
+                response = redirect(next_url)
+                utils.set_auth_cookie(user.auth_token, response)
                 if not remember_me:
                     self.request.session.set_expiry(0)
 
-                return redirect(next_url)
+                return response
 
         return render(request, 'accounts/login.html', {
             'login_form': login_form,

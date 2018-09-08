@@ -22,6 +22,16 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 MOBILE_AGENT_RE = re.compile(r".*(iphone|ios|mini|mobile|androidtouch)", re.IGNORECASE)
 
+COOKIE_NAME = 'auth_token'
+
+
+def set_auth_cookie(token, response):
+    """Update response with an auth token cookie."""
+    ten_years = timedelta(days=(365 * 10))
+    response.set_signed_cookie(
+        COOKIE_NAME, token.key, max_age=int(ten_years.total_seconds()))
+
+
 REDIS = redis.StrictRedis(
     host=settings.REDIS_URL.hostname,
     port=settings.REDIS_URL.port,
