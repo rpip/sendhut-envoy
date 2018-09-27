@@ -185,7 +185,7 @@ class DeliveryEndpoint(Endpoint):
     def get(self, request, status=None, *args, **kwargs):
         status = request.query_params.get('status')
         deliveries = Delivery.for_user(request.user, status)
-        ds = serialize(list(deliveries))
+        ds = serialize([x for x in deliveries])
         return self.respond(ds)
 
     def post(self, request):

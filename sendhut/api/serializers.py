@@ -41,7 +41,7 @@ class AddressSerializer(Serializer):
             'address': obj.address,
             'apt': obj.apt,
             'location': serialize(obj.location),
-            'photo': obj.photo.thumb_sm().url if obj.photo else None,
+            # 'photo': obj.photo.thumb_sm().url if obj.photo else None,
             'notes': obj.notes,
         }
 
@@ -99,7 +99,8 @@ class CourierSerializer(Serializer):
             'first_name': obj.first_name,
             'last_name': obj.last_name,
             'phone': obj.phone,
-            'photo': obj.photo.thumb_sm().url if obj.photo else None,
+            # TODO: use pregenerated thumbnails
+            # 'photo': obj.photo.thumb_sm().url if obj.photo else None,
             'transport_type': serialize(obj.transport_type),
             'location': serialize(obj.location),
             'zone': serialize(obj.zone),
