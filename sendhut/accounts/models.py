@@ -21,5 +21,19 @@ class User(AbstractUser, BaseModel):
     def __str__(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
+    @property
+    def contact_details(self):
+        return {
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'email': self.email,
+            'phone': self.phone,
+            'address': self.default_address
+        }
+
+    @property
+    def default_address(self):
+        return self.addresses.first()
+
     class Meta:
         db_table = 'user'

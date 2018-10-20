@@ -116,7 +116,7 @@ class Pickup(BaseModel):
     pickup_time = models.DateTimeField(null=True, blank=True)
     # instructions for courier
     notes = models.CharField(max_length=252, null=True, blank=True)
-    contact = models.ForeignKey(Contact)
+    contact = models.ForeignKey(Contact, null=True, blank=True)
 
     class Meta:
         db_table = 'pickup'

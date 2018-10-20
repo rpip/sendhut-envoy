@@ -201,7 +201,8 @@ def breakdown_fees(quote):
 def create_delivery(user, pickup, dropoffs, quote=None):
     apt = pickup['address'].get('apt')
     addr = Address.objects.create(address=pickup['address'], apt=apt)
-    contact = Contact.objects.create(**pickup['contact'])
+    pickup_contact = pickup.get('contact', user.contact_details)
+    contact = Contact.objects.create(**pickup_contact)
     pickup = Pickup.objects.create(address=addr, contact=contact)
     batch = Batch.objects.create()
     for d in dropoffs:
