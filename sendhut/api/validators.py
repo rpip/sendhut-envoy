@@ -29,6 +29,8 @@ class UserCreateValidator(serializers.Serializer):
     # Use a minimum of 8 characters
     password = serializers.CharField(min_length=8, required=True)
     email = serializers.EmailField(required=False)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
 
     def validate_phone(self, value):
         if get_user(value):

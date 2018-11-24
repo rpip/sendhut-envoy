@@ -19,10 +19,12 @@ def get_user(username):
 
 
 # users
-def create_user(phone, password, email=None):
-    user = User(phone=phone, username=phone)
-    if email:
-        user.email = email
+def create_user(phone, password, email=None, first_name=None, last_name=None):
+    user = User(
+        phone=phone, username=phone,
+        email=email, first_name=first_name,
+        last_name=last_name)
+
     user.set_password(password)
     user.save()
     return user

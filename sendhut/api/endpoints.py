@@ -194,6 +194,7 @@ class DeliveryEndpoint(Endpoint):
             raise ValidationError(details=validator.errors)
 
         batch = create_delivery(user=request.user, **validator.data)
+        # TODO: POST delivery task to driver delivery engine: onfleet/tookan etc.
         return self.respond(serialize(batch))
 
 
