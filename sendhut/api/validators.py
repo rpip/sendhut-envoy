@@ -71,13 +71,6 @@ class PasswordChangeValidator(serializers.Serializer):
         return value
 
 
-class QuotesValidator(serializers.Serializer):
-    # transport_type, package_size
-    pickup = serializers.CharField(required=False)
-    dropoffs = serializers.ListField(
-        child=serializers.CharField(), min_length=1, max_length=4)
-
-
 class AddressValidator(serializers.Serializer):
     address = serializers.CharField(max_length=120, required=True)
     # apt number or company name
@@ -116,6 +109,19 @@ class DropoffValidator(serializers.Serializer):
     # instructions for courier
     notes = serializers.CharField(required=False)
     contact = ContactValidator(required=False)
+
+
+class QuotesV1Validator(serializers.Serializer):
+    pickup = serializers.CharField(required=False)
+    dropoffs = serializers.ListField(
+        child=serializers.CharField(), min_length=1, max_length=4)
+
+
+class QuotesValidator(serializers.Serializer):
+    pickup = PickupValidator(required=True)
+    dropoffs = serializers.ListField(
+        child=DropoffValidator(required=True), min_length=1, max_length=4
+    )
 
 
 class DeliveryValidator(serializers.Serializer):

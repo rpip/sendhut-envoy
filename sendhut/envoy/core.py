@@ -165,16 +165,15 @@ def calculate_pricing(distance):
     return (distance * FEE_PER_MILE) + BASE_FARE + TOLL_FEE
 
 
-def get_delivery_quote(pickup: str, dropoffs: [str]):
+def get_delivery_quotev1(pickup: str, dropoffs: [str]):
     """
-    Returns a delivery quote.
+    Returns a delivery quote for single dropoffs. quick estimates
 
     The `eta` is the estimated time of arrival at the origin address.
     The `pricing` is the delivery fee.
     """
     # TODO(yao): handle timeout
     # TODO(yao): factor in package size & type
-    # TODO(yao): multi drops
     dropoff = dropoffs[0]
     resp = gmaps.distance_matrix(
         origins=pickup, destinations=dropoff, units='imperial')
@@ -188,6 +187,38 @@ def get_delivery_quote(pickup: str, dropoffs: [str]):
         'pricing': str(Money(pricing, settings.DEFAULT_CURRENCY)),
         'eta': resp['duration']['text']
     }
+
+
+def get_delivery_quote(pickup: dict, dropoffs: [dict]):
+    """
+    Returns a delivery quote
+
+    The `eta` is the estimated time of arrival at the origin address.
+    The `pricing` is the delivery fee.
+    """
+    # TODO(yao): handle timeout
+    # TODO(yao): factor in package size & type
+    pickup = pickup['address']['address']
+    dropoffs = [x['address']['address'] for x in dropoffs]
+    resp = gmaps.distance_matrix(
+        origins=pickup, destinations=dropoffs, units='imperial')
+    all_resp = resp['rows'][0]['elements']
+    # if resp['status'] != 'OK':
+    #     raise LookupError(status=resp['status'])
+    pricing = sum([
+        calculate_pricing(distance_to_miles(x['distance']['value']))
+        for x in all_resp
+    ])
+    # TODO: make more human friendly
+    total_dropoff_time = sum([x['duration']['value'] for x in all_resp])/60
+    return {
+        'pricing': str(Money(pricing, settings.DEFAULT_CURRENCY)),
+        'eta': total_dropoff_time
+    }
+
+
+def distance_to_miles(val):
+    return (val/1000) * KM_TO_MILES_FACTOR
 
 
 def breakdown_fees(quote):

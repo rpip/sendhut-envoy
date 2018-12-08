@@ -20,6 +20,7 @@ from sendhut.accounts.utils import (
 )
 from sendhut.envoy.core import (
     get_delivery_quote,
+    get_delivery_quotev1,
     get_scheduling_slots
 )
 from .base import serialize
@@ -31,6 +32,7 @@ from .validators import (
     ProfileValidator,
     PasswordResetValidator,
     PasswordChangeValidator,
+    QuotesV1Validator,
     QuotesValidator,
     DeliveryValidator
 )
@@ -166,6 +168,18 @@ class SchedulesEndpoint(Endpoint):
     def get(self, request, city=None, type=None, date=None, format=None):
         schedules = get_scheduling_slots(city, type, date)
         return self.respond(schedules)
+
+
+class QuotesV1Endpoint(Endpoint):
+    permission_classes = ()
+
+    def post(self, request):
+        validator = QuotesV1Validator(data=request.data)
+        if not validator.is_valid():
+            raise ValidationError(details=validator.errors)
+
+        quote = get_delivery_quotev1(**validator.validated_data)
+        return self.respond(serialize(quote))
 
 
 class QuotesEndpoint(Endpoint):
