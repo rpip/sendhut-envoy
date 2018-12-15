@@ -69,6 +69,14 @@ def generate_token(length=14):
     return ''.join(chars)
 
 
+def generate_sms_token(length=4):
+    import random
+    from secrets import randbelow
+    nums = [str(randbelow(10)) for x in range(20)]
+    random.shuffle(nums)
+    return ''.join(nums[:4])
+
+
 def hash_data(data, hash_length=190, data_type=None):
     salt = "ValentinaIsTheMostAwsomeDogInTheWord"
     if data:

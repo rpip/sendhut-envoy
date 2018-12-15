@@ -12,6 +12,9 @@ class User(AbstractUser, BaseModel):
     phone = models.CharField(max_length=20, unique=True)
     last_login = models.DateTimeField(null=True, blank=True)
     identity_verified = models.BooleanField(default=False)
+    first_name = models.CharField(max_length=30, null=True, blank=True)
+    last_name = models.CharField(max_length=30, null=True, blank=True)
+    email = models.EmailField(max_length=30, null=True, blank=True)
 
     def get_username(self):
         return self.phone

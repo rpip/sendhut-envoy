@@ -3,7 +3,7 @@ from datetime import datetime
 from dateutil.parser import parse
 
 from rest_framework import serializers
-from sendhut.accounts.utils import get_user
+import sendhut.accounts.utils as auth
 from sendhut.envoy import PackageTypes
 
 
@@ -14,14 +14,25 @@ class ProfileValidator(serializers.Serializer):
     company = serializers.CharField(required=False)
     first_name = serializers.CharField(required=False)
     last_name = serializers.CharField(required=False)
-    phone = serializers.CharField(required=False)
+    phone = serializers.CharField(required=True)
     email = serializers.CharField(required=False)
 
 
 class LoginValidator(serializers.Serializer):
-    username = serializers.CharField(required=True)
-    # Use a minimum of 8 characters
-    password = serializers.CharField(min_length=8, required=True)
+    # todo(yao): validate phone numbers
+    phone = serializers.CharField(required=True)
+
+
+class SMSTokenValidator(serializers.Serializer):
+    code = serializers.CharField(required=True)
+    phone = serializers.CharField(required=True)
+
+    def validate_code(self, value):
+        phone = self.initial_data.get("phone")
+        if not auth.verify_token(phone, value):
+            raise ValidationError("Invalid verification code")
+
+        return value
 
 
 class UserCreateValidator(serializers.Serializer):
@@ -33,13 +44,13 @@ class UserCreateValidator(serializers.Serializer):
     last_name = serializers.CharField(required=True)
 
     def validate_phone(self, value):
-        if get_user(value):
+        if auth.get_user(value):
             raise ValidationError("This phone number is already taken")
 
         return value
 
     def validate_email(self, value):
-        if get_user(value):
+        if auth.get_user(value):
             raise ValidationError("This email is already taken")
 
         return value
@@ -51,7 +62,7 @@ class PasswordResetValidator(serializers.Serializer):
 
     def validate_username(self, value):
         # check if email or phone exist
-        user = get_user(value)
+        user = auth.get_user(value)
         if not user:
             raise ValidationError('No user found')
 

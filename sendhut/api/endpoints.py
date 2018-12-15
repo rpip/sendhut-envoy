@@ -3,7 +3,7 @@ import logging
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -11,27 +11,20 @@ from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 
 from sendhut.utils import update_model_fields
-from sendhut.accounts.utils import (
-    create_user,
-    authenticate,
-    logout,
-    trigger_password_reset,
-    change_password
-)
+from sendhut import sms
+import sendhut.accounts.utils as auth
 from sendhut.envoy.core import (
     get_delivery_quote,
     get_delivery_quotev1,
     get_scheduling_slots
 )
 from .base import serialize
-from .permissions import NoPermission
 from .validators import (
+    SMSTokenValidator,
     LoginValidator,
     AddressValidator,
     UserCreateValidator,
     ProfileValidator,
-    PasswordResetValidator,
-    PasswordChangeValidator,
     QuotesV1Validator,
     QuotesValidator,
     DeliveryValidator
@@ -79,71 +72,45 @@ class AuthTokenEndpoint(Endpoint):
     permission_classes = ()
 
     def post(self, request, *args, **kwargs):
+        validator = SMSTokenValidator(data=request.data)
+        if not validator.is_valid():
+            raise ValidationError(details=validator.errors)
+
+        phone = validator.data.get("phone")
+        user = auth.get_user(phone)
+        signup = False
+        if not user:
+            # first-time user, create account
+            signup = True
+            user = auth.create_user(phone)
+
+        token, created = Token.objects.get_or_create(user=user)
+        data = {'token': token.key, 'user': serialize(user), 'signup': signup}
+        return self.respond(data)
+
+
+class LoginEndpoint(Endpoint):
+    authentication_classes = ()
+    permission_classes = ()
+
+    def post(self, request, *args, **kwargs):
         validator = LoginValidator(data=request.data)
         if not validator.is_valid():
             raise ValidationError(details=validator.errors)
 
-        user = authenticate(**validator.data)
-        if not user:
-            raise AuthenticationError()
-
-        token, created = Token.objects.get_or_create(user=user)
-        data = {'token': token.key, 'user': serialize(user)}
-        return self.respond(data)
+        phone_number = validator.data.get("phone")
+        token = auth.set_auth_token(phone_number)
+        print("SMS token {}".format(token))
+        # sms.push_verification_sms(phone_number, token)
+        return self.respond({'status': 'OK', 'code': token})
 
 
 class LogoutEndpoint(Endpoint):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
-        logout(request.user)
+        auth.logout(request.user)
         return self.respond({'status': 'OK'})
-
-
-class PasswordResetEndpoint(Endpoint):
-    authentication_classes = ()
-    permission_classes = (AllowAny,)
-
-    def post(self, request):
-        validator = PasswordResetValidator(data=request.data)
-        if not validator.is_valid():
-            raise ValidationError(details=validator.errors)
-
-        trigger_password_reset(validator.data['username'])
-        return self.respond({'message': 'Password reset sent'})
-
-
-class PasswordChangeEndpoint(Endpoint):
-    authentication_classes = ()
-    permission_classes = (AllowAny,)
-
-    def post(self, request, *args, **kwargs):
-        validator = PasswordChangeValidator(data=request.data)
-        if not validator.is_valid():
-            raise ValidationError(details=validator.errors)
-
-        # if username is phone, send code to confirm else if email link
-        username = validator.data['username']
-        old_password = validator.data['old_password']
-        new_password = validator.data['new_password1']
-        change_password(username, old_password, new_password)
-        return self.respond({'status': 'OK'})
-
-
-class RegistrationEndpoint(Endpoint):
-    authentication_classes = ()
-    permission_classes = ()
-
-    def post(self, request):
-        validator = UserCreateValidator(data=request.data)
-        if not validator.is_valid():
-            raise ValidationError(details=validator.errors)
-
-        user = create_user(**validator.data)
-        return self.respond({
-            'token': user.auth_token.key,
-            'user': serialize(user)
-        })
 
 
 class ProfileEndpoint(Endpoint):
