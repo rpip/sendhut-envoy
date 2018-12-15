@@ -3,6 +3,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 from django.contrib.messages import constants as messages
 
+import redis
 from decouple import config, Csv
 import dj_database_url
 
@@ -177,6 +178,8 @@ AUTH_USER_MODEL = 'accounts.User'
 
 REDIS_URL = urlparse(os.environ.get('REDIS_URL', 'redis://localhost:6379/0'))
 
+REDIS = redis.Redis.from_url(REDIS_URL.geturl())
+
 # CACHING
 # ---------------------------------------------------------------
 CACHES = {
@@ -190,8 +193,6 @@ CACHES = {
     }
 }
 
-
-CART_SESSION_ID = 'cart'
 
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-info',
@@ -213,6 +214,10 @@ LOGIN_URL = '/login'
 PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY')
 
 PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY')
+
+MNOTIFY_SERVER_URL = config('MNOTIFY_SERVER_URL')
+
+MNOTIFY_API_KEY = config('MNOTIFY_API_KEY')
 
 REDIS_URL = urlparse(os.environ.get('REDIS_URL', 'redis://localhost:6379/0'))
 
