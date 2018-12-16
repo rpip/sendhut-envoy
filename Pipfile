@@ -63,3 +63,4 @@ schematics = "*"
 jet = {git = "https://github.com/rpip/django-jet.git", editable = true}
 django-cors-headers = "*"
 phonenumbers = "*"
+twilio = "*"
