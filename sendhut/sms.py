@@ -17,7 +17,7 @@ Not you? Immediately reach us at sendhut.com/safety"
 
 
 def send_sms(recipient, text):
-    account_sid = settings.TWILIO_ACCOIUNT_SID
+    account_sid = settings.TWILIO_ACCOUNT_SID
     auth_token = settings.TWILIO_AUTHTOKEN
     client = Client(account_sid, auth_token)
     message = client.messages \
