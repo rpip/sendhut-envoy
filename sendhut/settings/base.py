@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'storages',
     'djmoney',
-    'django_rq',
     'taggit',
     'sorl.thumbnail',
     'widget_tweaks',

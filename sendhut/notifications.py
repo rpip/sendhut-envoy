@@ -6,7 +6,6 @@ from django.urls import reverse
 from django.contrib.sites.models import Site
 from templated_email import send_templated_mail
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django_rq import enqueue
 
 from decouple import config
 from jusibe.core import Jusibe
@@ -80,16 +79,6 @@ def send_order_confirmation(user, order, async=True):
 # EMAILS
 def send_welcome_email(email, async=True):
     pass
-
-
-def send_password_reset(email, token, async=True):
-    url = utils.build_absolute_uri(
-        reverse('accounts:password_reset_confirm', args=(token,)))
-    ctx = {'password_reset_url': url}
-    if async:
-        return enqueue(_send_email, email, PASSWORD_RESET_TEMPLATE, ctx)
-
-    return _send_email(email, PASSWORD_RESET_TEMPLATE, ctx)
 
 
 def post_to_slack(message, channel=SLACK_CHANNEL):

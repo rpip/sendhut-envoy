@@ -19,7 +19,6 @@ urlpatterns = [
     url(r'^logout/$', LogoutView.as_view(), name='logout'),
     url(r'^accounts/', include('sendhut.accounts.urls', namespace='accounts')),
     url(r'^partners/', include('sendhut.partners.urls', namespace='partners')),
-    url(r'^django-rq/', include('django_rq.urls')),
     url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
     url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     url(r'^api/', include('sendhut.api.urls')),
