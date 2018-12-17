@@ -90,7 +90,7 @@ class AuthenticationError(APIException):
     Unauthorized: missing API key or invalid API key provided.
     """
     code = status.HTTP_404_NOT_FOUND
-    message = 'Invalid username or password'
+    message = 'Invalid login credentials'
     type = 'authentication_error'
 
 
@@ -142,6 +142,7 @@ def exception_handler(exc, context):
     elif issubclass(exc.__class__, APIException):
         pass
     else:
+        import pdb; pdb.set_trace()
         exc = APIError()
 
     return Response(exc._error, status=exc.code, headers={})

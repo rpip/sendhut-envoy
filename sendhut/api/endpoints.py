@@ -10,25 +10,17 @@ from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 
-from sendhut.utils import update_model_fields
-from sendhut import sms
+from sendhut.utils import update_model_fields, generate_token
 import sendhut.accounts.utils as auth
+from sendhut import sms
+from sendhut.payments import utils as payments_utils
 from sendhut.envoy.core import (
     get_delivery_quote,
     get_delivery_quotev1,
     get_scheduling_slots
 )
 from .base import serialize
-from .validators import (
-    SMSTokenValidator,
-    LoginValidator,
-    AddressValidator,
-    UserCreateValidator,
-    ProfileValidator,
-    QuotesV1Validator,
-    QuotesValidator,
-    DeliveryValidator
-)
+# import serializers so they're hooked to the serialize function
 from .serializers import (
     UserSerializer,
     AddressSerializer,
@@ -40,6 +32,14 @@ from .serializers import (
     ZoneSerializer,
     BatchSerializer,
     CancellationSerializer
+)
+from .validators import (
+    SMSTokenValidator,
+    LoginValidator,
+    ProfileValidator,
+    QuotesV1Validator,
+    QuotesValidator,
+    DeliveryValidator
 )
 from .exceptions import ValidationError, AuthenticationError
 from sendhut.envoy.models import Delivery
@@ -96,12 +96,11 @@ class LoginEndpoint(Endpoint):
     def post(self, request, *args, **kwargs):
         validator = LoginValidator(data=request.data)
         if not validator.is_valid():
-            raise ValidationError(details=validator.errors)
+            raise AuthenticationError(details=validator.errors)
 
         phone_number = validator.data.get("phone")
         token = auth.set_auth_token(phone_number)
-        print("SMS token {}".format(token))
-        # sms.push_verification_sms(phone_number, token)
+        sms.push_verification_sms(phone_number, token)
         return self.respond({'status': 'OK', 'code': token})
 
 
@@ -157,8 +156,16 @@ class QuotesEndpoint(Endpoint):
         if not validator.is_valid():
             raise ValidationError(details=validator.errors)
 
+        # todo(yao): save Quote in DB, valid for x minutes
         quote = get_delivery_quote(**validator.validated_data)
-        return self.respond(serialize(quote))
+        phone = request.user.phone
+        payment_ref = self.get_payments_ref(phone, quote["pricing_int"])
+        return self.respond(serialize(dict(payment_ref=payment_ref, **quote)))
+
+    def get_payments_ref(self, phone, amount):
+        # todo(yao): handle emails sent to phone@sendhut.com
+        email = "{}@sendhut.com".format(phone)
+        return payments_utils.init(amount, email).get("data")
 
 
 class DeliveryEndpoint(Endpoint):

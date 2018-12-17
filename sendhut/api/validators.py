@@ -101,7 +101,7 @@ class PickupValidator(serializers.Serializer):
     address = AddressValidator(required=True)
     pickup_time = serializers.CharField(required=True)
     # instructions for courier
-    notes = serializers.CharField(required=False)
+    notes = serializers.CharField(allow_null=True, required=False)
     contact = ContactValidator(required=False)
 
     def validate_pickup_time(self, value):

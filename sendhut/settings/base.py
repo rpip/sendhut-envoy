@@ -61,7 +61,8 @@ INSTALLED_APPS = [
     'sendhut.partners',
     'sendhut.envoy',
     'sendhut.addressbook',
-    'sendhut.api'
+    'sendhut.payments',
+    'sendhut.api',
 ]
 
 MIDDLEWARE = [

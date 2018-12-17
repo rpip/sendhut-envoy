@@ -1,18 +1,18 @@
-from django.urls import reverse
 from django.conf import settings
 from paystackapi.paystack import Paystack
+
+from sendhut.utils import generate_token
 
 
 paystack = Paystack(secret_key=settings.PAYSTACK_SECRET_KEY)
 
 
-def init(reference, amount, email):
+def init(amount, email, reference=None):
     # TODO(yao): confirm Paystack max amount, why 33578.00, appears as 335.78
     return paystack.transaction.initialize(
-        reference=reference,
+        reference=reference or generate_token(),
         amount=amount,
-        email=email,
-        callback_url=reverse('checkout:ck')
+        email=email
     )
 
 

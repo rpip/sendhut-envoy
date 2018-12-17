@@ -213,7 +213,8 @@ def get_delivery_quote(pickup: dict, dropoffs: [dict]):
     total_dropoff_time = sum([x['duration']['value'] for x in all_resp])/60
     return {
         'pricing': str(Money(pricing, settings.DEFAULT_CURRENCY)),
-        'eta': total_dropoff_time
+        'eta': total_dropoff_time,
+        'pricing_int': pricing
     }
 
 
