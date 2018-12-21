@@ -43,7 +43,7 @@ def set_auth_token(phone):
     r = settings.REDIS
     key = "auth:{}".format(phone)
     token = generate_sms_token(4)
-    ttl = 420 # expires in 7 minutes
+    ttl = settings.SMS_TTL
     r.setex(key, ttl, token)
     return token
 

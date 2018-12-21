@@ -220,6 +220,7 @@ TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
 TWILIO_AUTHTOKEN = config('TWILIO_AUTHTOKEN')
 TWILIO_FROM_NUMBER = config('TWILIO_FROM_NUMBER')
 
+SMS_TTL = config('SMS_TTL', default=300, cast=int)
 
 REDIS_URL = urlparse(os.environ.get('REDIS_URL', 'redis://localhost:6379/0'))
 
