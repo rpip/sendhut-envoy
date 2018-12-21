@@ -45,13 +45,16 @@ def set_auth_token(phone):
     token = generate_sms_token(4)
     ttl = settings.SMS_TTL
     r.setex(key, ttl, token)
+    logger.debug("SMS token => %s: %s", key, token)
     return token
 
 
 def verify_token(phone, token):
     # checks that the token exists and hasn't expired
     r = settings.REDIS
-    user_token = r.get("auth:{}".format(phone))
+    key = "auth:{}".format(phone)
+    user_token = r.get(key)
+    logger.debug("Verify SMS token => %s: %s", key, token)
     return (user_token and user_token.decode('utf-8') == token)
 
 
