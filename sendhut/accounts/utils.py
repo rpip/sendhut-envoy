@@ -45,7 +45,7 @@ def set_auth_token(phone):
     token = generate_sms_token(4)
     ttl = settings.SMS_TTL
     logger.info("SMS token => %s: %s", key, token)
-    r.setex(key, ttl, token)
+    r.setex(key, token, ttl)
     return token
 
 
