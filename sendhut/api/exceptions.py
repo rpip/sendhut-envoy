@@ -142,7 +142,7 @@ def exception_handler(exc, context):
     elif issubclass(exc.__class__, APIException):
         pass
     else:
-        import pdb; pdb.set_trace()
-        exc = APIError()
+        # exc = APIError()
+        raise exc
 
     return Response(exc._error, status=exc.code, headers={})
