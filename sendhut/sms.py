@@ -26,7 +26,7 @@ def send_sms(recipient, text):
                         from_=settings.TWILIO_FROM_NUMBER,
                         to=recipient
                     )
-    logger.debug("SMS ID ", message.sid)
+    logger.debug("SMS ID %s", message.sid)
 
 
 def alert_login(recipient):
