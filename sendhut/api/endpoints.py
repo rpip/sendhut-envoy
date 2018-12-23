@@ -153,6 +153,7 @@ class QuotesEndpoint(Endpoint):
 
     def post(self, request):
         validator = QuotesValidator(data=request.data)
+        logger.debug("Quotes Request DATA: %s", request.data)
         if not validator.is_valid():
             raise ValidationError(details=validator.errors)
 
