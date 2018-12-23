@@ -119,7 +119,8 @@ class DropoffValidator(serializers.Serializer):
     size = serializers.ChoiceField(
         choices=list(dict(PackageTypes.CHOICES).keys()), required=False)
     # instructions for courier
-    notes = serializers.CharField(required=False)
+    notes = serializers.CharField(
+        required=False, allow_null=True, allow_blank=True)
     contact = ContactValidator(required=False)
 
 
