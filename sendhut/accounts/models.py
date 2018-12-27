@@ -19,6 +19,14 @@ class User(AbstractUser, BaseModel):
     def get_username(self):
         return self.phone
 
+    def get_contacts(self):
+        def _extract_contacts(delivery):
+            return [delivery.pickup.contact] + \
+                [x.dropoff.contact for x in delivery.batch.deliveries.all()]
+
+        contacts = [_extract_contacts(d) for d in self.deliveries.all()]
+        return sum(contacts, [])
+
     __repr__ = sane_repr('id')
 
     def __str__(self):

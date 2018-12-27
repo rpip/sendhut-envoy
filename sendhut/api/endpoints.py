@@ -39,11 +39,14 @@ from .validators import (
     ProfileValidator,
     QuotesV1Validator,
     QuotesValidator,
-    DeliveryValidator
+    DeliveryValidator,
+    ContactValidator
 )
 from .exceptions import ValidationError, AuthenticationError
 from sendhut.envoy.models import Delivery
 from sendhut.envoy.core import create_delivery
+from sendhut.addressbook.models import Contact
+
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters(
@@ -192,3 +195,25 @@ class DeliveryDetailEndpoint(Endpoint):
     def get(self, request, delivery_id, *args, **kwargs):
         delivery = Delivery.objects.get(id=delivery_id)
         return self.respond(serialize(delivery))
+
+
+class AddressBookEndpoint(Endpoint):
+
+    def get(self, request):
+        contacts = request.user.get_contacts()
+        return self.respond(serialize(contacts))
+
+    def post(self, request):
+        validator = ContactValidator(data=request.data)
+        if not validator.is_valid():
+            raise ValidationError(details=validator.errors)
+
+        contact = Contact.objects.create(**validator.data)
+        return self.respond(serialize(contact))
+
+
+class ContactDetailEndpoint(Endpoint):
+
+    def get(self, request, contact_id, *args, **kwargs):
+        contact = Contact.objects.get(id=contact_id)
+        return self.respond(serialize(contact))

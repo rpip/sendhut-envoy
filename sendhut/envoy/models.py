@@ -221,10 +221,6 @@ class Delivery(BaseModel):
 
         return Delivery.objects.filter(user=user)
 
-    @property
-    def create(self, data):
-        pass
-
     class Meta:
         db_table = 'delivery'
 

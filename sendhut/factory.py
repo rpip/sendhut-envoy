@@ -23,7 +23,6 @@ from sendhut.envoy.models import (
 fake = Faker()
 
 
-# PHONE_NUMBERS = ('08096699966', '08169567693')
 POINTS = [
     Point(6.456340, 3.416270),
     Point(6.445196, 3.539032)
@@ -34,7 +33,7 @@ class UserFactory(DjangoModelFactory):
 
     class Meta:
         model = User
-        django_get_or_create = ('username',)
+        django_get_or_create = ('phone',)
 
     first_name = lazy_attribute(lambda o: fake.first_name())
     last_name = lazy_attribute(lambda o: fake.last_name())

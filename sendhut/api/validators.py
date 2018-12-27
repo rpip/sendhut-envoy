@@ -93,7 +93,9 @@ class ContactValidator(serializers.Serializer):
     first_name = serializers.CharField(max_length=120, required=True)
     last_name = serializers.CharField(max_length=120, required=True)
     phone = serializers.CharField(max_length=30, required=True)
-    email = serializers.CharField(max_length=40, required=False)
+    email = serializers.CharField(
+        max_length=40, required=False,
+        allow_null=True, allow_blank=True)
     address = AddressValidator(required=False)
 
 
