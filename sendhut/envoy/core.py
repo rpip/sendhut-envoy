@@ -231,6 +231,7 @@ def breakdown_fees(quote):
 
 
 def create_delivery(user, pickup, dropoffs, quote=None):
+    # TODO: pay from wallet
     apt = pickup['address'].get('apt')
     addr = Address.objects.create(address=pickup['address'], apt=apt)
     pickup_contact = pickup.get('contact', user.contact_details)

@@ -141,7 +141,7 @@ class Dropoff(BaseModel):
     __repr__ = sane_repr('address', 'contact')
 
 
-class DeliveryQueryset(BaseQuerySet):
+class DeliveryQuerySet(BaseQuerySet):
     """
     A specialized queryset for dealing with deliveries.
     """
@@ -206,7 +206,7 @@ class Delivery(BaseModel):
     )
     batch = models.ForeignKey('Batch', related_name='deliveries', null=True, blank=True)
 
-    objects = DeliveryManager.from_queryset(BaseQuerySet)()
+    objects = DeliveryManager.from_queryset(DeliveryQuerySet)()
 
     @property
     def duration(self):

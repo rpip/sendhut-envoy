@@ -13,7 +13,7 @@ from rest_framework.renderers import JSONRenderer
 from sendhut.utils import update_model_fields, generate_token
 import sendhut.accounts.utils as auth
 from sendhut import sms
-from sendhut.payments import utils as payments_utils
+from sendhut.payments import utils as Payments
 from sendhut.envoy.core import (
     get_delivery_quote,
     get_delivery_quotev1,
@@ -31,7 +31,9 @@ from .serializers import (
     DropoffSerializer,
     ZoneSerializer,
     BatchSerializer,
-    CancellationSerializer
+    CancellationSerializer,
+    WalletSerializer,
+    TransactionSerializer
 )
 from .validators import (
     SMSTokenValidator,
@@ -40,7 +42,8 @@ from .validators import (
     QuotesV1Validator,
     QuotesValidator,
     DeliveryValidator,
-    ContactValidator
+    ContactValidator,
+    WalletTopUpValidator
 )
 from .exceptions import ValidationError, AuthenticationError
 from sendhut.envoy.models import Delivery
@@ -169,7 +172,7 @@ class QuotesEndpoint(Endpoint):
     def get_payments_ref(self, phone, amount):
         # todo(yao): handle emails sent to phone@sendhut.com
         email = "{}@sendhut.com".format(phone)
-        return payments_utils.init(amount, email).get("data")
+        return Payments.init_transaction(amount, email).get("data")
 
 
 class DeliveryEndpoint(Endpoint):
@@ -197,6 +200,8 @@ class DeliveryDetailEndpoint(Endpoint):
         return self.respond(serialize(delivery))
 
 
+### Address book
+
 class AddressBookEndpoint(Endpoint):
 
     def get(self, request):
@@ -217,3 +222,20 @@ class ContactDetailEndpoint(Endpoint):
     def get(self, request, contact_id, *args, **kwargs):
         contact = Contact.objects.get(id=contact_id)
         return self.respond(serialize(contact))
+
+
+class WalletTopUpEndpoint(Endpoint):
+
+    def post(self, request):
+        validator = WalletTopUpValidator(data=request.data)
+        if not validator.is_valid():
+            raise ValidationError(details=validator.errors)
+
+        amount = validator.data['amount']
+        ref = validator.data['reference']
+        top_up = Payments.fund_wallet(request.user, amount, ref)
+        return self.respond(serialize(top_up))
+
+    def get(self, request):
+        wallet_topups = Payments.get_wallet_topups(request.user)
+        return self.respond(serialize(wallet_topups))

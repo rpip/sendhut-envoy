@@ -146,3 +146,10 @@ class DeliveryValidator(serializers.Serializer):
     )
     quote = serializers.CharField(required=False)
     notes = serializers.CharField(required=False)
+
+
+class WalletTopUpValidator(serializers.Serializer):
+    amount = serializers.FloatField(required=True)
+    reference = serializers.CharField(required=True)
+
+    # TODO: validate reference originated from Paystack
