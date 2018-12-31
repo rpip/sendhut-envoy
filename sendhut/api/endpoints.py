@@ -32,8 +32,8 @@ from .serializers import (
     ZoneSerializer,
     BatchSerializer,
     CancellationSerializer,
+    TransactionSerializer,
     WalletSerializer,
-    TransactionSerializer
 )
 from .validators import (
     SMSTokenValidator,

@@ -49,26 +49,24 @@ class Wallet(BaseModel):
     def withdraw(self, amount):
         return Transaction.withdraw_from_wallet(self, amount)
 
-    def get_deposits(self):
+    @property
+    def deposits(self):
         return Transaction.get_wallet_deposits(self)
 
     @property
     def total_deposits(self):
-        return Money(
-            sum([x.amount for x in self.get_deposits()]),
-            settings.DEFAULT_CURRENCY)
+        return sum(x.amount for x in self.deposits)
 
     @property
     def total_withdrawals(self):
-        withdrawals = self.get_withdrawals()
-        return Money(sum([x.amount for x in withdrawals]),
-                     settings.DEFAULT_CURRENCY)
+        return sum(x.amount for x in self.withdrawals)
 
     @property
     def balance(self):
         return self.total_deposits - self.total_withdrawals
 
-    def get_withdrawals(self):
+    @property
+    def withdrawals(self):
         return Transaction.get_wallet_withdrawals(self)
 
     @property
@@ -77,6 +75,9 @@ class Wallet(BaseModel):
 
 
 class Transaction(BaseModel):
+
+    ID_PREFIX = 'txn'
+
     wallet = models.ForeignKey(Wallet, related_name='transactions')
     txn_type = models.CharField(
         max_length=32, choices=TransactionTypes.CHOICES

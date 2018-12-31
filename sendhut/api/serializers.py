@@ -193,25 +193,26 @@ class CancellationSerializer(Serializer):
         }
 
 
-@register(Wallet)
-class WalletSerializer(Serializer):
-    def serialize(self, obj, user, *args, **kwargs):
-        return {
-            'id': str(obj.id),
-            'deposits': serialize(obj.get_deposits()),
-            'total_deposits': str(obj.total_deposits),
-            'withdrawals': str(obj.total_withdrawals),
-            'balance': str(obj.balance),
-            'is_empty': obj.is_empty
-        }
-
-
 @register(Transaction)
 class TransactionSerializer(Serializer):
     def serialize(self, obj, user, *args, **kwargs):
         return {
             'amount': str(obj.amount),
             'type': obj.txn_type,
+        }
+
+
+@register(Wallet)
+class WalletSerializer(Serializer):
+    def serialize(self, obj, user, *args, **kwargs):
+        return {
+            'id': str(obj.id),
+            'deposits': serialize(list(obj.deposits)),
+            'withdrawals': serialize(list(obj.withdrawals)),
+            'total_deposits': str(obj.total_deposits),
+            'total_withdrawals': str(obj.total_withdrawals),
+            'balance': str(obj.balance),
+            'is_empty': obj.is_empty
         }
 
 
