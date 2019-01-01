@@ -23,7 +23,7 @@ def verify_transaction(reference):
 
 
 def fund_wallet(user, amount, ref):
-    return Wallet.deposit_money(user.service_wallet, amount, ref)
+    return Wallet.deposit_funds(user.service_wallet, amount, ref)
 
 
 def withdraw_from_wallet(user, amount):

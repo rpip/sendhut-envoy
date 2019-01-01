@@ -42,7 +42,7 @@ class Wallet(BaseModel):
 
     objects = WalletManager.from_queryset(WalletQuerySet)()
 
-    def load_funds(self, amount, ref):
+    def deposit_funds(self, amount, ref):
         # log new wallet top transaction
         return Transaction.fund_wallet(self, amount, ref)
 
@@ -58,16 +58,16 @@ class Wallet(BaseModel):
         return sum(x.amount for x in self.deposits)
 
     @property
+    def withdrawals(self):
+        return Transaction.get_wallet_withdrawals(self)
+
+    @property
     def total_withdrawals(self):
         return sum(x.amount for x in self.withdrawals)
 
     @property
     def balance(self):
         return self.total_deposits - self.total_withdrawals
-
-    @property
-    def withdrawals(self):
-        return Transaction.get_wallet_withdrawals(self)
 
     @property
     def is_empty(self):
@@ -117,11 +117,11 @@ class Transaction(BaseModel):
         return cls.objects.filter(
             wallet=wallet,
             txn_type=TransactionTypes.LOAD_WALLET
-        )
+        ).all()
 
     @classmethod
     def get_wallet_withdrawals(cls, wallet):
         return cls.objects.filter(
             wallet=wallet,
             txn_type=TransactionTypes.WALLET_PAYMENT
-        )
+        ).all()

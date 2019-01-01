@@ -207,8 +207,7 @@ class WalletSerializer(Serializer):
     def serialize(self, obj, user, *args, **kwargs):
         return {
             'id': str(obj.id),
-            'deposits': serialize(list(obj.deposits)),
-            'withdrawals': serialize(list(obj.withdrawals)),
+            'transactions': serialize(list(obj.transactions.all())),
             'total_deposits': str(obj.total_deposits),
             'total_withdrawals': str(obj.total_withdrawals),
             'balance': str(obj.balance),
