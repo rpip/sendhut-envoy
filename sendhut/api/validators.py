@@ -15,7 +15,8 @@ class ProfileValidator(serializers.Serializer):
     first_name = serializers.CharField(required=False)
     last_name = serializers.CharField(required=False)
     phone = serializers.CharField(required=True)
-    email = serializers.CharField(required=False)
+    email = serializers.CharField(
+        required=False, allow_null=True, allow_blank=True)
 
 
 class LoginValidator(serializers.Serializer):
@@ -139,6 +140,12 @@ class QuotesValidator(serializers.Serializer):
     )
 
 
+class ServicePaymentValidator(serializers.Serializer):
+    method = serializers.CharField(required=True)
+    amount = serializers.FloatField(required=True)
+    reference = serializers.CharField(required=True)
+
+
 class DeliveryValidator(serializers.Serializer):
     pickup = PickupValidator(required=True)
     dropoffs = serializers.ListField(
@@ -146,6 +153,7 @@ class DeliveryValidator(serializers.Serializer):
     )
     quote = serializers.CharField(required=False)
     notes = serializers.CharField(required=False)
+    payment = ServicePaymentValidator(required=True)
 
 
 class WalletTopUpValidator(serializers.Serializer):
@@ -153,3 +161,7 @@ class WalletTopUpValidator(serializers.Serializer):
     reference = serializers.CharField(required=True)
 
     # TODO: validate reference originated from Paystack
+
+
+class ChargeRefValidator(serializers.Serializer):
+    amount = serializers.FloatField(required=True)

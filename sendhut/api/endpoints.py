@@ -43,7 +43,8 @@ from .validators import (
     QuotesValidator,
     DeliveryValidator,
     ContactValidator,
-    WalletTopUpValidator
+    WalletTopUpValidator,
+    ChargeRefValidator
 )
 from .exceptions import ValidationError, AuthenticationError
 from sendhut.envoy.models import Delivery
@@ -166,13 +167,22 @@ class QuotesEndpoint(Endpoint):
         # todo(yao): save Quote in DB, valid for x minutes
         quote = get_delivery_quote(**validator.validated_data)
         phone = request.user.phone
-        payment_ref = self.get_payments_ref(phone, quote["pricing_int"])
+        payment_ref = Payments.get_charge_ref(phone, quote["pricing_int"])
         return self.respond(serialize(dict(payment_ref=payment_ref, **quote)))
 
-    def get_payments_ref(self, phone, amount):
-        # todo(yao): handle emails sent to phone@sendhut.com
-        email = "{}@sendhut.com".format(phone)
-        return Payments.init_transaction(amount, email).get("data")
+
+class ChargeRefEndpoint(Endpoint):
+    """
+    Returns the access code to be used to create a charge on a card.
+    """
+    def post(self, request):
+        validator = ChargeRefValidator(data=request.data)
+        if not validator.is_valid():
+            raise ValidationError(details=validator.errors)
+
+        amount = validator.data['amount']
+        ref = Payments.get_charge_ref(request.user.phone, amount)
+        return self.respond(ref)
 
 
 class DeliveryEndpoint(Endpoint):
