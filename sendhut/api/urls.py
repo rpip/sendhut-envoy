@@ -12,7 +12,8 @@ from .endpoints import (
     DeliveryDetailEndpoint,
     AddressBookEndpoint,
     ContactDetailEndpoint,
-    ChargeRefEndpoint
+    ChargeRefEndpoint,
+    WalletTopUpEndpoint
 )
 
 urlpatterns = [
@@ -23,6 +24,7 @@ urlpatterns = [
     url(r'^quotes-v1/?$', QuotesV1Endpoint.as_view()),
     url(r'^quotes/?$', QuotesEndpoint.as_view()),
     url(r'^charge/?$', ChargeRefEndpoint.as_view()),
+    url(r'^topup/?$', WalletTopUpEndpoint.as_view()),
     url(r'^schedules(?:/(?P<city>[a-zA-Z]+))?(?:/(?P<type>[a-zA-Z]+))?(?:/(?P<date>[a-zA-Z]+))?/?$',
         SchedulesEndpoint.as_view()),
     url(r'^deliveries/(?P<delivery_id>.+)/?$', DeliveryDetailEndpoint.as_view()),
