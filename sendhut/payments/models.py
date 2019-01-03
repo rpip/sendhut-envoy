@@ -4,7 +4,6 @@ from django.conf import settings
 
 from sendhut.db import BaseModel, BaseQuerySet, BaseManager
 from djmoney.models.fields import MoneyField
-from djmoney.money import Money
 
 from sendhut.utils import sane_repr, generate_token
 
