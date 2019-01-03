@@ -28,3 +28,9 @@ def fund_wallet(user, amount, ref):
 
 def withdraw_from_wallet(user, amount):
     return Wallet.withdraw(user.service_wallet, amount)
+
+
+def get_charge_ref(phone, amount):
+    # todo: handle emails sent to phone@sendhut.com
+    email = "{}@sendhut.com".format(phone)
+    return init_transaction(amount, email).get("data")
