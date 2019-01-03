@@ -22,12 +22,12 @@ def verify_transaction(reference):
     return response['status']
 
 
-def fund_wallet(user, amount, ref):
-    return Wallet.deposit_funds(user.service_wallet, amount, ref)
+def fund_wallet(wallet, amount, ref):
+    return wallet.deposit_funds(amount, ref)
 
 
-def withdraw_from_wallet(user, amount):
-    return Wallet.withdraw(user.service_wallet, amount)
+def withdraw_from_wallet(wallet, amount):
+    return wallet.withdraw(amount)
 
 
 def get_charge_ref(phone, amount):

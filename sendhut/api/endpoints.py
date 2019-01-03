@@ -243,9 +243,5 @@ class WalletTopUpEndpoint(Endpoint):
 
         amount = validator.data['amount']
         ref = validator.data['reference']
-        top_up = Payments.fund_wallet(request.user, amount, ref)
+        top_up = Payments.fund_wallet(request.user.service_wallet, amount, ref)
         return self.respond(serialize(top_up))
-
-    def get(self, request):
-        wallet_topups = Payments.get_wallet_topups(request.user)
-        return self.respond(serialize(wallet_topups))

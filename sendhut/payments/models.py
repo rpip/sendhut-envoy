@@ -79,6 +79,7 @@ class Transaction(BaseModel):
     ID_PREFIX = 'txn'
 
     wallet = models.ForeignKey(Wallet, related_name='transactions')
+    reference = models.CharField(max_length=40, blank=True, null=True)
     txn_type = models.CharField(
         max_length=32, choices=TransactionTypes.CHOICES
     )
@@ -104,7 +105,7 @@ class Transaction(BaseModel):
         )
 
     @classmethod
-    def load_money(cls, wallet, amount, ref):
+    def fund_wallet(cls, wallet, amount, ref):
         return cls.objects.create(
             wallet=wallet,
             amount=amount,
