@@ -11,7 +11,7 @@ def init_transaction(amount, email, reference=None):
     # TODO(yao): confirm Paystack max amount, why 33578.00, appears as 335.78
     return paystack.transaction.initialize(
         reference=reference or generate_token(),
-        amount=unquantize_for_paystack(amount),
+        amount=amount,
         email=email
     )
 
