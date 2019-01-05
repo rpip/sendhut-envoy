@@ -8,7 +8,7 @@ from djmoney.models.fields import MoneyField
 from sendhut.utils import sane_repr, generate_token
 
 
-from . import TransactionTypes
+from . import TransactionTypes, PaymentChannels
 
 
 class WalletQuerySet(BaseQuerySet):
@@ -45,8 +45,8 @@ class Wallet(BaseModel):
         # log new wallet top transaction
         return Transaction.fund_wallet(self, amount, ref)
 
-    def withdraw(self, amount):
-        return Transaction.withdraw_from_wallet(self, amount)
+    def make_payment(self, amount):
+        return Transaction.pay_from_wallet(self, amount)
 
     @property
     def deposits(self):
@@ -77,10 +77,15 @@ class Transaction(BaseModel):
 
     ID_PREFIX = 'txn'
 
-    wallet = models.ForeignKey(Wallet, related_name='transactions')
+    wallet = models.ForeignKey(
+        Wallet, related_name='transactions', null=True, blank=True)
     reference = models.CharField(max_length=40, blank=True, null=True)
     txn_type = models.CharField(
         max_length=32, choices=TransactionTypes.CHOICES
+    )
+    channel = models.CharField(
+        max_length=32, choices=PaymentChannels.CHOICES,
+        null=True, blank=True
     )
     amount = MoneyField(
         max_digits=10,
@@ -95,12 +100,23 @@ class Transaction(BaseModel):
     __repr__ = sane_repr('wallet', 'type', 'amount')
 
     @classmethod
-    def withdraw(cls, wallet, amount):
-        return cls.objects.create(
+    def pay_from_wallet(cls, wallet, amount):
+        cls.make_payment(
+            amount=amount,
             wallet=wallet,
-            amount=-amount,
-            reference=generate_token(),
-            txn_type=TransactionTypes.WALLET_PAYMENT
+            txn_type=TransactionTypes.WALLET_PAYMENT,
+            channel=TransactionTypes.WALLET
+        )
+
+    @classmethod
+    def make_payment(
+            cls, amount, txn_type, channel,
+            reference=None, wallet=None):
+        return cls.objects.create(
+            amount=amount,
+            reference=reference or generate_token(),
+            txn_type=txn_type,
+            wallet=wallet
         )
 
     @classmethod
@@ -125,3 +141,15 @@ class Transaction(BaseModel):
             wallet=wallet,
             txn_type=TransactionTypes.WALLET_PAYMENT
         ).all()
+
+
+class ServicePayment(BaseModel):
+    """
+    Service payment.
+
+    Reference for payment transactions
+    """
+    ID_PREFIX = 'pay'
+    channel = models.CharField(
+        max_length=32, choices=PaymentChannels.CHOICES
+    )

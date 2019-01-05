@@ -25,8 +25,8 @@ def fund_wallet(wallet, amount, ref):
     return wallet.deposit_funds(amount, ref)
 
 
-def withdraw_from_wallet(wallet, amount):
-    return wallet.withdraw(amount)
+def pay_from_wallet(wallet, amount):
+    return wallet.make_payment(amount)
 
 
 def get_charge_ref(phone, amount):

@@ -250,5 +250,6 @@ def create_delivery(user, pickup, dropoffs, quote=None, payment=None):
             delivery.quote_id = quote
 
         batch.deliveries.add(delivery)
+        batch.record_payment(**payment)
 
     return batch

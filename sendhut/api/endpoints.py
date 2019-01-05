@@ -34,6 +34,7 @@ from .serializers import (
     CancellationSerializer,
     TransactionSerializer,
     WalletSerializer,
+    MoneySerializer
 )
 from .validators import (
     SMSTokenValidator,
@@ -243,5 +244,8 @@ class WalletTopUpEndpoint(Endpoint):
 
         amount = validator.data['amount']
         ref = validator.data['reference']
-        top_up = Payments.fund_wallet(request.user.service_wallet, amount, ref)
-        return self.respond(serialize(top_up))
+        wallet = request.user.service_wallet
+        # todo: refactor
+        txn = Payments.fund_wallet(wallet, amount, ref)
+        response = dict(balance=wallet.balance.amount, **serialize(txn))
+        return self.respond(serialize(response))
