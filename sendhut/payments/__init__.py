@@ -9,3 +9,14 @@ class TransactionTypes:
         (PAYMENT, "payment"),
         (WALLET_PAYMENT, "wallet payment"),
     ]
+
+
+class PaymentChannels:
+    """Enum of possible Payment channels"""
+    WALLET = "wallet"
+    PAYMENT = "payment"
+
+    CHOICES = [
+        (WALLET, "wallet"),
+        (PAYMENT, "payment"),
+    ]

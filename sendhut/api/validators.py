@@ -5,13 +5,15 @@ from dateutil.parser import parse
 from rest_framework import serializers
 import sendhut.accounts.utils as auth
 from sendhut.envoy import PackageTypes
+from sendhut.payments import PaymentChannels
 
 
 ValidationError = serializers.ValidationError
 
 
 class ProfileValidator(serializers.Serializer):
-    company = serializers.CharField(required=False)
+    company = serializers.CharField(
+        required=False, allow_blank=True, allow_null=True)
     first_name = serializers.CharField(required=False)
     last_name = serializers.CharField(required=False)
     phone = serializers.CharField(required=True)
@@ -141,9 +143,16 @@ class QuotesValidator(serializers.Serializer):
 
 
 class ServicePaymentValidator(serializers.Serializer):
-    method = serializers.CharField(required=True)
+    method = serializers.CharField(required=True)  # payment channel
     amount = serializers.FloatField(required=True)
     reference = serializers.CharField(required=True)
+
+    def validate_method(self, value):
+        payment_channels = dict(PaymentChannels.CHOICES).keys()
+        if value not in payment_channels:
+            raise ValidationError("Invalid payment channel")
+
+        return value
 
 
 class DeliveryValidator(serializers.Serializer):
