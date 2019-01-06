@@ -3,6 +3,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 from django.contrib.messages import constants as messages
 
+import redis
 from decouple import config, Csv
 import dj_database_url
 
@@ -42,7 +43,6 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'storages',
     'djmoney',
-    'django_rq',
     'taggit',
     'sorl.thumbnail',
     'widget_tweaks',
@@ -61,7 +61,8 @@ INSTALLED_APPS = [
     'sendhut.partners',
     'sendhut.envoy',
     'sendhut.addressbook',
-    'sendhut.api'
+    'sendhut.payments',
+    'sendhut.api',
 ]
 
 MIDDLEWARE = [
@@ -177,6 +178,8 @@ AUTH_USER_MODEL = 'accounts.User'
 
 REDIS_URL = urlparse(os.environ.get('REDIS_URL', 'redis://localhost:6379/0'))
 
+REDIS = redis.Redis.from_url(REDIS_URL.geturl())
+
 # CACHING
 # ---------------------------------------------------------------
 CACHES = {
@@ -190,8 +193,6 @@ CACHES = {
     }
 }
 
-
-CART_SESSION_ID = 'cart'
 
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-info',
@@ -213,6 +214,13 @@ LOGIN_URL = '/login'
 PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY')
 
 PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY')
+
+# twilio
+TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
+TWILIO_AUTHTOKEN = config('TWILIO_AUTHTOKEN')
+TWILIO_FROM_NUMBER = config('TWILIO_FROM_NUMBER')
+
+SMS_TTL = config('SMS_TTL', default=300, cast=int)
 
 REDIS_URL = urlparse(os.environ.get('REDIS_URL', 'redis://localhost:6379/0'))
 
@@ -296,3 +304,54 @@ REST_FRAMEWORK = {
 
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+DJANGO_LOG_LEVEL = config('DJANGO_LOG_LEVEL', 'INFO')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            # 'filters': ['require_debug_true'],
+            'formatter': 'verbose',
+        },
+        # Add Handler for Sentry for `warning` and above
+        'sentry': {
+            'level': 'WARNING',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        },
+    },
+    'loggers': {
+        # root logger
+        '': {
+            'level': 'INFO',
+            'handlers': ['console', 'sentry'],
+        },
+        'django': {
+            'handlers': ['console', 'sentry'],
+            'level': DJANGO_LOG_LEVEL,
+        },
+        'sendhut': {
+            'level': DJANGO_LOG_LEVEL,
+            'handlers': ['console', 'sentry'],
+            # required to avoid double logging with root logger
+            'propagate': False,
+        },
+    },
+}

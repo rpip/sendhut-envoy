@@ -1,8 +1,10 @@
 import logging
 from django.db.models import Q
+from django.conf import settings
 
 from .models import User
 
+from sendhut.utils import generate_sms_token
 
 logger = logging.getLogger(__name__)
 
@@ -19,35 +21,41 @@ def get_user(username):
 
 
 # users
-def create_user(phone, password, email=None):
-    user = User(phone=phone, username=phone)
-    if email:
-        user.email = email
-    user.set_password(password)
+def create_user(phone, first_name=None, last_name=None, email=None):
+    user = User(
+        phone=phone, username=phone,
+        email=email, first_name=first_name,
+        last_name=last_name)
+
     user.save()
     return user
 
 
-def authenticate(username, password):
+def authenticate(username, token):
     user = get_user(username)
-    if user and user.check_password(password):
+    if user and verify_token(user, token):
         return user
 
     return None
 
 
-def trigger_password_reset(username):
-    # send sms if username is phone, else email
-    logger.debug('sending password reset')
+def set_auth_token(phone):
+    r = settings.REDIS
+    key = "auth:{}".format(phone)
+    token = generate_sms_token(4)
+    ttl = settings.SMS_TTL
+    logger.debug("SMS token => %s: %s", key, token)
+    r.setex(key, token, ttl)
+    return token
 
 
-def change_password(username, old_password, new_password):
-    user = get_user(username)
-    if user.check_password(old_password):
-        user.set_password(new_password)
-        user.save()
-
-    return False
+def verify_token(phone, token):
+    # checks that the token exists and hasn't expired
+    r = settings.REDIS
+    key = "auth:{}".format(phone)
+    user_token = r.get(key)
+    logger.debug("Verify SMS token => %s: %s # %s", key, token, user_token)
+    return (user_token and user_token.decode('utf-8') == token)
 
 
 def logout(user):

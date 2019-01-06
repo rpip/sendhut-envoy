@@ -18,12 +18,11 @@ from sendhut.envoy.models import (
     Pickup, Dropoff, Zone, Courier,
     DeliveryQuote, Delivery, Batch
 )
-
+from sendhut.payments.models import Wallet, Transaction
+from sendhut.payments import TransactionTypes
 
 fake = Faker()
 
-
-# PHONE_NUMBERS = ('08096699966', '08169567693')
 POINTS = [
     Point(6.456340, 3.416270),
     Point(6.445196, 3.539032)
@@ -34,7 +33,7 @@ class UserFactory(DjangoModelFactory):
 
     class Meta:
         model = User
-        django_get_or_create = ('username',)
+        django_get_or_create = ('phone',)
 
     first_name = lazy_attribute(lambda o: fake.first_name())
     last_name = lazy_attribute(lambda o: fake.last_name())
@@ -169,3 +168,21 @@ class DeliveryFactory(DjangoModelFactory):
     courier = SubFactory(CourierFactory)
     fee = choice([1200, 900, 3500, 800, 400, 1400, 1650, 850])
     batch = SubFactory(BatchFactory)
+
+
+class WalletFactory(DjangoModelFactory):
+
+    class Meta:
+        model = Wallet
+
+    user = SubFactory(UserFactory)
+
+
+class TransactionFactory(DjangoModelFactory):
+
+    class Meta:
+        model = Transaction
+
+    wallet = SubFactory(WalletFactory)
+    amount = choice([5000, 50000, 6000, 8000, 10000, 20000])
+    txn_type = lazy_attribute(lambda o: choice(dict(TransactionTypes.CHOICES).keys()))

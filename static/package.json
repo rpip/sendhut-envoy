@@ -32,6 +32,7 @@
     "mjml": "^4.0.3",
     "popper.js": "1.12.6",
     "react": "^16.4.1",
+    "react-cookie": "^3.0.4",
     "react-dom": "^16.4.1",
     "sass-rem": "^2.0.0",
     "scrollpos-styler": "^0.7.0",

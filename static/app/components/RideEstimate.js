@@ -68,7 +68,7 @@ class RideEstimate extends React.Component {
 
   getQuote(pickup, dropoff) {
     // TODO(yao): cache lookups locally. key expires after 30 minutes
-    API.post('quotes/', {pickup: pickup, dropoffs: [dropoff]})
+    API.post('quotes-v1/', {pickup: pickup, dropoffs: [dropoff]})
       .then(res => {
         // TODO(yao): create TimeoutError type
         // a lot can happen in 1 second

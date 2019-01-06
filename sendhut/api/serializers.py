@@ -1,7 +1,10 @@
 # Atomic transactions https://github.com/getsentry/sentry/blob/master/src/sentry/api/endpoints/api_authorizations.py#L45
 from django.contrib.gis.geos import Point
+from djmoney.money import Money
+
 from sendhut.accounts.models import User
 from sendhut.addressbook.models import Address, Contact
+from sendhut.payments.models import Wallet, Transaction
 from sendhut.envoy.models import (
     DeliveryQuote,
     Delivery,
@@ -23,13 +26,14 @@ class UserSerializer(Serializer):
             'id': obj.id,
             'first_name': obj.first_name,
             'last_name': obj.last_name,
-            'email': obj.email,
+            'email': obj.get_email(),
             'username': obj.get_username(),
             'last_login': obj.last_login,
             'identity_verified': obj.identity_verified,
             'is_active': obj.is_active,
             'date_joined': obj.date_joined,
-            'addresses': serialize(obj.addresses.all())
+            'addresses': serialize(obj.addresses.all()),
+            'wallet': serialize(obj.service_wallet)
         }
 
 
@@ -41,7 +45,7 @@ class AddressSerializer(Serializer):
             'address': obj.address,
             'apt': obj.apt,
             'location': serialize(obj.location),
-            'photo': obj.photo.thumb_sm().url if obj.photo else None,
+            # 'photo': obj.photo.thumb_sm().url if obj.photo else None,
             'notes': obj.notes,
         }
 
@@ -99,7 +103,8 @@ class CourierSerializer(Serializer):
             'first_name': obj.first_name,
             'last_name': obj.last_name,
             'phone': obj.phone,
-            'photo': obj.photo.thumb_sm().url if obj.photo else None,
+            # TODO: use pregenerated thumbnails
+            # 'photo': obj.photo.thumb_sm().url if obj.photo else None,
             'transport_type': serialize(obj.transport_type),
             'location': serialize(obj.location),
             'zone': serialize(obj.zone),
@@ -186,3 +191,31 @@ class CancellationSerializer(Serializer):
             'reason': obj.reason,
             'comment': obj.comment
         }
+
+
+@register(Transaction)
+class TransactionSerializer(Serializer):
+    def serialize(self, obj, user, *args, **kwargs):
+        return {
+            'amount': str(obj.amount),
+            'type': obj.txn_type,
+        }
+
+
+@register(Wallet)
+class WalletSerializer(Serializer):
+    def serialize(self, obj, user, *args, **kwargs):
+        return {
+            'id': str(obj.id),
+            'transactions': serialize(list(obj.transactions.all())),
+            'total_deposits': str(obj.total_deposits),
+            'total_withdrawals': str(obj.total_withdrawals),
+            'balance': str(obj.balance),
+            'is_empty': obj.is_empty
+        }
+
+
+@register(Money)
+class MoneySerializer(Serializer):
+    def serialize(self, obj, user, *args, **kwargs):
+        return str(obj.amount)

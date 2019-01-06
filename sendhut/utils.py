@@ -22,6 +22,16 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 MOBILE_AGENT_RE = re.compile(r".*(iphone|ios|mini|mobile|androidtouch)", re.IGNORECASE)
 
+COOKIE_NAME = 'auth_token'
+
+
+def set_auth_cookie(token, response):
+    """Update response with an auth token cookie."""
+    ten_years = timedelta(days=(365 * 10))
+    response.set_signed_cookie(
+        COOKIE_NAME, token.key, max_age=int(ten_years.total_seconds()))
+
+
 REDIS = redis.StrictRedis(
     host=settings.REDIS_URL.hostname,
     port=settings.REDIS_URL.port,
@@ -57,6 +67,14 @@ def generate_token(length=14):
     "Returns a random alphanumeric string with the given length."
     chars = random.choices(string.ascii_letters + string.digits, k=length)
     return ''.join(chars)
+
+
+def generate_sms_token(length=4):
+    import random
+    from secrets import randbelow
+    nums = [str(randbelow(10)) for x in range(20)]
+    random.shuffle(nums)
+    return ''.join(nums[:4])
 
 
 def hash_data(data, hash_length=190, data_type=None):

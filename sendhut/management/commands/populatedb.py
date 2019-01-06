@@ -1,7 +1,10 @@
 from django.core.management.base import BaseCommand
 
 from sendhut.envoy import DeliveryStatus
-from sendhut.factory import DeliveryFactory, UserFactory
+from sendhut.payments import TransactionTypes
+from sendhut.factory import (
+    DeliveryFactory, UserFactory, TransactionFactory
+)
 
 
 ADMIN_PASSWORD = USER_PASSWORD = 'h3ll02018!'
@@ -24,6 +27,10 @@ class Command(BaseCommand):
         admin.save()
         self._create_deliveries([admin])
 
+        # setup wallets
+        for user in UserFactory.Meta.model.objects.all():
+            self._setup_wallet(user)
+
         self.stdout.write(self.style.SUCCESS('DONE'))
 
     def _create_deliveries(self, users=None):
@@ -34,3 +41,12 @@ class Command(BaseCommand):
             DeliveryFactory.create_batch(2, status=DeliveryStatus.DELIVERED, user=user)
             DeliveryFactory.create_batch(5, status=DeliveryStatus.SCHEDULED, user=user)
             DeliveryFactory.create_batch(10, user=user)
+
+    def _setup_wallet(self, user):
+        TransactionFactory.create_batch(
+            10, wallet=user.service_wallet,
+            txn_type=TransactionTypes.LOAD_WALLET)
+
+        TransactionFactory.create_batch(
+            3, wallet=user.service_wallet,
+            txn_type=TransactionTypes.WALLET_PAYMENT)

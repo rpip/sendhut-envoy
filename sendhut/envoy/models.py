@@ -9,6 +9,8 @@ from sendhut.db import BaseModel, BaseQuerySet, BaseManager
 from sendhut.addressbook.models import Address, Contact, Image
 from sendhut.partners.models import Partner
 from sendhut.utils import sane_repr
+from sendhut.payments.models import Transaction
+from sendhut.payments import TransactionTypes
 
 from . import (
     TransportTypes, DeliveryStatus, PackageTypes,
@@ -116,7 +118,7 @@ class Pickup(BaseModel):
     pickup_time = models.DateTimeField(null=True, blank=True)
     # instructions for courier
     notes = models.CharField(max_length=252, null=True, blank=True)
-    contact = models.ForeignKey(Contact)
+    contact = models.ForeignKey(Contact, null=True, blank=True)
 
     class Meta:
         db_table = 'pickup'
@@ -141,7 +143,7 @@ class Dropoff(BaseModel):
     __repr__ = sane_repr('address', 'contact')
 
 
-class DeliveryQueryset(BaseQuerySet):
+class DeliveryQuerySet(BaseQuerySet):
     """
     A specialized queryset for dealing with deliveries.
     """
@@ -206,7 +208,7 @@ class Delivery(BaseModel):
     )
     batch = models.ForeignKey('Batch', related_name='deliveries', null=True, blank=True)
 
-    objects = DeliveryManager.from_queryset(BaseQuerySet)()
+    objects = DeliveryManager.from_queryset(DeliveryQuerySet)()
 
     @property
     def duration(self):
@@ -221,10 +223,6 @@ class Delivery(BaseModel):
 
         return Delivery.objects.filter(user=user)
 
-    @property
-    def create(self, data):
-        pass
-
     class Meta:
         db_table = 'delivery'
 
@@ -235,6 +233,14 @@ class Batch(BaseModel):
     "A group of deliveries jobs requested at together"
 
     ID_PREFIX = 'bat'
+
+    def record_payment(self, amount, method, reference):
+        return Transaction.make_payment(
+            amount=amount,
+            txn_type=TransactionTypes.PAYMENT,
+            channel=method,
+            reference=reference
+        )
 
     class Meta:
         db_table = 'batch'

@@ -3,8 +3,6 @@ from django.conf.urls import include, url
 from django.conf import settings
 from django.contrib import admin
 
-from sendhut.accounts.views import LoginView, LogoutView, SignupView
-
 from .views import home, about, faqs, privacy, terms
 
 
@@ -14,12 +12,7 @@ urlpatterns = [
     url(r'^faqs/$', faqs, name='faqs'),
     url(r'^terms/$', terms, name='terms'),
     url(r'^privacy/$', privacy, name='privacy'),
-    url(r'^signup/$', SignupView.as_view(), name='signup'),
-    url(r'^login/$', LoginView.as_view(), name='signin'),
-    url(r'^logout/$', LogoutView.as_view(), name='logout'),
-    url(r'^accounts/', include('sendhut.accounts.urls', namespace='accounts')),
     url(r'^partners/', include('sendhut.partners.urls', namespace='partners')),
-    url(r'^django-rq/', include('django_rq.urls')),
     url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
     url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     url(r'^api/', include('sendhut.api.urls')),

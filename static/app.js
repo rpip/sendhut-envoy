@@ -5,6 +5,7 @@ import RideEstimate from './app/components/RideEstimate'
 import Auth from './app/components/Auth'
 import './styles/main.scss';
 
+
 function requireAuth(nextState, replace) {
   if (!Auth.loggedIn()) {
     // TODO(yao): redirect, display errors etc
@@ -28,4 +29,8 @@ function initMastheadAnimtion() {
 
 initMastheadAnimtion()
 
-ReactDOM.render(<RideEstimate />, document.getElementById('ride-estimate'));
+let homeMapEl = document.getElementById('ride-estimate')
+
+if (homeMapEl) {
+  ReactDOM.render(<RideEstimate />, homeMapEl);
+}
