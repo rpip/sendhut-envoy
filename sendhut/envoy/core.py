@@ -233,7 +233,7 @@ def breakdown_fees(quote):
 def create_delivery(user, pickup, dropoffs, quote=None, payment=None):
     # TODO: pay from wallet
     apt = pickup['address'].get('apt')
-    addr = Address.objects.create(address=pickup['address'], apt=apt)
+    addr = Address.objects.create(address=pickup['address']['address'], apt=apt)
     pickup_contact = pickup.get('contact', user.contact_details)
     contact = Contact.objects.create(**pickup_contact)
     pickup = Pickup.objects.create(address=addr, contact=contact)
@@ -253,3 +253,44 @@ def create_delivery(user, pickup, dropoffs, quote=None, payment=None):
         batch.record_payment(**payment)
 
     return batch
+
+
+class EnvoyBackendManager:
+    """
+    A Manager is the interface through which fleet operations are handled
+    """
+    def create_task(self, **kwargs):
+        pass
+
+    def update_task(self, task_id, **kwargs):
+        pass
+
+    def delete_task(self, task_id):
+        pass
+
+    def update_task_status(self, task_id, status):
+        pass
+
+    def cancel_task(self, task_id):
+        pass
+
+    def start_task(self, task_id):
+        pass
+
+    def all(self):
+        pass
+
+    def assign_task(self, task, agent):
+        pass
+
+
+class TookanManager(EnvoyBackendManager):
+    pass
+
+
+class AirTableManager(EnvoyBackendManager):
+    pass
+
+
+class HyperTrackManager(EnvoyBackendManager):
+    pass

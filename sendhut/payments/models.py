@@ -70,7 +70,7 @@ class Wallet(BaseModel):
 
     @property
     def is_empty(self):
-        return self.balance > 0
+        return self.balance.amount > 0
 
 
 class Transaction(BaseModel):
