@@ -355,3 +355,9 @@ LOGGING = {
         },
     },
 }
+
+
+#  airtable envoy backend manager
+AIRTABLE_API_KEY = config('AIRTABLE_API_KEY')
+AIRTABLE_ENVOY_TABLE = config('AIRTABLE_ENVOY_TABLE', default='envoy')
+AIRTABLE_BASE_KEY = config('AIRTABLE_BASE_KEY')
