@@ -95,12 +95,6 @@ body {
   }
 }
 
-#hero-merchant {
-  background: url(images/new/20180630_114516.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  box-shadow: 0 5px 17px rgba(34,46,58,.1);
-}
 
 #benefits {
   .benefit {
@@ -108,20 +102,47 @@ body {
   }
 }
 
-#fleet-join-wrapper {
-  background: url(images/new/20180630_114454.jpg);
+.masthead-wrapper-plain {
+  @extend .row;
+  min-height: 500px;
+  #pitch {
+    padding: 20px;
+    margin-top: 30px;
+  }
+  #app-preview {
+    background: url(images/app-preview.png) no-repeat top;
+    background-size: cover;
+    @include rem(width, 440px);
+    @include rem(min-height, 320px);
+  }
+}
+
+
+.masthead-wrapper {
+  @extend .row;
   background-color: $grey;
   background-repeat: no-repeat;
   background-size: cover;
-  min-height: 450px;
+  min-height: 500px;
   box-shadow: 0 5px 17px rgba(34,46,58,.1);
-  #fleet-join {
+  #fleet-join, #pitch {
     background-color: $white;
     padding: 20px;
-    margin-top: 20px;
+    margin-top: 30px;
     box-shadow: 0 5px 17px rgba(34,46,58,.1);
   }
+}
 
+#fleet-join-wrapper {
+  background: url(images/new/20180630_114454.jpg);
+}
+
+
+#app-wrapper {
+  /* background: url(images/new/20180630_114516.jpg); */
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
+  /* box-shadow: 0 5px 17px rgba(34,46,58,.1); */
 }
 
 #pitch {
@@ -371,16 +392,16 @@ footer {
   @extend .jumbotron;
   padding-top: 20px;
 
-  #pitch {
-    background-color: transparent;
-    @include rem(padding-bottom, 10px);
-    @extend .jumbotron;
+  /* #pitch { */
+  /*   background-color: transparent; */
+  /*   @include rem(padding-bottom, 10px); */
+  /*   @extend .jumbotron; */
 
-    .card {
-      background-color: transparent;
-      border: 0;
-    }
-  }
+  /*   .card { */
+  /*     background-color: transparent; */
+  /*     border: 0; */
+  /*   } */
+  /* } */
 
   #food-how-it-works {
     background-color: $white;
@@ -396,7 +417,7 @@ footer {
     #meal {
       background: $white url(images/food-banner.png) no-repeat top;
       @include rem(width, 380px);
-      @include rem(min-eight, 290px);
+      @include rem(min-height, 290px);
       background-size: cover;
     }
   }

@@ -211,7 +211,8 @@ class WalletSerializer(Serializer):
             'total_deposits': str(obj.total_deposits),
             'total_withdrawals': str(obj.total_withdrawals),
             'balance': str(obj.balance),
-            'is_empty': obj.is_empty
+            'is_empty': obj.is_empty,
+            'discount_rate': obj.discount_rate
         }
 
 

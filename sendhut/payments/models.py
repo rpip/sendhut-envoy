@@ -72,6 +72,10 @@ class Wallet(BaseModel):
     def is_empty(self):
         return self.balance.amount > 0
 
+    @property
+    def discount_rate(self):
+        return settings.WALLET_DISCOUNT_RATE
+
 
 class Transaction(BaseModel):
 

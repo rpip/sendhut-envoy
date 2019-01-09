@@ -272,24 +272,10 @@ class EnvoyBackendManager:
         pass
 
     def format_object(self, delivery):
-        from dateutil.parser import parse
-        dt = parse(delivery.pickup.pickup_time)
-        pickup_time = dt.strftime('%-d/%-m/%Y')
-        return {
-            'status': delivery.status.capitalize(),
-            'pickup_date': pickup_time,
-            'pickup_contact_name': delivery.pickup.contact_name,
-            'pickup_contact_phone': delivery.pickup.contact_phone,
-            'pickup_address': delivery.pickup.contact_address,
-            'recipient_name': delivery.dropoff.contact_name,
-            'recipient_phone': delivery.dropoff.contact_phone,
-            'recipient_address': delivery.dropoff.contact_address,
-            'cost': delivery.fee
-        }
+        pass
 
     def create_task(self, delivery):
-        obj = self.format_object(delivery)
-        self.insert(**obj)
+        pass
 
     def update_task(self, task_id, **kwargs):
         pass
@@ -312,10 +298,6 @@ class EnvoyBackendManager:
     def assign_task(self, task, agent):
         pass
 
-    # API
-    def insert(self, **data):
-        pass
-
 
 class AirTableManager(EnvoyBackendManager):
     def get_backend_manager(self, **kwargs):
@@ -324,8 +306,21 @@ class AirTableManager(EnvoyBackendManager):
             settings.AIRTABLE_ENVOY_TABLE,
             api_key=settings.AIRTABLE_API_KEY)
 
-    def insert(self, **data):
-        self.backend.insert(data)
+    def format_object(self, delivery):
+        from dateutil.parser import parse
+        dt = parse(delivery.pickup.pickup_time)
+        pickup_time = dt.strftime('%-d/%-m/%Y')
+        return {
+            'status': delivery.status.capitalize(),
+            'pickup_date': pickup_time,
+            'pickup_contact_name': delivery.pickup.contact_name,
+            'pickup_contact_phone': delivery.pickup.contact_phone,
+            'pickup_address': delivery.pickup.contact_address,
+            'recipient_name': delivery.dropoff.contact_name,
+            'recipient_phone': delivery.dropoff.contact_phone,
+            'recipient_address': delivery.dropoff.contact_address,
+            'cost': delivery.fee
+        }
 
 
 class TookanManager(EnvoyBackendManager):

@@ -48,6 +48,18 @@ class User(AbstractUser, BaseModel):
     def service_wallet(self):
         return self.wallets.get_service_wallet(self)
 
+    def build_profile_context(self):
+        """
+        App-wide context for this user:
+        - is_active?
+        - locale: country, language
+        - business_profile
+        - whats_new
+        - fav_addresses
+        - refresh_schedules
+        """
+        pass
+
     class Meta:
         db_table = 'user'
 

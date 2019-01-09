@@ -8,8 +8,8 @@
 {% block page_header %} {% endblock %}
 
 {% block content %}
-<div class="row"><!-- hero -->
-  <div class="col-md-5">
+<div class="masthead-wrapper-plain" id="app-wrapper"><!-- masthead -->
+  <div class="col-md-6">
     <div id="pitch" class="hero">
       <h2 class="hero-title">Delivery</h2>
       <h2 class="hero-title" id="hero-title-dynamic">done right</h2>
@@ -17,10 +17,25 @@
         <li><img class="icon" src="{% static 'images/icons/flash.svg' %}" alt="">Want it delivered ASAP? Done!</li>
         <li><img class="icon" src="{% static 'images/icons/calendar.svg' %}" alt=""> Want it delivered tomorrow afternoon? No problem</li>
       </ul>
+      <div id="download-btns">
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <a href="#">
+              <img src="{% static 'images/playstore-button.png' %}" alt="">
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#">
+              <img src="{% static 'images/appstore-button.png' %}" alt="">
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
-  <div class="col-md-7" id="hero-merchant">
-  </div>
+
+  <div class="col-md-6" id="app-preview"></div>
+
 </div> <!--//hero -->
 <br><br>
 <div class="row" id="benefits"> <!-- marketing -->
@@ -95,7 +110,6 @@
                   The 5K shop</a>
               </div>
             </div>
-
           </div>
 
           <div class="customer-quote col-lg offset-lg-1">
@@ -145,7 +159,12 @@
       </div>
     </div> <!--//customers -->
   </div>
+
 </div>
 
+<div class="footer-download" id="app-wrapper"><!-- happiness gaurantee -->
+  <div class="col-md-6"></div>
+  <div class="col-md-6" id="happiness-image"></div>
+</div> <!--//happiness gaurantee -->
 
 {% endblock %}
