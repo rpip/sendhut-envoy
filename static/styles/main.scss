@@ -312,7 +312,10 @@ a.no-deco {
 
 
 .footer-try {
-  padding: 60px 30px;
+  padding: 60px 50px 60px 50px;
+  .download-btns {
+    padding-top: 20px;
+  }
 }
 
 
@@ -386,6 +389,12 @@ footer {
   ul#footer-nav {
     margin-bottom: 0;
   }
+}
+
+.download-icon {
+  @include rem(height, 56px);
+  @include rem(width, 190px);
+  @include rem(padding, 2px);
 }
 
 #food-delivery-strip {

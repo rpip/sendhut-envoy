@@ -17,16 +17,16 @@
         <li><img class="icon" src="{% static 'images/icons/flash.svg' %}" alt="">Want it delivered ASAP? Done!</li>
         <li><img class="icon" src="{% static 'images/icons/calendar.svg' %}" alt=""> Want it delivered tomorrow afternoon? No problem</li>
       </ul>
-      <div id="download-btns">
+      <div class="download-btns">
         <ul class="list-inline">
           <li class="list-inline-item">
             <a href="#">
-              <img src="{% static 'images/playstore-button.png' %}" alt="">
+              <img src="{% static 'images/google-play.svg' %}" class="download-icon" alt="">
             </a>
           </li>
           <li class="list-inline-item">
             <a href="#">
-              <img src="{% static 'images/appstore-button.png' %}" alt="">
+              <img src="{% static 'images/app-store.svg' %}" class="download-icon" alt="">
             </a>
           </li>
         </ul>
@@ -45,8 +45,9 @@
       or schedule a delivery for a later date</p>
   </div>
   <div class="col-md-4 benefit">
-    <h6 class="bold"><img class="icon" src="{% static 'images/icons/credit-card.svg' %}"/> Collect Payments on Delivery</h6>
-    <p>Let your customers pay for goods on delivery. We deposit any money collected to your bank account the NEXT DAY.</p>
+    <h6 class="bold"><img class="icon" src="{% static 'images/icons/heart.svg' %}"/> Your Happiness, Guaranteed
+    </h6>
+    <p>If you’re not satisfied with the quality of the service, we’ll work to make it right. Our friendly customer service team are available 24 hours a day, 7 days a week.</p>
   </div>
   <div class="col-md-4 benefit">
     <h6 class="bold"><img class="icon" src="{% static 'images/icons/text.svg' %}"/> Reduce costs</h6>
@@ -160,11 +161,27 @@
     </div> <!--//customers -->
   </div>
 
+  <div class="footer-try container-fluid">
+    <div class="row">
+      <div class="col-md-4 offset-md-4">
+        <h3 class="bold">Try Sendhut Today</h3>
+        <div class="download-btns">
+          <ul class="list-inline">
+            <li class="list-inline-item">
+              <a href="#">
+                <img src="{% static 'images/google-play.svg' %}" class="download-icon" alt="">
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <img src="{% static 'images/app-store.svg' %}" class="download-icon" alt="">
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<div class="footer-download" id="app-wrapper"><!-- happiness gaurantee -->
-  <div class="col-md-6"></div>
-  <div class="col-md-6" id="happiness-image"></div>
-</div> <!--//happiness gaurantee -->
 
 {% endblock %}
