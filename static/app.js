@@ -2,15 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import RideEstimate from './app/components/RideEstimate'
-import Auth from './app/components/Auth'
 import './styles/main.scss';
 
-
-function requireAuth(nextState, replace) {
-  if (!Auth.loggedIn()) {
-    // TODO(yao): redirect, display errors etc
-  }
-}
 
 function initMastheadAnimtion() {
   // site banner
