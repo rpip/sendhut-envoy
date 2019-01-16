@@ -5,11 +5,15 @@ from django.conf import settings
 from .models import User
 
 from sendhut.utils import generate_sms_token
-
+from sendhut import factory
 logger = logging.getLogger(__name__)
 
 
 def get_user(username):
+    # atm, username == phone_number
+    if is_demo_number(username):
+        return factory.get_demo_user()
+
     try:
         user = User.objects.filter(
             Q(username=username) |
@@ -18,6 +22,10 @@ def get_user(username):
         return user[0] if user else None
     except User.DoesNotExist:
         return None
+
+
+def is_demo_number(phone_number):
+    return phone_number[4:] == settings.DEMO_USER_NUMBER
 
 
 # users
@@ -39,10 +47,13 @@ def authenticate(username, token):
     return None
 
 
-def set_auth_token(phone):
+def set_auth_token(phone, lock=True):
+    # todo: implement login locking mechanism:
+    # phone number logs in only one session.
+    # for when lock is False, assume demo user
     r = settings.REDIS
     key = "auth:{}".format(phone)
-    token = generate_sms_token(4)
+    token = generate_sms_token(4) if lock else settings.DEMO_USER_TOKEN
     ttl = settings.SMS_TTL
     logger.debug("SMS token => %s: %s", key, token)
     r.setex(key, token, ttl)

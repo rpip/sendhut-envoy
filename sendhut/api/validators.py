@@ -11,6 +11,11 @@ from sendhut.payments import PaymentChannels
 ValidationError = serializers.ValidationError
 
 
+# class BaseSerializer(serializers.Serializer):
+#     meta = dictionary field to hold arbitrary meta data
+#     pass
+
+
 class ProfileValidator(serializers.Serializer):
     company = serializers.CharField(
         required=False, allow_blank=True, allow_null=True)

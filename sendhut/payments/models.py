@@ -4,6 +4,7 @@ from django.conf import settings
 
 from sendhut.db import BaseModel, BaseQuerySet, BaseManager
 from djmoney.models.fields import MoneyField
+from djmoney.money import Money
 
 from sendhut.utils import sane_repr, generate_token
 
@@ -70,7 +71,10 @@ class Wallet(BaseModel):
 
     @property
     def is_empty(self):
-        return self.balance.amount > 0
+        if isinstance(self.balance, Money):
+            return self.balance.amount > 0
+
+        return self.balance > 0
 
     @property
     def discount_rate(self):
