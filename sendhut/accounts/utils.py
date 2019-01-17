@@ -25,7 +25,7 @@ def get_user(username):
 
 
 def is_demo_number(phone_number):
-    return phone_number[4:] == settings.DEMO_USER_NUMBER
+    return phone_number[4:] == settings.DEMO_USER_NUMBER[4:]
 
 
 # users

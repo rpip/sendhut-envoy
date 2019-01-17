@@ -215,8 +215,14 @@ class DeliveryDetailEndpoint(Endpoint):
         delivery = Delivery.objects.get(id=delivery_id)
         return self.respond(serialize(delivery))
 
+    def patch(self, request, delivery_id, *args, **kwargs):
+        validator = DeliveryValidator(data=request.data)
+        if not validator.is_valid():
+            raise ValidationError(details=validator.errors)
 
-### Address book
+        delivery = update_model_fields(delivery_id, validator.data)
+        return self.respond(serialize(delivery))
+
 
 class AddressBookEndpoint(Endpoint):
 

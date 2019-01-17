@@ -365,11 +365,11 @@ AIRTABLE_BASE_KEY = config('AIRTABLE_BASE_KEY')
 WALLET_DISCOUNT_RATE = config('WALLET_DISCOUNT_RATE', cast=int)
 
 
-DEMO_USER_NUMBER = '444555999'
+DEMO_USER_NUMBER = '+234444555999'
 DEMO_USER_TOKEN = '9748'
 
 
 SUPPORTED_COUNTRIES = {
-    '+233': 'GH',
-    '+234': 'NG'
+    '+233': dict(code='GH', name='Ghana'),
+    '+234': dict(code='NG', name='Nigeria')
 }
