@@ -370,6 +370,6 @@ DEMO_USER_TOKEN = '9748'
 
 
 SUPPORTED_COUNTRIES = {
-    '+233': 'ghana',
-    '+234': 'nigeria'
+    '+233': 'GH',
+    '+234': 'NG'
 }
