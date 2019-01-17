@@ -33,7 +33,8 @@ class UserSerializer(Serializer):
             'is_active': obj.is_active,
             'date_joined': obj.date_joined,
             'addresses': serialize(obj.addresses.all()),
-            'wallet': serialize(obj.service_wallet)
+            'wallet': serialize(obj.service_wallet),
+            'country': obj.country
         }
 
 
