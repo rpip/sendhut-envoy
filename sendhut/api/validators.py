@@ -95,6 +95,7 @@ class AddressValidator(serializers.Serializer):
     # apt number or company name
     apt = serializers.CharField(max_length=42, required=False)
     notes = serializers.CharField(max_length=252, required=False)
+    meta = serializers.JSONField(required=False, allow_null=True)
 
 
 class ContactValidator(serializers.Serializer):
@@ -168,6 +169,7 @@ class DeliveryValidator(serializers.Serializer):
     quote = serializers.CharField(required=False)
     notes = serializers.CharField(required=False)
     payment = ServicePaymentValidator(required=True)
+    collect_delivery_fee = serializers.NullBooleanField(required=False)
 
 
 class WalletTopUpValidator(serializers.Serializer):
