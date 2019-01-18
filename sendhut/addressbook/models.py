@@ -57,7 +57,7 @@ class Address(BaseModel):
     class Meta:
         db_table = 'address'
 
-    __repr__ = sane_repr('county', 'city', 'postcode')
+    __repr__ = sane_repr('address', 'location')
 
     def __str__(self):
         return self.address

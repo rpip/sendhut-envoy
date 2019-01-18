@@ -2,6 +2,7 @@ import logging
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
+from django.conf import settings
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
@@ -12,7 +13,7 @@ from rest_framework.renderers import JSONRenderer
 
 from sendhut.utils import update_model_fields, generate_token
 import sendhut.accounts.utils as auth
-from sendhut import sms
+from sendhut import sms, factory
 from sendhut.payments import utils as Payments
 from sendhut.envoy.core import (
     get_delivery_quote,
@@ -107,8 +108,12 @@ class LoginEndpoint(Endpoint):
             raise AuthenticationError(details=validator.errors)
 
         phone_number = validator.data.get("phone")
-        token = auth.set_auth_token(phone_number)
-        sms.push_verification_sms(phone_number, token)
+        if auth.is_demo_number(phone_number):
+            token = auth.set_auth_token(phone_number, False)
+        else:
+            token = auth.set_auth_token(phone_number)
+            sms.push_verification_sms(phone_number, token)
+
         return self.respond({'status': 'OK', 'code': token})
 
 
@@ -210,8 +215,14 @@ class DeliveryDetailEndpoint(Endpoint):
         delivery = Delivery.objects.get(id=delivery_id)
         return self.respond(serialize(delivery))
 
+    def patch(self, request, delivery_id, *args, **kwargs):
+        validator = DeliveryValidator(data=request.data)
+        if not validator.is_valid():
+            raise ValidationError(details=validator.errors)
 
-### Address book
+        delivery = update_model_fields(delivery_id, validator.data)
+        return self.respond(serialize(delivery))
+
 
 class AddressBookEndpoint(Endpoint):
 

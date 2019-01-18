@@ -109,7 +109,23 @@ class DeliveryQuote(BaseModel):
         return self.fee
 
 
-class Pickup(BaseModel):
+class ContactMixin:
+    # TODO: return business profile if business account
+
+    @property
+    def contact_name(self):
+        return "{0.first_name} {0.last_name}".format(self.contact)
+
+    @property
+    def contact_address(self):
+        return self.address.address
+
+    @property
+    def contact_phone(self):
+        return self.contact.phone
+
+
+class Pickup(BaseModel, ContactMixin):
 
     ID_PREFIX = 'pkp'
 
@@ -126,7 +142,7 @@ class Pickup(BaseModel):
     __repr__ = sane_repr('address', 'contact')
 
 
-class Dropoff(BaseModel):
+class Dropoff(BaseModel, ContactMixin):
 
     ID_PREFIX = 'dpf'
 

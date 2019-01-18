@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 from django.db import models
 
 from sendhut.utils import sane_repr
@@ -47,6 +48,25 @@ class User(AbstractUser, BaseModel):
     @property
     def service_wallet(self):
         return self.wallets.get_service_wallet(self)
+
+    @property
+    def country(self):
+        return settings.SUPPORTED_COUNTRIES[self.phone[:4]]
+
+    def build_profile_context(self):
+        """
+        App-wide context for this user:
+        - is_active?
+        - locale: country, language
+        - business_profile
+        - whats_new
+        - fav_addresses
+        - refresh_schedules
+        """
+        return {
+            'locale': dict(country=self.get_country())
+        }
+        pass
 
     class Meta:
         db_table = 'user'

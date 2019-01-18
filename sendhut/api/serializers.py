@@ -33,7 +33,8 @@ class UserSerializer(Serializer):
             'is_active': obj.is_active,
             'date_joined': obj.date_joined,
             'addresses': serialize(obj.addresses.all()),
-            'wallet': serialize(obj.service_wallet)
+            'wallet': serialize(obj.service_wallet),
+            'country': obj.country
         }
 
 
@@ -211,7 +212,8 @@ class WalletSerializer(Serializer):
             'total_deposits': str(obj.total_deposits),
             'total_withdrawals': str(obj.total_withdrawals),
             'balance': str(obj.balance),
-            'is_empty': obj.is_empty
+            'is_empty': obj.is_empty,
+            'discount_rate': obj.discount_rate
         }
 
 

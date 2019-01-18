@@ -39,6 +39,7 @@ from .models import (
     Delivery,
     Batch
 )
+from airtable import Airtable
 
 logger = logging.getLogger(__name__)
 
@@ -230,16 +231,20 @@ def breakdown_fees(quote):
     pass
 
 
-def create_delivery(user, pickup, dropoffs, quote=None, payment=None):
+def create_delivery(user, pickup, dropoffs, quote=None, payment=None,
+                    collect_delivery_fee=None):
     # TODO: pay from wallet
     apt = pickup['address'].get('apt')
-    addr = Address.objects.create(address=pickup['address'], apt=apt)
+    addr = Address.objects.create(address=pickup['address']['address'], apt=apt)
     pickup_contact = pickup.get('contact', user.contact_details)
     contact = Contact.objects.create(**pickup_contact)
-    pickup = Pickup.objects.create(address=addr, contact=contact)
+    pickup = Pickup.objects.create(
+        address=addr, contact=contact, pickup_time=pickup['pickup_time'])
     batch = Batch.objects.create()
     for d in dropoffs:
-        _addr = Address.objects.create(address=d['address'])
+        _addr = Address.objects.create(
+            address=d['address']['address'],
+            apt=d['address'].get('apt'))
         _contact = Contact.objects.create(**d['contact'])
         meta = {'size': d['size'], 'notes': d.get('notes')}
         dropoff = Dropoff.objects.create(
@@ -253,3 +258,75 @@ def create_delivery(user, pickup, dropoffs, quote=None, payment=None):
         batch.record_payment(**payment)
 
     return batch
+
+
+class EnvoyBackendManager:
+    """
+    A Manager is the interface through which fleet operations are handled
+    TODO:
+    sync all the backends incl. django admin
+    """
+    def __init__(self, **kwargs):
+        self.backend = self.get_backend_manager()
+
+    def get_backend_manager(self, **kwargs):
+        pass
+
+    def format_object(self, delivery):
+        pass
+
+    def create_task(self, delivery):
+        pass
+
+    def update_task(self, task_id, **kwargs):
+        pass
+
+    def delete_task(self, task_id):
+        pass
+
+    def update_task_status(self, task_id, status):
+        pass
+
+    def cancel_task(self, task_id):
+        pass
+
+    def start_task(self, task_id):
+        pass
+
+    def all(self):
+        pass
+
+    def assign_task(self, task, agent):
+        pass
+
+
+class AirTableManager(EnvoyBackendManager):
+    def get_backend_manager(self, **kwargs):
+        return Airtable(
+            settings.AIRTABLE_BASE_KEY,
+            settings.AIRTABLE_ENVOY_TABLE,
+            api_key=settings.AIRTABLE_API_KEY)
+
+    def format_object(self, delivery):
+        from dateutil.parser import parse
+        dt = parse(delivery.pickup.pickup_time)
+        pickup_time = dt.strftime('%-d/%-m/%Y')
+        return {
+            'status': delivery.status.capitalize(),
+            'pickup_date': pickup_time,
+            'pickup_contact_name': delivery.pickup.contact_name,
+            'pickup_contact_phone': delivery.pickup.contact_phone,
+            'pickup_address': delivery.pickup.contact_address,
+            'recipient_name': delivery.dropoff.contact_name,
+            'recipient_phone': delivery.dropoff.contact_phone,
+            'recipient_address': delivery.dropoff.contact_address,
+            'cost': delivery.fee
+        }
+
+
+class TookanManager(EnvoyBackendManager):
+    pass
+
+
+class HyperTrackManager(EnvoyBackendManager):
+    pass

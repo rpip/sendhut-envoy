@@ -53,7 +53,7 @@
     {% else %}
       {% include "partials/top_nav.html" %}
     {% endif %}
-    <main role="main" class="container{% if user.is_authenticated %}-fluid{% endif %}">
+    <main role="main" class="container">
       {% include "partials/messages.html" %}
        {% block masthead %}{% endblock %}
       <div class="page-header">

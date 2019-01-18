@@ -8,8 +8,8 @@
 {% block page_header %} {% endblock %}
 
 {% block content %}
-<div class="row"><!-- hero -->
-  <div class="col-md-5">
+<div class="masthead-wrapper-plain" id="app-wrapper"><!-- masthead -->
+  <div class="col-md-6">
     <div id="pitch" class="hero">
       <h2 class="hero-title">Delivery</h2>
       <h2 class="hero-title" id="hero-title-dynamic">done right</h2>
@@ -17,10 +17,25 @@
         <li><img class="icon" src="{% static 'images/icons/flash.svg' %}" alt="">Want it delivered ASAP? Done!</li>
         <li><img class="icon" src="{% static 'images/icons/calendar.svg' %}" alt=""> Want it delivered tomorrow afternoon? No problem</li>
       </ul>
+      <div class="download-btns">
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <a href="#">
+              <img src="{% static 'images/google-play.svg' %}" class="download-icon" alt="">
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#">
+              <img src="{% static 'images/app-store.svg' %}" class="download-icon" alt="">
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
-  <div class="col-md-7" id="hero-merchant">
-  </div>
+
+  <div class="col-md-4" id="app-preview"></div>
+
 </div> <!--//hero -->
 <br><br>
 <div class="row" id="benefits"> <!-- marketing -->
@@ -30,8 +45,9 @@
       or schedule a delivery for a later date</p>
   </div>
   <div class="col-md-4 benefit">
-    <h6 class="bold"><img class="icon" src="{% static 'images/icons/credit-card.svg' %}"/> Collect Payments on Delivery</h6>
-    <p>Let your customers pay for goods on delivery. We deposit any money collected to your bank account the NEXT DAY.</p>
+    <h6 class="bold"><img class="icon" src="{% static 'images/icons/heart.svg' %}"/> Your Happiness, Guaranteed
+    </h6>
+    <p>If you’re not satisfied with the quality of the service, we’ll work to make it right. Our friendly customer service team are available 24 hours a day, 7 days a week.</p>
   </div>
   <div class="col-md-4 benefit">
     <h6 class="bold"><img class="icon" src="{% static 'images/icons/text.svg' %}"/> Reduce costs</h6>
@@ -95,7 +111,6 @@
                   The 5K shop</a>
               </div>
             </div>
-
           </div>
 
           <div class="customer-quote col-lg offset-lg-1">
@@ -145,7 +160,28 @@
       </div>
     </div> <!--//customers -->
   </div>
-</div>
 
+  <div class="footer-try container-fluid">
+    <div class="row">
+      <div class="col-md-5 offset-md-4">
+        <h3 class="bold">Try Sendhut Today</h3>
+        <div class="download-btns">
+          <ul class="list-inline">
+            <li class="list-inline-item">
+              <a href="#">
+                <img src="{% static 'images/google-play.svg' %}" class="download-icon" alt="">
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <img src="{% static 'images/app-store.svg' %}" class="download-icon" alt="">
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

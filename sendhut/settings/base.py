@@ -355,3 +355,21 @@ LOGGING = {
         },
     },
 }
+
+
+#  airtable envoy backend manager
+AIRTABLE_API_KEY = config('AIRTABLE_API_KEY')
+AIRTABLE_ENVOY_TABLE = config('AIRTABLE_ENVOY_TABLE', default='envoy')
+AIRTABLE_BASE_KEY = config('AIRTABLE_BASE_KEY')
+
+WALLET_DISCOUNT_RATE = config('WALLET_DISCOUNT_RATE', cast=int)
+
+
+DEMO_USER_NUMBER = '+234444555999'
+DEMO_USER_TOKEN = '9748'
+
+
+SUPPORTED_COUNTRIES = {
+    '+233': dict(code='GH', name='Ghana'),
+    '+234': dict(code='NG', name='Nigeria')
+}

@@ -14,6 +14,7 @@ websocket feeds:
   }
 ]
 """
+default_app_config = 'sendhut.envoy.apps.EnvoyConfig'
 
 
 class TransportTypes:

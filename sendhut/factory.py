@@ -5,10 +5,11 @@ import glob
 from django.core.files import File
 from django.utils.text import slugify
 from django.contrib.gis.geos import Point
+from django.conf import settings
 from faker import Faker
 from factory import (
     DjangoModelFactory, SubFactory,
-    LazyFunction, lazy_attribute, Sequence, SelfAttribute
+    LazyFunction, lazy_attribute, Sequence
 )
 
 from sendhut.accounts.models import User
@@ -27,6 +28,19 @@ POINTS = [
     Point(6.456340, 3.416270),
     Point(6.445196, 3.539032)
 ]
+
+
+def get_demo_user():
+    email = '{}@sendhut.com'.format(settings.DEMO_USER_NUMBER)
+    user, created = User.objects.get_or_create(
+        phone=settings.DEMO_USER_NUMBER,
+        first_name='Lanre',
+        last_name='Agungi',
+        username='lanreagungi2018',
+        email=email,
+        identity_verified=True
+    )
+    return user
 
 
 class UserFactory(DjangoModelFactory):
