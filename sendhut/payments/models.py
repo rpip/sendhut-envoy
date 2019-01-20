@@ -112,7 +112,7 @@ class Transaction(BaseModel):
         cls.make_payment(
             amount=amount,
             wallet=wallet,
-            txn_type=TransactionTypes.WALLET_PAYMENT,
+            txn_type=TransactionTypes.PAYMENT,
             channel=TransactionTypes.WALLET
         )
 
@@ -147,7 +147,8 @@ class Transaction(BaseModel):
     def get_wallet_withdrawals(cls, wallet):
         return cls.objects.filter(
             wallet=wallet,
-            txn_type=TransactionTypes.WALLET_PAYMENT
+            channel=TransactionTypes.WALLET,
+            txn_type=TransactionTypes.PAYMENT
         ).all()
 
 
