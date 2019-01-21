@@ -93,7 +93,9 @@ class PasswordChangeValidator(serializers.Serializer):
 class AddressValidator(serializers.Serializer):
     address = serializers.CharField(max_length=120, required=True)
     # apt number or company name
-    apt = serializers.CharField(max_length=42, required=False)
+    apt = serializers.CharField(
+        max_length=42, required=False,
+        allow_blank=True, allow_null=True)
     notes = serializers.CharField(max_length=252, required=False)
     meta = serializers.JSONField(required=False, allow_null=True)
 
