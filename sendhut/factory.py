@@ -32,14 +32,17 @@ POINTS = [
 
 def get_demo_user():
     email = '{}@sendhut.com'.format(settings.DEMO_USER_NUMBER)
-    user, created = User.objects.get_or_create(
-        phone=settings.DEMO_USER_NUMBER,
-        first_name='Lanre',
-        last_name='Agungi',
-        username='lanreagungi2018',
-        email=email,
-        identity_verified=True
-    )
+    user = User.objects.filter(phone=settings.DEMO_USER_NUMBER).first()
+    if not user:
+        user = User.objects.create(
+            phone=settings.DEMO_USER_NUMBER,
+            first_name='Lanre',
+            last_name='Agungi',
+            username='lanreagungi2018',
+            email=email,
+            identity_verified=True
+        )
+
     return user
 
 
