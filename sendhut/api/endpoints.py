@@ -201,7 +201,9 @@ class DeliveryEndpoint(Endpoint):
 
     def post(self, request):
         validator = DeliveryValidator(data=request.data)
+        logger.debug("Delivery Request DATA: %s", request.data)
         if not validator.is_valid():
+            logger.debug("Delivery Errors: %s", validator.errors)
             raise ValidationError(details=validator.errors)
 
         batch = create_delivery(user=request.user, **validator.data)
