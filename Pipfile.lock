@@ -238,7 +238,7 @@
         "django-jet": {
             "editable": true,
             "git": "https://github.com/rpip/django-jet.git",
-            "ref": "7933d31c197f10b39812932dbd377943d7e66f66"
+            "ref": "38ff28eb7bb945d25ea08a9372476ba6a86fdbe2"
         },
         "django-loginas": {
             "hashes": [
