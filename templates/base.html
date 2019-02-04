@@ -48,11 +48,7 @@
   </head>
   <body class="{% block body_class %}{% endblock %}">
     <div class="overlay"></div>
-    {% if user.is_authenticated %}
-      {% include "partials/top_nav-logged-in.html" %}
-    {% else %}
       {% include "partials/top_nav.html" %}
-    {% endif %}
     <main role="main" class="container">
       {% include "partials/messages.html" %}
        {% block masthead %}{% endblock %}
