@@ -235,11 +235,6 @@
             ],
             "version": "==2.0.0"
         },
-        "django-jet": {
-            "editable": true,
-            "git": "https://github.com/rpip/django-jet.git",
-            "ref": "38ff28eb7bb945d25ea08a9372476ba6a86fdbe2"
-        },
         "django-loginas": {
             "hashes": [
                 "sha256:0e3b6100a1b4716b2df5b1d0e3c661ed59cff0a53a0d4ddd8237c0b37fd88928",
@@ -444,7 +439,8 @@
         },
         "jet": {
             "editable": true,
-            "git": "https://github.com/rpip/django-jet.git"
+            "git": "https://github.com/rpip/django-jet.git",
+            "ref": "38ff28eb7bb945d25ea08a9372476ba6a86fdbe2"
         },
         "jinja2": {
             "hashes": [
