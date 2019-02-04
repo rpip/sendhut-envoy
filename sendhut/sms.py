@@ -24,6 +24,7 @@ def send_sms(recipient, text):
                     .create(
                         body=text,
                         from_=settings.TWILIO_FROM_NUMBER,
+                        messaging_service_sid=settings.TWILIO_MSG_SERVICE_SID,
                         to=recipient
                     )
     logger.debug("SMS ID %s", message.sid)

@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'multiupload',
-    'nested_admin',
+    #'nested_admin',
     'loginas',
     'webpack_loader',
     'corsheaders',
@@ -219,6 +219,8 @@ PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY')
 TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
 TWILIO_AUTHTOKEN = config('TWILIO_AUTHTOKEN')
 TWILIO_FROM_NUMBER = config('TWILIO_FROM_NUMBER')
+TWILIO_SENDERID = config('TWILIO_SENDERID')
+TWILIO_MSG_SERVICE_SID = config('TWILIO_MSG_SERVICE_SID')
 
 SMS_TTL = config('SMS_TTL', default=300, cast=int)
 
