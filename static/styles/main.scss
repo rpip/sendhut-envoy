@@ -17,6 +17,8 @@ $font-family-base: Cereal, Helvetica Neue, Helvetica, Arial, Lucida, sans-serif;
 @import "../fonts/Cereal/cereal.css";
 @import "bootstrap/bootstrap";
 @import "_rem";
+@import 'rfs';
+
 //@import "_stratos";
 
 @mixin circle($width, $border-color:$grey, $bg-color:$white) {
@@ -397,48 +399,75 @@ footer {
   @include rem(padding, 2px);
 }
 
-#food-delivery-strip {
-  background-color: $white;
-  padding-bottom: 60px;
-  @extend .jumbotron;
-  padding-top: 20px;
 
-  /* #pitch { */
-  /*   background-color: transparent; */
-  /*   @include rem(padding-bottom, 10px); */
-  /*   @extend .jumbotron; */
-
-  /*   .card { */
-  /*     background-color: transparent; */
-  /*     border: 0; */
-  /*   } */
-  /* } */
-
-  #food-how-it-works {
-    background-color: $white;
-    box-shadow: 0 5px 17px rgba(34,46,58,.1);
-
-    #group-order-explainer {
-      padding-top: 60px;
-      padding-left: 30px;
-      padding-bottom: 10px;
-      background-color: $white;
+.sme-b2b-signup {
+  #sme-b2b-banner {
+    .card-title {
+      @include rem(margin-top, 170px);
+      display: block;
+      @include rem(letter-spacing, 1px);
+      @include rfs(90);
+      font-weight: 600;
+      font-style: normal;
+      text-transform: none;
+      line-height: 1.1em;
+      color: #fff;
+    }
+    .card-text {
+      @include rfs(28);
+      font-weight: 500;
+      font-style: normal;
+      @include rem(letter-spacing, 1px);
+      text-transform: none;
+      line-height: 1.3em;
+      color: #fff;
+      margin: 20px auto;
     }
 
-    #meal {
-      background: $white url(images/food-banner.png) no-repeat top;
-      @include rem(width, 380px);
-      @include rem(min-height, 290px);
-      background-size: cover;
+    .card-img-overlay{
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(117, 29, 0, .2);
+      z-index: 99;
     }
   }
+
+  #sme-marketing {
+    .card {
+      float: left;
+      border: 0
+    }
+  }
+  .sme-b2b-highlight {
+    border-top: 1px solid $grey;
+    padding-top: 5px;
+  }
+
+  #sme-request {
+    background-color: $white;
+    @extend .jumbotron;
+  }
 }
+
+
+
 
 // Medium viewport
 @include media-breakpoint-down(md) {
   .benefit {
     padding: 10px !important;
   }
+  .sme-b2b-signup {
+    #sme-b2b-banner {
+      .card-title, .card-text {
+        display: none !important;
+      }
+    }
+  }
+
 }
 
 // Small viewport

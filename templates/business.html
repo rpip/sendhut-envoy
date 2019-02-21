@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body_class %}sme-b2b-signup{% endblock %}
+
+{% block content %}
+  <div id="sme-b2b-banner" class="card text-white text-center">
+    <img class="card-img-top" src="{% static 'images/sme-b2b-banner.jpg' %}" alt="Card image cap">
+    <div class="card-img-overlay">
+      <h1 class="card-title">Grow your business</h1>
+      <h3 class="card-text">
+        You run your business, we run your deliveries.
+      </h3>
+    </div>
+  </div>
+  <br>
+  <div class="row" id="sme-marketing">
+    <div class="container">
+      <div class="card mb-3 col-sm-4">
+        <div class="card-body">
+          <h4 class="card-title">Delight your customers</h4>
+          <p class="card-text">
+            Request and schedule deliveries at your customers' convenience.
+            Choose now, or schedule a delivery for a later date.
+          </p>
+        </div>
+      </div>
+
+      <div class="card mb-3 col-sm-4">
+        <div class="card-body">
+          <h4 class="card-title">Deliver to more areas</h4>
+          <p class="card-text">
+            Reach customers in new neighborhoods across the city.
+          </p>
+        </div>
+      </div>
+
+      <div class="card mb-3 col-sm-4">
+        <div class="card-body">
+          <h4 class="card-title">Simple Pricing</h4>
+          <p class="card-text">
+            Simple pricing and flexible payments tailored for your business. Pay weekly or monthly.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id="marketing-business">
+    <div class="col-sm" id="sme-request">
+      <h2 class="text-center bold">Start powering your deliveries with Sendhut today</h2>
+      <br>
+      <div class="">
+<script src="https://static.airtable.com/js/embed/embed_snippet_v1.js"></script><iframe class="airtable-embed airtable-dynamic-height" src="https://airtable.com/embed/shrt9GruVeiQsaBvr?backgroundColor=pink" frameborder="0" onmousewheel="" width="100%" height="964" style="background: transparent;"></iframe>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}

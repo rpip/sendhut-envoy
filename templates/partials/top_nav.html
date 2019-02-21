@@ -2,19 +2,19 @@
 <nav class="navbar navbar-expand-md navbar-light fixed-top sps sps--abv">
   <div class="container">
     <div class="float-left">
-      <div class="float-left">
         <a class="navbar-brand text-hide" href="{% url 'home' %}">
           <img src="{% static 'images/sendhut-yellow.png' %}" alt="">Sendhut
         </a>
-      </div>
-      <div class="float-left">
-        <nav class="nav">
-          <a class="nav-link" href="{% url 'partners:apply' %}">Drive with Sendhut</a>
-        </nav>
-      </div>
     </div>
 
     <div class="float-right">
+      <div class="float-left ">
+        <nav class="nav">
+          <a class="nav-link" href="{% url 'business' %}">For Business</a>
+          <a class="nav-link" href="{% url 'partners:apply' %}">Drive with Sendhut</a>
+          <a class="nav-link" href="{% url 'about-us' %}">About Us</a>
+        </nav>
+      </div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

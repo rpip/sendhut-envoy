@@ -2,17 +2,19 @@ from django.conf.urls.static import static
 from django.conf.urls import include, url
 from django.conf import settings
 from django.contrib import admin
-
-from .views import home, about, faqs, privacy, terms
-
+from .views import (
+    HomeView, AboutView, FAQView,
+    PrivacyView, TermsView, BusinessView
+)
 
 urlpatterns = [
-    url(r'^$', home, name='home'),
-    url(r'^about-us/$', about, name='about-us'),
-    url(r'^faqs/$', faqs, name='faqs'),
-    url(r'^terms/$', terms, name='terms'),
-    url(r'^privacy/$', privacy, name='privacy'),
-    url(r'^partners/', include('sendhut.partners.urls', namespace='partners')),
+    url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^about-us/?$', AboutView.as_view(), name='about-us'),
+    url(r'^faqs/?$', FAQView.as_view(), name='faqs'),
+    url(r'^terms/?$', TermsView.as_view(), name='terms'),
+    url(r'^privacy/?$', PrivacyView.as_view(), name='privacy'),
+    url(r'^partners/?$', include('sendhut.partners.urls', namespace='partners')),
+    url(r'^business/?$', BusinessView.as_view(), name='business'),
     url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
     url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     url(r'^api/', include('sendhut.api.urls')),

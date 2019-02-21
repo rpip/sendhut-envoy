@@ -1,28 +1,47 @@
-from django.shortcuts import render
+from django.views.generic.base import TemplateView
 
 
-def home(request):
-    context = {
-        'page_title': 'Home',
-    }
-    return render(request, 'home.html', context)
+class HomeView(TemplateView):
+    template_name = 'home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return dict(page_title='Home', **context)
 
 
-def about(request):
-    return render(request, 'about.html', {'page_title': 'About Us'})
+class AboutView(TemplateView):
+    template_name = 'about.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return dict(page_title='About', **context)
 
 
-def faqs(request):
-    return render(request, 'faqs.html', {'page_title': 'FAQs'})
+class FAQView(TemplateView):
+    template_name = 'faqs.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return dict(page_title='FAQs', **context)
 
 
-def privacy(request):
-    return render(request, 'privacy.html', {
-        'page_title': 'Privacy Policy'
-    })
+class PrivacyView(TemplateView):
+    template_name = 'privacy.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return dict(page_title='Privacy Policy', **context)
 
 
-def terms(request):
-    return render(request, 'terms.html', {
-        'page_title': 'Terms and Conditions'
-    })
+class TermsView(TemplateView):
+    template_name = 'terms.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return dict(page_title='Terms and Conditions', **context)
+
+
+class BusinessView(TemplateView):
+    template_name = 'business.html'
+    page_title = 'Deliver with Sendhut'
+    success_url = '/business/'
