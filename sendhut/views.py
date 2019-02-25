@@ -39,9 +39,3 @@ class TermsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return dict(page_title='Terms and Conditions', **context)
-
-
-class BusinessView(TemplateView):
-    template_name = 'business.html'
-    page_title = 'Deliver with Sendhut'
-    success_url = '/business/'

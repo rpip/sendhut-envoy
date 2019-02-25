@@ -1,5 +1,7 @@
 from django import forms
-from .models import Partner
+
+from . import DeliveryVolumes
+from .models import Partner, Merchant
 
 
 class PartnerForm(forms.ModelForm):
@@ -20,3 +22,20 @@ class PartnerForm(forms.ModelForm):
     class Meta:
         model = Partner
         fields = ['first_name', 'last_name', 'email', 'phone']
+
+
+class MerchantForm(forms.ModelForm):
+    name = forms.CharField(
+        max_length=30,
+        widget=forms.TextInput(attrs={'placeholder': 'Your name'}))
+    business_name = forms.CharField(
+        max_length=30,
+        widget=forms.TextInput(attrs={'placeholder': 'Your last name'}))
+    phone = forms.CharField(
+        max_length=20,
+        widget=forms.TextInput(attrs={'placeholder': 'Your mobile phone number'}))
+    delivery_volume = forms.ChoiceField(choices=DeliveryVolumes.CHOICES)
+
+    class Meta:
+        model = Merchant
+        fields = ['name', 'business_name', 'phone', 'delivery_volume']

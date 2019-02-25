@@ -2,10 +2,13 @@ from django.conf.urls.static import static
 from django.conf.urls import include, url
 from django.conf import settings
 from django.contrib import admin
+
+from sendhut.partners.views import SMEPackageView
 from .views import (
     HomeView, AboutView, FAQView,
-    PrivacyView, TermsView, BusinessView
+    PrivacyView, TermsView
 )
+
 
 urlpatterns = [
     url(r'^$', HomeView.as_view(), name='home'),
@@ -14,7 +17,7 @@ urlpatterns = [
     url(r'^terms/?$', TermsView.as_view(), name='terms'),
     url(r'^privacy/?$', PrivacyView.as_view(), name='privacy'),
     url(r'^partners/?$', include('sendhut.partners.urls', namespace='partners')),
-    url(r'^business/?$', BusinessView.as_view(), name='business'),
+    url(r'^business/?$', SMEPackageView.as_view(), name='business'),
     url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
     url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     url(r'^api/', include('sendhut.api.urls')),

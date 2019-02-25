@@ -448,6 +448,7 @@ footer {
 
   #sme-request {
     background-color: $white;
+    background-color: $white;
     @extend .jumbotron;
   }
 }
@@ -499,6 +500,14 @@ footer {
 
 .icons {
   text-align: center;
+}
+
+.bg-grey {
+  background-color: $grey;
+}
+
+.bg-blue {
+  background-color: $flinto-blue;
 }
 
 .icon {

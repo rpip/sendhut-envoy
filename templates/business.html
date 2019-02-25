@@ -47,13 +47,21 @@
   </div>
 
   <div class="row" id="marketing-business">
-    <div class="col-sm" id="sme-request">
+    <div id="sme-request">
       <h2 class="text-center bold">Start powering your deliveries with Sendhut today</h2>
+      {% include "partials/messages.html" %}
       <br>
-      <div class="">
-<script src="https://static.airtable.com/js/embed/embed_snippet_v1.js"></script><iframe class="airtable-embed airtable-dynamic-height" src="https://airtable.com/embed/shrt9GruVeiQsaBvr?backgroundColor=pink" frameborder="0" onmousewheel="" width="100%" height="964" style="background: transparent;"></iframe>
+      <div class="col-md-10 offset-md-1 bg-grey p-5 mt-2">
+      <form method="post">
+        {% csrf_token %}
+        {% include 'partials/form.html' %}
+          <div class="form-group">
+            <button type="submit" class="btn btn-success">
+              <span class="glyphicon glyphicon-ok"></span> Submit
+            </button>
+          </div>
+      </form>
       </div>
-
     </div>
   </div>
 {% endblock %}
