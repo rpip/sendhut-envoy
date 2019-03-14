@@ -85,6 +85,7 @@ class DeliveryStatus:
     ]
 
 
+
 class CancellationReasons:
     """Enum of possible cancellation reasons"""
     ETA_TOO_LONG = "eta-too-long"

@@ -1,5 +1,6 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.conf import settings
 
 from .core import AirTableManager
 from .models import Delivery
@@ -16,6 +17,12 @@ def incoming_delivery(sender, instance, signal, created, **kwargs):
         # save to Airtable
         EnvoyAirtable.create_task(instance)
         # post slack alert
-        message = "New delivery request: {}".format(
-            instance.get_admin_url())
+        if settings.ENV == 'dev':
+            base = "https://envoy-dev.herokuapp.com"
+
+        if settings.ENV == 'prod':
+            base = "https://sendhut.com"
+
+        url = "{}{}".format(base, instance.get_admin_url())
+        message = "New delivery request: {}".format(url)
         notifications.post_to_slack(message, CHANNEL)

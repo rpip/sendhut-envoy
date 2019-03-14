@@ -118,7 +118,7 @@ class DeliveryAdmin(admin.ModelAdmin):
         'created',
         'updated',
         'user',
-        'status',
+        'get_status',
         'pickup',
         'dropoff',
         'picked_at',
@@ -138,3 +138,9 @@ class DeliveryAdmin(admin.ModelAdmin):
         'delivered_at',
     )
     exclude = ('fee', 'fee_currency')
+
+    def get_status(self, obj):
+        return obj.status
+
+    get_status.allow_tags = True
+    get_status.short_description = 'Status'

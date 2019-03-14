@@ -106,7 +106,7 @@ class DeliveryQuote(BaseModel):
     __repr__ = sane_repr('fee')
 
     def __str__(self):
-        return self.fee
+        return str(self.fee)
 
 
 class ContactMixin:
@@ -141,6 +141,9 @@ class Pickup(BaseModel, ContactMixin):
 
     __repr__ = sane_repr('address', 'contact')
 
+    def __str__(self):
+        return str(self.address)
+
 
 class Dropoff(BaseModel, ContactMixin):
 
@@ -157,6 +160,9 @@ class Dropoff(BaseModel, ContactMixin):
         db_table = 'dropoff'
 
     __repr__ = sane_repr('address', 'contact')
+
+    def __str__(self):
+        return str(self.address)
 
 
 class DeliveryQuerySet(BaseQuerySet):
@@ -246,7 +252,7 @@ class Delivery(BaseModel):
 
 
 class Batch(BaseModel):
-    "A group of deliveries jobs requested at together"
+    "A group of deliveries jobs requested together"
 
     ID_PREFIX = 'bat'
 

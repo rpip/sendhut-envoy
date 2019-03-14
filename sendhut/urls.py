@@ -20,9 +20,9 @@ urlpatterns = [
     url(r'^business/?$', SMEPackageView.as_view(), name='business'),
     url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
     url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
-    url(r'^api/', include('sendhut.api.urls')),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^admin/', include('loginas.urls'))
+    url(r'^api/?$', include('sendhut.api.urls')),
+    url(r'^admin/?', include(admin.site.urls)),
+    url(r'^admin/?$', include('loginas.urls')),
 ]
 
 # Change admin site title
